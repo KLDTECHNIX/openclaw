@@ -5,19 +5,19 @@ import { describe, expect, it } from "vitest";
 import { ensureFreeClawCliOnPath } from "./path-env.js";
 
 describe("ensureFreeClawCliOnPath", () => {
-  it("prepends the bundled app bin dir when a sibling openclaw exists", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-path-"));
+  it("prepends the bundled app bin dir when a sibling freeclaw exists", async () => {
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-path-"));
     try {
       const appBinDir = path.join(tmp, "AppBin");
       await fs.mkdir(appBinDir, { recursive: true });
-      const cliPath = path.join(appBinDir, "openclaw");
+      const cliPath = path.join(appBinDir, "freeclaw");
       await fs.writeFile(cliPath, "#!/bin/sh\necho ok\n", "utf-8");
       await fs.chmod(cliPath, 0o755);
 
       const originalPath = process.env.PATH;
-      const originalFlag = process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+      const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
       process.env.PATH = "/usr/bin";
-      delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+      delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       try {
         ensureFreeClawCliOnPath({
           execPath: cliPath,
@@ -30,9 +30,9 @@ describe("ensureFreeClawCliOnPath", () => {
       } finally {
         process.env.PATH = originalPath;
         if (originalFlag === undefined) {
-          delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+          delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
         } else {
-          process.env.OPENCLAW_PATH_BOOTSTRAPPED = originalFlag;
+          process.env.FREECLAW_PATH_BOOTSTRAPPED = originalFlag;
         }
       }
     } finally {
@@ -42,9 +42,9 @@ describe("ensureFreeClawCliOnPath", () => {
 
   it("is idempotent", () => {
     const originalPath = process.env.PATH;
-    const originalFlag = process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
     process.env.PATH = "/bin";
-    process.env.OPENCLAW_PATH_BOOTSTRAPPED = "1";
+    process.env.FREECLAW_PATH_BOOTSTRAPPED = "1";
     try {
       ensureFreeClawCliOnPath({
         execPath: "/tmp/does-not-matter",
@@ -56,28 +56,28 @@ describe("ensureFreeClawCliOnPath", () => {
     } finally {
       process.env.PATH = originalPath;
       if (originalFlag === undefined) {
-        delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+        delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       } else {
-        process.env.OPENCLAW_PATH_BOOTSTRAPPED = originalFlag;
+        process.env.FREECLAW_PATH_BOOTSTRAPPED = originalFlag;
       }
     }
   });
 
   it("prepends mise shims when available", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-path-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-path-"));
     const originalPath = process.env.PATH;
-    const originalFlag = process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
     const originalMiseDataDir = process.env.MISE_DATA_DIR;
     try {
       const appBinDir = path.join(tmp, "AppBin");
       await fs.mkdir(appBinDir, { recursive: true });
-      const appCli = path.join(appBinDir, "openclaw");
+      const appCli = path.join(appBinDir, "freeclaw");
       await fs.writeFile(appCli, "#!/bin/sh\necho ok\n", "utf-8");
       await fs.chmod(appCli, 0o755);
 
       const localBinDir = path.join(tmp, "node_modules", ".bin");
       await fs.mkdir(localBinDir, { recursive: true });
-      const localCli = path.join(localBinDir, "openclaw");
+      const localCli = path.join(localBinDir, "freeclaw");
       await fs.writeFile(localCli, "#!/bin/sh\necho ok\n", "utf-8");
       await fs.chmod(localCli, 0o755);
 
@@ -86,7 +86,7 @@ describe("ensureFreeClawCliOnPath", () => {
       await fs.mkdir(shimsDir, { recursive: true });
       process.env.MISE_DATA_DIR = miseDataDir;
       process.env.PATH = "/usr/bin";
-      delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+      delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
 
       ensureFreeClawCliOnPath({
         execPath: appCli,
@@ -106,9 +106,9 @@ describe("ensureFreeClawCliOnPath", () => {
     } finally {
       process.env.PATH = originalPath;
       if (originalFlag === undefined) {
-        delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+        delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       } else {
-        process.env.OPENCLAW_PATH_BOOTSTRAPPED = originalFlag;
+        process.env.FREECLAW_PATH_BOOTSTRAPPED = originalFlag;
       }
       if (originalMiseDataDir === undefined) {
         delete process.env.MISE_DATA_DIR;
@@ -120,9 +120,9 @@ describe("ensureFreeClawCliOnPath", () => {
   });
 
   it("prepends Linuxbrew dirs when present", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-path-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-path-"));
     const originalPath = process.env.PATH;
-    const originalFlag = process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+    const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
     const originalHomebrewPrefix = process.env.HOMEBREW_PREFIX;
     const originalHomebrewBrewFile = process.env.HOMEBREW_BREW_FILE;
     const originalXdgBinHome = process.env.XDG_BIN_HOME;
@@ -136,7 +136,7 @@ describe("ensureFreeClawCliOnPath", () => {
       await fs.mkdir(linuxbrewSbin, { recursive: true });
 
       process.env.PATH = "/usr/bin";
-      delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+      delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       delete process.env.HOMEBREW_PREFIX;
       delete process.env.HOMEBREW_BREW_FILE;
       delete process.env.XDG_BIN_HOME;
@@ -155,9 +155,9 @@ describe("ensureFreeClawCliOnPath", () => {
     } finally {
       process.env.PATH = originalPath;
       if (originalFlag === undefined) {
-        delete process.env.OPENCLAW_PATH_BOOTSTRAPPED;
+        delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       } else {
-        process.env.OPENCLAW_PATH_BOOTSTRAPPED = originalFlag;
+        process.env.FREECLAW_PATH_BOOTSTRAPPED = originalFlag;
       }
       if (originalHomebrewPrefix === undefined) {
         delete process.env.HOMEBREW_PREFIX;

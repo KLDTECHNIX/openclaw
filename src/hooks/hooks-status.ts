@@ -97,7 +97,7 @@ function buildHookStatus(
 ): HookStatusEntry {
   const hookKey = resolveHookKey(entry);
   const hookConfig = resolveHookConfig(config, hookKey);
-  const managedByPlugin = entry.hook.source === "openclaw-plugin";
+  const managedByPlugin = entry.hook.source === "freeclaw-plugin";
   const disabled = managedByPlugin ? false : hookConfig?.enabled === false;
   const always = entry.metadata?.always === true;
   const emoji = entry.metadata?.emoji ?? entry.frontmatter.emoji;

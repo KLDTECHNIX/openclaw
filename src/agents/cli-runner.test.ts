@@ -64,7 +64,7 @@ describe("runCliAgent resume cleanup", () => {
   });
 
   it("falls back to per-agent workspace when workspaceDir is missing", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cli-runner-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-cli-runner-"));
     const fallbackWorkspace = path.join(tempDir, "workspace-main");
     await fs.mkdir(fallbackWorkspace, { recursive: true });
     const cfg = {
@@ -106,7 +106,7 @@ describe("runCliAgent resume cleanup", () => {
   });
 
   it("throws when sessionKey is malformed", async () => {
-    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-cli-runner-"));
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-cli-runner-"));
     const mainWorkspace = path.join(tempDir, "workspace-main");
     const researchWorkspace = path.join(tempDir, "workspace-research");
     await fs.mkdir(mainWorkspace, { recursive: true });

@@ -223,25 +223,25 @@ describe("buildServiceEnvironment", () => {
     } else {
       expect(env.PATH).toContain("/usr/bin");
     }
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("18789");
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("secret");
-    expect(env.OPENCLAW_SERVICE_MARKER).toBe("openclaw");
-    expect(env.OPENCLAW_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.OPENCLAW_SERVICE_VERSION).toBe("string");
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway.service");
+    expect(env.FREECLAW_GATEWAY_PORT).toBe("18789");
+    expect(env.FREECLAW_GATEWAY_TOKEN).toBe("secret");
+    expect(env.FREECLAW_SERVICE_MARKER).toBe("freeclaw");
+    expect(env.FREECLAW_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.FREECLAW_SERVICE_VERSION).toBe("string");
+    expect(env.FREECLAW_SYSTEMD_UNIT).toBe("freeclaw-gateway.service");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.gateway");
+      expect(env.FREECLAW_LAUNCHD_LABEL).toBe("ai.freeclaw.gateway");
     }
   });
 
   it("uses profile-specific unit and label", () => {
     const env = buildServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_PROFILE: "work" },
+      env: { HOME: "/home/user", FREECLAW_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway-work.service");
+    expect(env.FREECLAW_SYSTEMD_UNIT).toBe("freeclaw-gateway-work.service");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.work");
+      expect(env.FREECLAW_LAUNCHD_LABEL).toBe("ai.freeclaw.work");
     }
   });
 });

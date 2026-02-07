@@ -20,11 +20,11 @@ import { runEmbeddedPiAgent } from "../agents/pi-embedded.js";
 import { runCronIsolatedAgentTurn } from "./isolated-agent.js";
 
 async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
-  return withTempHomeBase(fn, { prefix: "openclaw-cron-" });
+  return withTempHomeBase(fn, { prefix: "freeclaw-cron-" });
 }
 
 async function writeSessionStore(home: string) {
-  const dir = path.join(home, ".openclaw", "sessions");
+  const dir = path.join(home, ".freeclaw", "sessions");
   await fs.mkdir(dir, { recursive: true });
   const storePath = path.join(dir, "sessions.json");
   await fs.writeFile(
@@ -61,7 +61,7 @@ function makeCfg(
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: path.join(home, "openclaw"),
+        workspace: path.join(home, "freeclaw"),
       },
     },
     session: { store: storePath, mainKey: "main" },
@@ -211,7 +211,7 @@ describe("runCronIsolatedAgentTurn", () => {
 
       const cfg = makeCfg(
         home,
-        path.join(home, ".openclaw", "agents", "{agentId}", "sessions", "sessions.json"),
+        path.join(home, ".freeclaw", "agents", "{agentId}", "sessions", "sessions.json"),
         {
           agents: {
             defaults: { workspace: path.join(home, "default-workspace") },

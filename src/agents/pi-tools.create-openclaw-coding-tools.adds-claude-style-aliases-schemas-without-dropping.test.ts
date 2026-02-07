@@ -463,8 +463,8 @@ describe("createOpenClawCodingTools", () => {
     }
   });
   it("applies sandbox path guards to file_path alias", async () => {
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-sbx-"));
-    const outsidePath = path.join(os.tmpdir(), "openclaw-outside.txt");
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-sbx-"));
+    const outsidePath = path.join(os.tmpdir(), "freeclaw-outside.txt");
     await fs.writeFile(outsidePath, "outside", "utf8");
     try {
       const readTool = createSandboxedReadTool(tmpDir);

@@ -23,7 +23,7 @@ const OPENAI_CODEX_GPT_53_MODEL_ID = "gpt-5.3-codex";
 
 const OPENAI_CODEX_TEMPLATE_MODEL_IDS = ["gpt-5.2-codex"] as const;
 
-// pi-ai's built-in Anthropic catalog can lag behind OpenClaw's defaults/docs.
+// pi-ai's built-in Anthropic catalog can lag behind FreeClaw's defaults/docs.
 // Add forward-compat fallbacks for known-new IDs by cloning an older template model.
 const ANTHROPIC_OPUS_46_MODEL_ID = "claude-opus-4-6";
 const ANTHROPIC_OPUS_46_DOT_MODEL_ID = "claude-opus-4.6";

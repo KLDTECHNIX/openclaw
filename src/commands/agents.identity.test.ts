@@ -27,7 +27,7 @@ const runtime: RuntimeEnv = {
 };
 
 const baseSnapshot = {
-  path: "/tmp/openclaw.json",
+  path: "/tmp/freeclaw.json",
   exists: true,
   raw: "{}",
   parsed: {},
@@ -47,7 +47,7 @@ describe("agents set-identity command", () => {
   });
 
   it("sets identity from workspace IDENTITY.md", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "work");
     await fs.mkdir(workspace, { recursive: true });
     await fs.writeFile(
@@ -56,7 +56,7 @@ describe("agents set-identity command", () => {
         "- Name: OpenClaw",
         "- Creature: helpful sloth",
         "- Emoji: :)",
-        "- Avatar: avatars/openclaw.png",
+        "- Avatar: avatars/freeclaw.png",
         "",
       ].join("\n"),
       "utf-8",
@@ -85,12 +85,12 @@ describe("agents set-identity command", () => {
       name: "OpenClaw",
       theme: "helpful sloth",
       emoji: ":)",
-      avatar: "avatars/openclaw.png",
+      avatar: "avatars/freeclaw.png",
     });
   });
 
   it("errors when multiple agents match the same workspace", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "shared");
     await fs.mkdir(workspace, { recursive: true });
     await fs.writeFile(path.join(workspace, "IDENTITY.md"), "- Name: Echo\n", "utf-8");
@@ -115,7 +115,7 @@ describe("agents set-identity command", () => {
   });
 
   it("overrides identity file values with explicit flags", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "work");
     await fs.mkdir(workspace, { recursive: true });
     await fs.writeFile(
@@ -124,7 +124,7 @@ describe("agents set-identity command", () => {
         "- Name: OpenClaw",
         "- Theme: space lobster",
         "- Emoji: :)",
-        "- Avatar: avatars/openclaw.png",
+        "- Avatar: avatars/freeclaw.png",
         "",
       ].join("\n"),
       "utf-8",
@@ -159,7 +159,7 @@ describe("agents set-identity command", () => {
   });
 
   it("reads identity from an explicit IDENTITY.md path", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "work");
     const identityPath = path.join(workspace, "IDENTITY.md");
     await fs.mkdir(workspace, { recursive: true });
@@ -195,7 +195,7 @@ describe("agents set-identity command", () => {
   });
 
   it("accepts avatar-only identity from IDENTITY.md", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "work");
     await fs.mkdir(workspace, { recursive: true });
     await fs.writeFile(
@@ -241,7 +241,7 @@ describe("agents set-identity command", () => {
   });
 
   it("errors when identity data is missing", async () => {
-    const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-identity-"));
+    const root = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-identity-"));
     const workspace = path.join(root, "work");
     await fs.mkdir(workspace, { recursive: true });
 

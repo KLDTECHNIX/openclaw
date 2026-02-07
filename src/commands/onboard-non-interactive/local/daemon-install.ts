@@ -5,7 +5,7 @@ import { resolveGatewayService } from "../../../daemon/service.js";
 import { isRcdServiceAvailable } from "../../../daemon/rcd.js";
 import { buildGatewayInstallPlan, gatewayInstallErrorHint } from "../../daemon-install-helpers.js";
 import { DEFAULT_GATEWAY_DAEMON_RUNTIME, isGatewayDaemonRuntime } from "../../daemon-runtime.js";
-import { ensureSystemdUserLingerNonInteractive } from "../../systemd-linger.js";
+
 
 export async function installGatewayDaemonNonInteractive(params: {
   nextConfig: OpenClawConfig;
@@ -54,5 +54,5 @@ export async function installGatewayDaemonNonInteractive(params: {
     runtime.log(gatewayInstallErrorHint());
     return;
   }
-  await ensureSystemdUserLingerNonInteractive({ runtime });
+  // FreeBSD rc.d services persist across sessions natively.
 }

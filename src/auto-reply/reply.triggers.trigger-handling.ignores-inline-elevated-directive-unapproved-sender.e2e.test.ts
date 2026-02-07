@@ -68,7 +68,7 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
       vi.mocked(abortEmbeddedPiRun).mockClear();
       return await fn(home);
     },
-    { prefix: "openclaw-triggers-" },
+    { prefix: "freeclaw-triggers-" },
   );
 }
 
@@ -77,7 +77,7 @@ function makeCfg(home: string) {
     agents: {
       defaults: {
         model: "anthropic/claude-opus-4-5",
-        workspace: join(home, "openclaw"),
+        workspace: join(home, "freeclaw"),
       },
     },
     channels: {
@@ -107,7 +107,7 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "freeclaw"),
           },
         },
         tools: {
@@ -145,7 +145,7 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "freeclaw"),
           },
         },
         tools: { elevated: { allowFrom: { discord: ["steipete"] } } },
@@ -180,7 +180,7 @@ describe("trigger handling", () => {
         agents: {
           defaults: {
             model: "anthropic/claude-opus-4-5",
-            workspace: join(home, "openclaw"),
+            workspace: join(home, "freeclaw"),
           },
         },
         tools: {

@@ -208,23 +208,23 @@ function loadHookEntries(
   const bundledHooks = bundledHooksDir
     ? loadHooksFromDir({
         dir: bundledHooksDir,
-        source: "openclaw-bundled",
+        source: "freeclaw-bundled",
       })
     : [];
   const extraHooks = extraDirs.flatMap((dir) => {
     const resolved = resolveUserPath(dir);
     return loadHooksFromDir({
       dir: resolved,
-      source: "openclaw-workspace", // Extra dirs treated as workspace
+      source: "freeclaw-workspace", // Extra dirs treated as workspace
     });
   });
   const managedHooks = loadHooksFromDir({
     dir: managedHooksDir,
-    source: "openclaw-managed",
+    source: "freeclaw-managed",
   });
   const workspaceHooks = loadHooksFromDir({
     dir: workspaceHooksDir,
-    source: "openclaw-workspace",
+    source: "freeclaw-workspace",
   });
 
   const merged = new Map<string, Hook>();

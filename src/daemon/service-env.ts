@@ -145,20 +145,20 @@ export function buildServiceEnvironment(params: {
   const { env, port, token } = params;
   const profile = env.FREECLAW_PROFILE;
   const rcdServiceName = resolveGatewayRcdServiceName(profile);
-  const stateDir = env.OPENCLAW_STATE_DIR;
-  const configPath = env.OPENCLAW_CONFIG_PATH;
+  const stateDir = env.FREECLAW_STATE_DIR;
+  const configPath = env.FREECLAW_CONFIG_PATH;
   return {
     HOME: env.HOME,
     PATH: buildMinimalServicePath({ env }),
     FREECLAW_PROFILE: profile,
-    OPENCLAW_STATE_DIR: stateDir,
-    OPENCLAW_CONFIG_PATH: configPath,
-    OPENCLAW_GATEWAY_PORT: String(port),
-    OPENCLAW_GATEWAY_TOKEN: token,
+    FREECLAW_STATE_DIR: stateDir,
+    FREECLAW_CONFIG_PATH: configPath,
+    FREECLAW_GATEWAY_PORT: String(port),
+    FREECLAW_GATEWAY_TOKEN: token,
     FREECLAW_RCD_SERVICE: rcdServiceName,
-    OPENCLAW_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
-    OPENCLAW_SERVICE_KIND: GATEWAY_SERVICE_KIND,
-    OPENCLAW_SERVICE_VERSION: VERSION,
+    FREECLAW_SERVICE_MARKER: GATEWAY_SERVICE_MARKER,
+    FREECLAW_SERVICE_KIND: GATEWAY_SERVICE_KIND,
+    FREECLAW_SERVICE_VERSION: VERSION,
   };
 }
 
@@ -167,17 +167,17 @@ export function buildNodeServiceEnvironment(params: {
 }): Record<string, string | undefined> {
   const { env } = params;
   const rcdServiceName = resolveNodeRcdServiceName();
-  const stateDir = env.OPENCLAW_STATE_DIR;
-  const configPath = env.OPENCLAW_CONFIG_PATH;
+  const stateDir = env.FREECLAW_STATE_DIR;
+  const configPath = env.FREECLAW_CONFIG_PATH;
   return {
     HOME: env.HOME,
     PATH: buildMinimalServicePath({ env }),
-    OPENCLAW_STATE_DIR: stateDir,
-    OPENCLAW_CONFIG_PATH: configPath,
+    FREECLAW_STATE_DIR: stateDir,
+    FREECLAW_CONFIG_PATH: configPath,
     FREECLAW_RCD_SERVICE: rcdServiceName,
-    OPENCLAW_LOG_PREFIX: "node",
-    OPENCLAW_SERVICE_MARKER: NODE_SERVICE_MARKER,
-    OPENCLAW_SERVICE_KIND: NODE_SERVICE_KIND,
-    OPENCLAW_SERVICE_VERSION: VERSION,
+    FREECLAW_LOG_PREFIX: "node",
+    FREECLAW_SERVICE_MARKER: NODE_SERVICE_MARKER,
+    FREECLAW_SERVICE_KIND: NODE_SERVICE_KIND,
+    FREECLAW_SERVICE_VERSION: VERSION,
   };
 }

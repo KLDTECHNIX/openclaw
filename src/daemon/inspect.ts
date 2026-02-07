@@ -11,7 +11,7 @@ export type ExtraGatewayService = {
   label: string;
   detail: string;
   scope: "user" | "system";
-  marker?: "openclaw" | "clawdbot" | "moltbot";
+  marker?: "freeclaw" | "clawdbot" | "moltbot";
   legacy?: boolean;
 };
 
@@ -19,12 +19,12 @@ export type FindExtraGatewayServicesOptions = {
   deep?: boolean;
 };
 
-const EXTRA_MARKERS = ["openclaw", "clawdbot", "moltbot"] as const;
+const EXTRA_MARKERS = ["freeclaw", "clawdbot", "moltbot"] as const;
 
 export function renderGatewayServiceCleanupHints(
   env: Record<string, string | undefined> = process.env as Record<string, string | undefined>,
 ): string[] {
-  const profile = env.OPENCLAW_PROFILE;
+  const profile = env.FREECLAW_PROFILE;
   const serviceName = resolveGatewayRcdServiceName(profile);
   return [
     `service ${serviceName} stop`,
@@ -54,8 +54,8 @@ function detectMarker(content: string): Marker | null {
 
 function hasGatewayServiceMarker(content: string): boolean {
   const lower = content.toLowerCase();
-  const markerKeys = ["openclaw_service_marker"];
-  const kindKeys = ["openclaw_service_kind"];
+  const markerKeys = ["freeclaw_service_marker"];
+  const kindKeys = ["freeclaw_service_kind"];
   const markerValues = [GATEWAY_SERVICE_MARKER.toLowerCase()];
   const hasMarkerKey = markerKeys.some((key) => lower.includes(key));
   const hasKindKey = kindKeys.some((key) => lower.includes(key));
@@ -76,7 +76,7 @@ function isOpenClawGatewayRcdService(name: string, contents: string): boolean {
   if (!lowerContents.includes("gateway")) {
     return false;
   }
-  return name.startsWith("openclaw");
+  return name.startsWith("freeclaw");
 }
 
 function isIgnoredRcdName(name: string): boolean {
@@ -131,7 +131,7 @@ async function scanRcdDir(params: {
     if (isIgnoredRcdName(name)) {
       continue;
     }
-    if (marker === "openclaw" && isOpenClawGatewayRcdService(name, contents)) {
+    if (marker === "freeclaw" && isOpenClawGatewayRcdService(name, contents)) {
       continue;
     }
     results.push({
@@ -140,7 +140,7 @@ async function scanRcdDir(params: {
       detail: `rc.d: ${fullPath}`,
       scope: params.scope,
       marker,
-      legacy: marker !== "openclaw" || isLegacyLabel(name),
+      legacy: marker !== "freeclaw" || isLegacyLabel(name),
     });
   }
 

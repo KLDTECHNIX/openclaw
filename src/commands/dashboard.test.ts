@@ -41,7 +41,7 @@ function resetRuntime() {
 
 function mockSnapshot(token = "abc") {
   mocks.readConfigFileSnapshot.mockResolvedValue({
-    path: "/tmp/openclaw.json",
+    path: "/tmp/freeclaw.json",
     exists: true,
     raw: "{}",
     parsed: {},

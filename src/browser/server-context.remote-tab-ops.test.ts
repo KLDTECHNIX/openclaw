@@ -7,12 +7,12 @@ vi.mock("./chrome.js", () => ({
   launchOpenClawChrome: vi.fn(async () => {
     throw new Error("unexpected launch");
   }),
-  resolveOpenClawUserDataDir: vi.fn(() => "/tmp/openclaw"),
+  resolveOpenClawUserDataDir: vi.fn(() => "/tmp/freeclaw"),
   stopOpenClawChrome: vi.fn(async () => {}),
 }));
 
 function makeState(
-  profile: "remote" | "openclaw",
+  profile: "remote" | "freeclaw",
 ): BrowserServerState & { profiles: Map<string, { lastTargetId?: string | null }> } {
   return {
     // oxlint-disable-next-line typescript/no-explicit-any
@@ -37,7 +37,7 @@ function makeState(
           cdpPort: 443,
           color: "#00AA00",
         },
-        openclaw: { cdpPort: 18800, color: "#FF4500" },
+        freeclaw: { cdpPort: 18800, color: "#FF4500" },
       },
     },
     profiles: new Map(),
@@ -277,12 +277,12 @@ describe("browser server-context tab selection state", () => {
     global.fetch = fetchMock;
 
     const { createBrowserRouteContext } = await import("./server-context.js");
-    const state = makeState("openclaw");
+    const state = makeState("freeclaw");
     const ctx = createBrowserRouteContext({ getState: () => state });
-    const openclaw = ctx.forProfile("openclaw");
+    const freeclaw = ctx.forProfile("freeclaw");
 
-    const opened = await openclaw.openTab("https://created.example");
+    const opened = await freeclaw.openTab("https://created.example");
     expect(opened.targetId).toBe("CREATED");
-    expect(state.profiles.get("openclaw")?.lastTargetId).toBe("CREATED");
+    expect(state.profiles.get("freeclaw")?.lastTargetId).toBe("CREATED");
   });
 });

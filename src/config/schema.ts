@@ -415,7 +415,7 @@ const FIELD_HELP: Record<string, string> = {
     "Required by default for gateway access (unless using Tailscale Serve identity); required for non-loopback binds.",
   "gateway.auth.password": "Required for Tailscale funnel.",
   "gateway.controlUi.basePath":
-    "Optional URL prefix where the Control UI is served (e.g. /openclaw).",
+    "Optional URL prefix where the Control UI is served (e.g. /freeclaw).",
   "gateway.controlUi.root":
     "Optional filesystem root for Control UI assets (defaults to dist/control-ui).",
   "gateway.controlUi.allowedOrigins":
@@ -443,7 +443,7 @@ const FIELD_HELP: Record<string, string> = {
   "diagnostics.cacheTrace.enabled":
     "Log cache trace snapshots for embedded agent runs (default: false).",
   "diagnostics.cacheTrace.filePath":
-    "JSONL output path for cache trace logs (default: $OPENCLAW_STATE_DIR/logs/cache-trace.jsonl).",
+    "JSONL output path for cache trace logs (default: $FREECLAW_STATE_DIR/logs/cache-trace.jsonl).",
   "diagnostics.cacheTrace.includeMessages":
     "Include full message payloads in trace output (default: true).",
   "diagnostics.cacheTrace.includePrompt": "Include prompt text in trace output (default: true).",
@@ -564,7 +564,7 @@ const FIELD_HELP: Record<string, string> = {
   "agents.defaults.memorySearch.fallback":
     'Fallback provider when embeddings fail ("openai", "gemini", "local", or "none").',
   "agents.defaults.memorySearch.store.path":
-    "SQLite index path (default: ~/.openclaw/memory/{agentId}.sqlite).",
+    "SQLite index path (default: ~/.freeclaw/memory/{agentId}.sqlite).",
   "agents.defaults.memorySearch.store.vector.enabled":
     "Enable sqlite-vec extension for vector search (default: true).",
   "agents.defaults.memorySearch.store.vector.extensionPath":
@@ -630,12 +630,12 @@ const FIELD_HELP: Record<string, string> = {
   "plugins.entries.*.enabled": "Overrides plugin enable/disable for this entry (restart required).",
   "plugins.entries.*.config": "Plugin-defined config payload (schema is provided by the plugin).",
   "plugins.installs":
-    "CLI-managed install metadata (used by `openclaw plugins update` to locate install sources).",
+    "CLI-managed install metadata (used by `freeclaw plugins update` to locate install sources).",
   "plugins.installs.*.source": 'Install source ("npm", "archive", or "path").',
   "plugins.installs.*.spec": "Original npm spec used for install (if source is npm).",
   "plugins.installs.*.sourcePath": "Original archive/path used for install (if any).",
   "plugins.installs.*.installPath":
-    "Resolved install directory (usually ~/.openclaw/extensions/<id>).",
+    "Resolved install directory (usually ~/.freeclaw/extensions/<id>).",
   "plugins.installs.*.version": "Version recorded at install time (if available).",
   "plugins.installs.*.installedAt": "ISO timestamp of last install/update.",
   "agents.list.*.identity.avatar":
@@ -758,11 +758,11 @@ const FIELD_PLACEHOLDERS: Record<string, string> = {
   "gateway.remote.url": "ws://host:18789",
   "gateway.remote.tlsFingerprint": "sha256:ab12cd34…",
   "gateway.remote.sshTarget": "user@host",
-  "gateway.controlUi.basePath": "/openclaw",
+  "gateway.controlUi.basePath": "/freeclaw",
   "gateway.controlUi.root": "dist/control-ui",
   "gateway.controlUi.allowedOrigins": "https://control.example.com",
   "channels.mattermost.baseUrl": "https://chat.example.com",
-  "agents.list[].identity.avatar": "avatars/openclaw.png",
+  "agents.list[].identity.avatar": "avatars/freeclaw.png",
 };
 
 const SENSITIVE_PATTERNS = [/token/i, /password/i, /secret/i, /api.?key/i];

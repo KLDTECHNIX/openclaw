@@ -97,7 +97,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "work",
-            workspace: "~/openclaw-work",
+            workspace: "~/freeclaw-work",
             sandbox: {
               mode: "all",
               scope: "agent",
@@ -135,7 +135,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "main",
-            workspace: "~/openclaw",
+            workspace: "~/freeclaw",
             sandbox: {
               mode: "off", // Agent override
             },
@@ -166,7 +166,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "family",
-            workspace: "~/openclaw-family",
+            workspace: "~/freeclaw-family",
             sandbox: {
               mode: "all", // Agent override
               scope: "agent",
@@ -199,7 +199,7 @@ describe("Agent-specific sandbox config", () => {
         list: [
           {
             id: "work",
-            workspace: "~/openclaw-work",
+            workspace: "~/freeclaw-work",
             sandbox: {
               mode: "all",
               scope: "agent", // Agent override

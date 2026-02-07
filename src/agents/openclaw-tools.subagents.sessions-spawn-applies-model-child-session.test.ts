@@ -25,7 +25,7 @@ import "./test-helpers/fast-core-tools.js";
 import { createOpenClawTools } from "./openclaw-tools.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
-describe("openclaw-tools: subagents", () => {
+describe("freeclaw-tools: subagents", () => {
   beforeEach(() => {
     configOverride = {
       session: {

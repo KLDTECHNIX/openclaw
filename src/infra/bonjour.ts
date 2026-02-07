@@ -26,7 +26,7 @@ export type GatewayBonjourAdvertiseOpts = {
 };
 
 function isDisabledByEnv() {
-  if (isTruthyEnvValue(process.env.OPENCLAW_DISABLE_BONJOUR)) {
+  if (isTruthyEnvValue(process.env.FREECLAW_DISABLE_BONJOUR)) {
     return true;
   }
   if (process.env.NODE_ENV === "test") {
@@ -95,14 +95,14 @@ export async function startGatewayBonjourAdvertiser(
   // `Mac.localdomain`) can confuse some resolvers/browsers and break discovery.
   // Keep only the first label and normalize away a trailing `.local`.
   const hostnameRaw =
-    process.env.OPENCLAW_MDNS_HOSTNAME?.trim() ||
+    process.env.FREECLAW_MDNS_HOSTNAME?.trim() ||
     process.env.CLAWDBOT_MDNS_HOSTNAME?.trim() ||
-    "openclaw";
+    "freeclaw";
   const hostname =
     hostnameRaw
       .replace(/\.local$/i, "")
       .split(".")[0]
-      .trim() || "openclaw";
+      .trim() || "freeclaw";
   const instanceName =
     typeof opts.instanceName === "string" && opts.instanceName.trim()
       ? opts.instanceName.trim()
@@ -147,7 +147,7 @@ export async function startGatewayBonjourAdvertiser(
 
   const gateway = responder.createService({
     name: safeServiceName(instanceName),
-    type: "openclaw-gw",
+    type: "freeclaw-gw",
     protocol: Protocol.TCP,
     port: opts.gatewayPort,
     domain: "local",

@@ -91,8 +91,8 @@ const STEP_LABELS: Record<string, string> = {
   "ui:build": "Building UI assets",
   "ui:build (post-doctor repair)": "Restoring missing UI assets",
   "ui assets verify": "Validating UI assets",
-  "openclaw doctor entry": "Checking doctor entrypoint",
-  "openclaw doctor": "Running doctor checks",
+  "freeclaw doctor entry": "Checking doctor entrypoint",
+  "freeclaw doctor": "Running doctor checks",
   "git rev-parse HEAD (after)": "Verifying update",
   "global update": "Updating via package manager",
   "global install": "Installing global package",
@@ -122,11 +122,11 @@ const UPDATE_QUIPS = [
 ];
 
 const MAX_LOG_CHARS = 8000;
-const DEFAULT_PACKAGE_NAME = "openclaw";
+const DEFAULT_PACKAGE_NAME = "freeclaw";
 const CORE_PACKAGE_NAMES = new Set([DEFAULT_PACKAGE_NAME]);
 const CLI_NAME = resolveCliName();
-const OPENCLAW_REPO_URL = "https://github.com/openclaw/openclaw.git";
-const DEFAULT_GIT_DIR = path.join(os.homedir(), ".openclaw");
+const FREECLAW_REPO_URL = "https://github.com/freeclaw/freeclaw.git";
+const DEFAULT_GIT_DIR = path.join(os.homedir(), ".freeclaw");
 
 function normalizeTag(value?: string | null): string | null {
   if (!value) {
@@ -136,8 +136,8 @@ function normalizeTag(value?: string | null): string | null {
   if (!trimmed) {
     return null;
   }
-  if (trimmed.startsWith("openclaw@")) {
-    return trimmed.slice("openclaw@".length);
+  if (trimmed.startsWith("freeclaw@")) {
+    return trimmed.slice("freeclaw@".length);
   }
   if (trimmed.startsWith(`${DEFAULT_PACKAGE_NAME}@`)) {
     return trimmed.slice(`${DEFAULT_PACKAGE_NAME}@`.length);
@@ -212,7 +212,7 @@ async function pathExists(targetPath: string): Promise<boolean> {
 }
 
 async function tryWriteCompletionCache(root: string, jsonMode: boolean): Promise<void> {
-  const binPath = path.join(root, "openclaw.mjs");
+  const binPath = path.join(root, "freeclaw.mjs");
   if (!(await pathExists(binPath))) {
     return;
   }
@@ -277,7 +277,7 @@ async function tryInstallShellCompletion(opts: {
       if (!opts.skipPrompt) {
         defaultRuntime.log(
           theme.muted(
-            `Skipped. Run \`${replaceCliName(formatCliCommand("openclaw completion --install"), CLI_NAME)}\` later to enable.`,
+            `Skipped. Run \`${replaceCliName(formatCliCommand("freeclaw completion --install"), CLI_NAME)}\` later to enable.`,
           ),
         );
       }
@@ -305,7 +305,7 @@ async function isEmptyDir(targetPath: string): Promise<boolean> {
 }
 
 function resolveGitInstallDir(): string {
-  const override = process.env.OPENCLAW_GIT_DIR?.trim();
+  const override = process.env.FREECLAW_GIT_DIR?.trim();
   if (override) {
     return path.resolve(override);
   }
@@ -374,7 +374,7 @@ async function ensureGitCheckout(params: {
   if (!dirExists) {
     return await runUpdateStep({
       name: "git clone",
-      argv: ["git", "clone", OPENCLAW_REPO_URL, params.dir],
+      argv: ["git", "clone", FREECLAW_REPO_URL, params.dir],
       timeoutMs: params.timeoutMs,
       progress: params.progress,
     });
@@ -384,12 +384,12 @@ async function ensureGitCheckout(params: {
     const empty = await isEmptyDir(params.dir);
     if (!empty) {
       throw new Error(
-        `OPENCLAW_GIT_DIR points at a non-git directory: ${params.dir}. Set OPENCLAW_GIT_DIR to an empty folder or an openclaw checkout.`,
+        `FREECLAW_GIT_DIR points at a non-git directory: ${params.dir}. Set FREECLAW_GIT_DIR to an empty folder or an freeclaw checkout.`,
       );
     }
     return await runUpdateStep({
       name: "git clone",
-      argv: ["git", "clone", OPENCLAW_REPO_URL, params.dir],
+      argv: ["git", "clone", FREECLAW_REPO_URL, params.dir],
       cwd: params.dir,
       timeoutMs: params.timeoutMs,
       progress: params.progress,
@@ -397,7 +397,7 @@ async function ensureGitCheckout(params: {
   }
 
   if (!(await isCorePackage(params.dir))) {
-    throw new Error(`OPENCLAW_GIT_DIR does not look like a core checkout: ${params.dir}.`);
+    throw new Error(`FREECLAW_GIT_DIR does not look like a core checkout: ${params.dir}.`);
   }
 
   return null;
@@ -952,12 +952,12 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
     if (result.reason === "not-git-install") {
       defaultRuntime.log(
         theme.warn(
-          `Skipped: this OpenClaw install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("openclaw doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("openclaw gateway restart"), CLI_NAME)}\`.`,
+          `Skipped: this OpenClaw install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("freeclaw doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}\`.`,
         ),
       );
       defaultRuntime.log(
         theme.muted(
-          `Examples: \`${replaceCliName("npm i -g openclaw@latest", CLI_NAME)}\` or \`${replaceCliName("pnpm add -g openclaw@latest", CLI_NAME)}\``,
+          `Examples: \`${replaceCliName("npm i -g freeclaw@latest", CLI_NAME)}\` or \`${replaceCliName("pnpm add -g freeclaw@latest", CLI_NAME)}\``,
         ),
       );
     }
@@ -1073,7 +1073,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
       if (!opts.json && restarted) {
         defaultRuntime.log(theme.success("Daemon restarted successfully."));
         defaultRuntime.log("");
-        process.env.OPENCLAW_UPDATE_IN_PROGRESS = "1";
+        process.env.FREECLAW_UPDATE_IN_PROGRESS = "1";
         try {
           const interactiveDoctor = Boolean(process.stdin.isTTY) && !opts.json && opts.yes !== true;
           await doctorCommand(defaultRuntime, {
@@ -1082,7 +1082,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
         } catch (err) {
           defaultRuntime.log(theme.warn(`Doctor failed: ${String(err)}`));
         } finally {
-          delete process.env.OPENCLAW_UPDATE_IN_PROGRESS;
+          delete process.env.FREECLAW_UPDATE_IN_PROGRESS;
         }
       }
     } catch (err) {
@@ -1090,7 +1090,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
         defaultRuntime.log(theme.warn(`Daemon restart failed: ${String(err)}`));
         defaultRuntime.log(
           theme.muted(
-            `You may need to restart the service manually: ${replaceCliName(formatCliCommand("openclaw gateway restart"), CLI_NAME)}`,
+            `You may need to restart the service manually: ${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}`,
           ),
         );
       }
@@ -1100,13 +1100,13 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
     if (result.mode === "npm" || result.mode === "pnpm") {
       defaultRuntime.log(
         theme.muted(
-          `Tip: Run \`${replaceCliName(formatCliCommand("openclaw doctor"), CLI_NAME)}\`, then \`${replaceCliName(formatCliCommand("openclaw gateway restart"), CLI_NAME)}\` to apply updates to a running gateway.`,
+          `Tip: Run \`${replaceCliName(formatCliCommand("freeclaw doctor"), CLI_NAME)}\`, then \`${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}\` to apply updates to a running gateway.`,
         ),
       );
     } else {
       defaultRuntime.log(
         theme.muted(
-          `Tip: Run \`${replaceCliName(formatCliCommand("openclaw gateway restart"), CLI_NAME)}\` to apply updates to a running gateway.`,
+          `Tip: Run \`${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}\` to apply updates to a running gateway.`,
         ),
       );
     }
@@ -1120,7 +1120,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
 export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promise<void> {
   if (!process.stdin.isTTY) {
     defaultRuntime.error(
-      "Update wizard requires a TTY. Use `openclaw update --channel <stable|beta|dev>` instead.",
+      "Update wizard requires a TTY. Use `freeclaw update --channel <stable|beta|dev>` instead.",
     );
     defaultRuntime.exit(1);
     return;
@@ -1211,7 +1211,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
         const empty = await isEmptyDir(gitDir);
         if (!empty) {
           defaultRuntime.error(
-            `OPENCLAW_GIT_DIR points at a non-git directory: ${gitDir}. Set OPENCLAW_GIT_DIR to an empty folder or an openclaw checkout.`,
+            `FREECLAW_GIT_DIR points at a non-git directory: ${gitDir}. Set FREECLAW_GIT_DIR to an empty folder or an freeclaw checkout.`,
           );
           defaultRuntime.exit(1);
           return;
@@ -1219,7 +1219,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
       }
       const ok = await confirm({
         message: stylePromptMessage(
-          `Create a git checkout at ${gitDir}? (override via OPENCLAW_GIT_DIR)`,
+          `Create a git checkout at ${gitDir}? (override via FREECLAW_GIT_DIR)`,
         ),
         initialValue: true,
       });
@@ -1265,15 +1265,15 @@ export function registerUpdateCli(program: Command) {
     .option("--yes", "Skip confirmation prompts (non-interactive)", false)
     .addHelpText("after", () => {
       const examples = [
-        ["openclaw update", "Update a source checkout (git)"],
-        ["openclaw update --channel beta", "Switch to beta channel (git + npm)"],
-        ["openclaw update --channel dev", "Switch to dev channel (git + npm)"],
-        ["openclaw update --tag beta", "One-off update to a dist-tag or version"],
-        ["openclaw update --no-restart", "Update without restarting the service"],
-        ["openclaw update --json", "Output result as JSON"],
-        ["openclaw update --yes", "Non-interactive (accept downgrade prompts)"],
-        ["openclaw update wizard", "Interactive update wizard"],
-        ["openclaw --update", "Shorthand for openclaw update"],
+        ["freeclaw update", "Update a source checkout (git)"],
+        ["freeclaw update --channel beta", "Switch to beta channel (git + npm)"],
+        ["freeclaw update --channel dev", "Switch to dev channel (git + npm)"],
+        ["freeclaw update --tag beta", "One-off update to a dist-tag or version"],
+        ["freeclaw update --no-restart", "Update without restarting the service"],
+        ["freeclaw update --json", "Output result as JSON"],
+        ["freeclaw update --yes", "Non-interactive (accept downgrade prompts)"],
+        ["freeclaw update wizard", "Interactive update wizard"],
+        ["freeclaw --update", "Shorthand for freeclaw update"],
       ] as const;
       const fmtExamples = examples
         .map(([cmd, desc]) => `  ${theme.command(cmd)} ${theme.muted(`# ${desc}`)}`)
@@ -1285,7 +1285,7 @@ ${theme.heading("What this does:")}
 
 ${theme.heading("Switch channels:")}
   - Use --channel stable|beta|dev to persist the update channel in config
-  - Run openclaw update status to see the active channel and source
+  - Run freeclaw update status to see the active channel and source
   - Use --tag <dist-tag|version> for a one-off npm update without persisting
 
 ${theme.heading("Non-interactive:")}
@@ -1301,7 +1301,7 @@ ${theme.heading("Notes:")}
   - Downgrades require confirmation (can break configuration)
   - Skips update if the working directory has uncommitted changes
 
-${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.openclaw.ai/cli/update")}`;
+${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.freeclaw.ai/cli/update")}`;
     })
     .action(async (opts) => {
       try {
@@ -1325,7 +1325,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.openclaw.ai/cli/up
     .option("--timeout <seconds>", "Timeout for each update step in seconds (default: 1200)")
     .addHelpText(
       "after",
-      `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.openclaw.ai/cli/update")}\n`,
+      `\n${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.freeclaw.ai/cli/update")}\n`,
     )
     .action(async (opts) => {
       try {
@@ -1347,14 +1347,14 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/update", "docs.openclaw.ai/cli/up
       "after",
       () =>
         `\n${theme.heading("Examples:")}\n${formatHelpExamples([
-          ["openclaw update status", "Show channel + version status."],
-          ["openclaw update status --json", "JSON output."],
-          ["openclaw update status --timeout 10", "Custom timeout."],
+          ["freeclaw update status", "Show channel + version status."],
+          ["freeclaw update status --json", "JSON output."],
+          ["freeclaw update status --timeout 10", "Custom timeout."],
         ])}\n\n${theme.heading("Notes:")}\n${theme.muted(
           "- Shows current update channel (stable/beta/dev) and source",
         )}\n${theme.muted("- Includes git tag/branch/SHA for source checkouts")}\n\n${theme.muted(
           "Docs:",
-        )} ${formatDocsLink("/cli/update", "docs.openclaw.ai/cli/update")}`,
+        )} ${formatDocsLink("/cli/update", "docs.freeclaw.ai/cli/update")}`,
     )
     .action(async (opts) => {
       try {

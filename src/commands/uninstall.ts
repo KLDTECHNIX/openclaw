@@ -87,16 +87,6 @@ async function stopAndUninstallService(runtime: RuntimeEnv): Promise<boolean> {
   }
 }
 
-async function removeMacApp(runtime: RuntimeEnv, dryRun?: boolean) {
-  if (process.platform !== "darwin") {
-    return;
-  }
-  await removePath("/Applications/OpenClaw.app", runtime, {
-    dryRun,
-    label: "/Applications/OpenClaw.app",
-  });
-}
-
 export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptions) {
   const { scopes, hadExplicit } = buildScopeSelection(opts);
   const interactive = !opts.nonInteractive;
@@ -118,15 +108,10 @@ export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptio
         {
           value: "service",
           label: "Gateway service",
-          hint: "launchd / systemd / schtasks",
+          hint: "rc.d service",
         },
-        { value: "state", label: "State + config", hint: "~/.openclaw" },
+        { value: "state", label: "State + config", hint: "~/.freeclaw" },
         { value: "workspace", label: "Workspace", hint: "agent files" },
-        {
-          value: "app",
-          label: "macOS app",
-          hint: "/Applications/OpenClaw.app",
-        },
       ],
       initialValues: ["service", "state", "workspace"],
     });
@@ -189,11 +174,7 @@ export async function uninstallCommand(runtime: RuntimeEnv, opts: UninstallOptio
     }
   }
 
-  if (scopes.has("app")) {
-    await removeMacApp(runtime, dryRun);
-  }
-
-  runtime.log("CLI still installed. Remove via npm/pnpm if desired.");
+  runtime.log("CLI still installed. Remove via: pkg remove freeclaw (or npm uninstall -g freeclaw).");
 
   if (scopes.has("state") && !scopes.has("workspace")) {
     const home = resolveHomeDir();

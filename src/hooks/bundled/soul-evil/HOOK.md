@@ -1,10 +1,10 @@
 ---
 name: soul-evil
 description: "Swap SOUL.md with SOUL_EVIL.md during a purge window or by random chance"
-homepage: https://docs.openclaw.ai/hooks/soul-evil
+homepage: https://docs.freeclaw.ai/hooks/soul-evil
 metadata:
   {
-    "openclaw":
+    "freeclaw":
       {
         "emoji": "😈",
         "events": ["agent:bootstrap"],
@@ -31,7 +31,7 @@ You can change the filename via hook config.
 
 ## Configuration
 
-Add this to your config (`~/.openclaw/openclaw.json`):
+Add this to your config (`~/.freeclaw/freeclaw.json`):
 
 ```json
 {
@@ -67,5 +67,5 @@ Add this to your config (`~/.openclaw/openclaw.json`):
 ## Enable
 
 ```bash
-openclaw hooks enable soul-evil
+freeclaw hooks enable soul-evil
 ```

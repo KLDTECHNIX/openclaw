@@ -7,30 +7,30 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 const tempDirs: string[] = [];
 
 function makeTempDir() {
-  const dir = path.join(os.tmpdir(), `openclaw-plugins-${randomUUID()}`);
+  const dir = path.join(os.tmpdir(), `freeclaw-plugins-${randomUUID()}`);
   fs.mkdirSync(dir, { recursive: true });
   tempDirs.push(dir);
   return dir;
 }
 
 async function withStateDir<T>(stateDir: string, fn: () => Promise<T>) {
-  const prev = process.env.OPENCLAW_STATE_DIR;
-  const prevBundled = process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
-  process.env.OPENCLAW_STATE_DIR = stateDir;
-  process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
+  const prev = process.env.FREECLAW_STATE_DIR;
+  const prevBundled = process.env.FREECLAW_BUNDLED_PLUGINS_DIR;
+  process.env.FREECLAW_STATE_DIR = stateDir;
+  process.env.FREECLAW_BUNDLED_PLUGINS_DIR = "/nonexistent/bundled/plugins";
   vi.resetModules();
   try {
     return await fn();
   } finally {
     if (prev === undefined) {
-      delete process.env.OPENCLAW_STATE_DIR;
+      delete process.env.FREECLAW_STATE_DIR;
     } else {
-      process.env.OPENCLAW_STATE_DIR = prev;
+      process.env.FREECLAW_STATE_DIR = prev;
     }
     if (prevBundled === undefined) {
-      delete process.env.OPENCLAW_BUNDLED_PLUGINS_DIR;
+      delete process.env.FREECLAW_BUNDLED_PLUGINS_DIR;
     } else {
-      process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = prevBundled;
+      process.env.FREECLAW_BUNDLED_PLUGINS_DIR = prevBundled;
     }
     vi.resetModules();
   }
@@ -55,7 +55,7 @@ describe("discoverOpenClawPlugins", () => {
     fs.mkdirSync(globalExt, { recursive: true });
     fs.writeFileSync(path.join(globalExt, "alpha.ts"), "export default function () {}", "utf-8");
 
-    const workspaceExt = path.join(workspaceDir, ".openclaw", "extensions");
+    const workspaceExt = path.join(workspaceDir, ".freeclaw", "extensions");
     fs.mkdirSync(workspaceExt, { recursive: true });
     fs.writeFileSync(path.join(workspaceExt, "beta.ts"), "export default function () {}", "utf-8");
 
@@ -78,7 +78,7 @@ describe("discoverOpenClawPlugins", () => {
       path.join(globalExt, "package.json"),
       JSON.stringify({
         name: "pack",
-        openclaw: { extensions: ["./src/one.ts", "./src/two.ts"] },
+        freeclaw: { extensions: ["./src/one.ts", "./src/two.ts"] },
       }),
       "utf-8",
     );
@@ -111,8 +111,8 @@ describe("discoverOpenClawPlugins", () => {
     fs.writeFileSync(
       path.join(globalExt, "package.json"),
       JSON.stringify({
-        name: "@openclaw/voice-call",
-        openclaw: { extensions: ["./src/index.ts"] },
+        name: "@freeclaw/voice-call",
+        freeclaw: { extensions: ["./src/index.ts"] },
       }),
       "utf-8",
     );
@@ -139,8 +139,8 @@ describe("discoverOpenClawPlugins", () => {
     fs.writeFileSync(
       path.join(packDir, "package.json"),
       JSON.stringify({
-        name: "@openclaw/demo-plugin-dir",
-        openclaw: { extensions: ["./index.js"] },
+        name: "@freeclaw/demo-plugin-dir",
+        freeclaw: { extensions: ["./index.js"] },
       }),
       "utf-8",
     );

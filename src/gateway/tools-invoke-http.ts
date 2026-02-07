@@ -170,9 +170,9 @@ export async function handleToolsInvokeHttpRequest(
 
   // Resolve message channel/account hints (optional headers) for policy inheritance.
   const messageChannel = normalizeMessageChannel(
-    getHeader(req, "x-openclaw-message-channel") ?? "",
+    getHeader(req, "x-freeclaw-message-channel") ?? "",
   );
-  const accountId = getHeader(req, "x-openclaw-account-id")?.trim() || undefined;
+  const accountId = getHeader(req, "x-freeclaw-account-id")?.trim() || undefined;
 
   const {
     agentId,

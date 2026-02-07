@@ -27,10 +27,10 @@ async function withTempHome<T>(fn: (home: string) => Promise<T>): Promise<T> {
     },
     {
       env: {
-        OPENCLAW_AGENT_DIR: (home) => path.join(home, ".openclaw", "agent"),
-        PI_CODING_AGENT_DIR: (home) => path.join(home, ".openclaw", "agent"),
+        FREECLAW_AGENT_DIR: (home) => path.join(home, ".freeclaw", "agent"),
+        PI_CODING_AGENT_DIR: (home) => path.join(home, ".freeclaw", "agent"),
       },
-      prefix: "openclaw-reply-",
+      prefix: "freeclaw-reply-",
     },
   );
 }
@@ -79,7 +79,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-opus-4-5",
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "freeclaw"),
             },
             list: [
               {
@@ -126,7 +126,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-opus-4-5",
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "freeclaw"),
             },
             list: [
               {
@@ -172,7 +172,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-opus-4-5",
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "freeclaw"),
               sandbox: { mode: "off" },
             },
           },
@@ -210,7 +210,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-opus-4-5",
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "freeclaw"),
             },
           },
           tools: {
@@ -246,7 +246,7 @@ describe("directive behavior", () => {
           agents: {
             defaults: {
               model: "anthropic/claude-opus-4-5",
-              workspace: path.join(home, "openclaw"),
+              workspace: path.join(home, "freeclaw"),
             },
           },
           tools: {

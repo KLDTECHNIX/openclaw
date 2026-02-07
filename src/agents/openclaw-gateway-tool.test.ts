@@ -18,11 +18,11 @@ describe("gateway tool", () => {
   it("schedules SIGUSR1 restart", async () => {
     vi.useFakeTimers();
     const kill = vi.spyOn(process, "kill").mockImplementation(() => true);
-    const previousStateDir = process.env.OPENCLAW_STATE_DIR;
-    const previousProfile = process.env.OPENCLAW_PROFILE;
-    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-test-"));
-    process.env.OPENCLAW_STATE_DIR = stateDir;
-    process.env.OPENCLAW_PROFILE = "isolated";
+    const previousStateDir = process.env.FREECLAW_STATE_DIR;
+    const previousProfile = process.env.FREECLAW_PROFILE;
+    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-test-"));
+    process.env.FREECLAW_STATE_DIR = stateDir;
+    process.env.FREECLAW_PROFILE = "isolated";
 
     try {
       const tool = createOpenClawTools({
@@ -51,7 +51,7 @@ describe("gateway tool", () => {
       };
       expect(parsed.payload?.kind).toBe("restart");
       expect(parsed.payload?.doctorHint).toBe(
-        "Run: openclaw --profile isolated doctor --non-interactive",
+        "Run: freeclaw --profile isolated doctor --non-interactive",
       );
 
       expect(kill).not.toHaveBeenCalled();
@@ -61,14 +61,14 @@ describe("gateway tool", () => {
       kill.mockRestore();
       vi.useRealTimers();
       if (previousStateDir === undefined) {
-        delete process.env.OPENCLAW_STATE_DIR;
+        delete process.env.FREECLAW_STATE_DIR;
       } else {
-        process.env.OPENCLAW_STATE_DIR = previousStateDir;
+        process.env.FREECLAW_STATE_DIR = previousStateDir;
       }
       if (previousProfile === undefined) {
-        delete process.env.OPENCLAW_PROFILE;
+        delete process.env.FREECLAW_PROFILE;
       } else {
-        process.env.OPENCLAW_PROFILE = previousProfile;
+        process.env.FREECLAW_PROFILE = previousProfile;
       }
     }
   });
@@ -83,7 +83,7 @@ describe("gateway tool", () => {
       throw new Error("missing gateway tool");
     }
 
-    const raw = '{\n  agents: { defaults: { workspace: "~/openclaw" } }\n}\n';
+    const raw = '{\n  agents: { defaults: { workspace: "~/freeclaw" } }\n}\n';
     await tool.execute("call2", {
       action: "config.apply",
       raw,

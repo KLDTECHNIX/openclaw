@@ -174,9 +174,9 @@ export function resolveDefaultConfigCandidates(
   }
 
   const candidates: string[] = [];
-  const openclawStateDir = env.FREECLAW_STATE_DIR?.trim() || env.CLAWDBOT_STATE_DIR?.trim();
-  if (openclawStateDir) {
-    const resolved = resolveUserPath(openclawStateDir);
+  const freeclawStateDir = env.FREECLAW_STATE_DIR?.trim() || env.CLAWDBOT_STATE_DIR?.trim();
+  if (freeclawStateDir) {
+    const resolved = resolveUserPath(freeclawStateDir);
     candidates.push(path.join(resolved, CONFIG_FILENAME));
     candidates.push(...LEGACY_CONFIG_FILENAMES.map((name) => path.join(resolved, name)));
   }
@@ -193,7 +193,7 @@ export const DEFAULT_GATEWAY_PORT = 18789;
 
 /**
  * Gateway lock directory (ephemeral).
- * Default: os.tmpdir()/openclaw-<uid> (uid suffix when available).
+ * Default: os.tmpdir()/freeclaw-<uid> (uid suffix when available).
  */
 export function resolveGatewayLockDir(tmpdir: () => string = os.tmpdir): string {
   const base = tmpdir();
