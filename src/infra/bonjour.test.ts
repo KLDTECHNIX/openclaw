@@ -370,7 +370,7 @@ describe("gateway bonjour advertiser", () => {
     });
 
     const [gatewayCall] = createService.mock.calls as Array<[ServiceCall]>;
-    expect(gatewayCall?.[0]?.name).toBe("freeclaw (OpenClaw)");
+    expect(gatewayCall?.[0]?.name).toBe("freeclaw (FreeClaw)");
     expect(gatewayCall?.[0]?.domain).toBe("local");
     expect(gatewayCall?.[0]?.hostname).toBe("freeclaw");
     expect((gatewayCall?.[0]?.txt as Record<string, string>)?.lanHost).toBe("freeclaw.local");

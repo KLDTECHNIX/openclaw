@@ -21,7 +21,7 @@ OpenClaw 需要 Node 22 或更新版本。
 <Tabs>
   <Tab title="npm">
     ```bash
-    npm install -g openclaw@latest
+    npm install -g freeclaw@latest
     ```
   </Tab>
   <Tab title="pnpm">
@@ -36,17 +36,17 @@ OpenClaw 需要 Node 22 或更新版本。
 <Steps>
   <Step title="新手引导并安装服务">
     ```bash
-    openclaw onboard --install-daemon
+    freeclaw onboard --install-daemon
     ```
   </Step>
   <Step title="配对 WhatsApp">
     ```bash
-    openclaw channels login
+    freeclaw channels login
     ```
   </Step>
   <Step title="启动 Gateway 网关">
     ```bash
-    openclaw gateway --port 18789
+    freeclaw gateway --port 18789
     ```
   </Step>
 </Steps>
@@ -61,22 +61,22 @@ OpenClaw 需要 Node 22 或更新版本。
 ## 从源码安装（开发）
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 pnpm install
 pnpm ui:build # 首次运行时会自动安装 UI 依赖
 pnpm build
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
-如果你还没有全局安装，可以在仓库目录中通过 `pnpm openclaw ...` 运行新手引导。
+如果你还没有全局安装，可以在仓库目录中通过 `pnpm freeclaw ...` 运行新手引导。
 
 ## 多实例快速开始（可选）
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json \
-OPENCLAW_STATE_DIR=~/.openclaw-a \
-openclaw gateway --port 19001
+FREECLAW_CONFIG_PATH=~/.freeclaw/a.json \
+FREECLAW_STATE_DIR=~/.freeclaw-a \
+freeclaw gateway --port 19001
 ```
 
 ## 发送测试消息
@@ -84,5 +84,5 @@ openclaw gateway --port 19001
 需要一个正在运行的 Gateway 网关。
 
 ```bash
-openclaw message send --target +15555550123 --message "Hello from OpenClaw"
+freeclaw message send --target +15555550123 --message "Hello from FreeClaw"
 ```

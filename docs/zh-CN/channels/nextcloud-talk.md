@@ -23,13 +23,13 @@ Nextcloud Talk 以插件形式提供，不包含在核心安装包中。
 通过 CLI 安装（npm 仓库）：
 
 ```bash
-openclaw plugins install @openclaw/nextcloud-talk
+freeclaw plugins install @openclaw/nextcloud-talk
 ```
 
 本地检出安装（从 git 仓库运行时）：
 
 ```bash
-openclaw plugins install ./extensions/nextcloud-talk
+freeclaw plugins install ./extensions/nextcloud-talk
 ```
 
 如果你在配置/新手引导过程中选择了 Nextcloud Talk，并且检测到 git 检出，
@@ -42,7 +42,7 @@ OpenClaw 将自动提供本地安装路径。
 1. 安装 Nextcloud Talk 插件。
 2. 在你的 Nextcloud 服务器上创建机器人：
    ```bash
-   ./occ talk:bot:install "OpenClaw" "<shared-secret>" "<webhook-url>" --feature reaction
+   ./occ talk:bot:install "FreeClaw" "<shared-secret>" "<webhook-url>" --feature reaction
    ```
 3. 在目标房间设置中启用机器人。
 4. 配置 OpenClaw：

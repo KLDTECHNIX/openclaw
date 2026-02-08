@@ -72,7 +72,7 @@ curl http://localhost:3456/v1/chat/completions \
 
 ### With OpenClaw
 
-You can point OpenClaw at the proxy as a custom OpenAI-compatible endpoint:
+You can point FreeClaw at the proxy as a custom OpenAI-compatible endpoint:
 
 ```json5
 {
@@ -144,5 +144,5 @@ launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.claude-max-api.plist
 
 ## See Also
 
-- [Anthropic provider](/providers/anthropic) - Native OpenClaw integration with Claude setup-token or API keys
+- [Anthropic provider](/providers/anthropic) - Native FreeClaw integration with Claude setup-token or API keys
 - [OpenAI provider](/providers/openai) - For OpenAI/Codex subscriptions

@@ -25,16 +25,16 @@ x-i18n:
 ## 如何运行（本地）
 
 ```bash
-openclaw gateway --port 18789
+freeclaw gateway --port 18789
 # 在 stdio 中获取完整的调试/追踪日志：
-openclaw gateway --port 18789 --verbose
+freeclaw gateway --port 18789 --verbose
 # 如果端口被占用，终止监听器然后启动：
-openclaw gateway --force
+freeclaw gateway --force
 # 开发循环（TS 更改时自动重载）：
 pnpm gateway:watch
 ```
 
-- 配置热重载监视 `~/.openclaw/openclaw.json`（或 `OPENCLAW_CONFIG_PATH`）。
+- 配置热重载监视 `~/.freeclaw/freeclaw.json`（或 `FREECLAW_CONFIG_PATH`）。
   - 默认模式：`gateway.reload.mode="hybrid"`（热应用安全更改，关键更改时重启）。
   - 热重载在需要时通过 **SIGUSR1** 使用进程内重启。
   - 使用 `gateway.reload.mode="off"` 禁用。
@@ -43,15 +43,15 @@ pnpm gateway:watch
   - OpenAI Chat Completions（HTTP）：[`/v1/chat/completions`](/gateway/openai-http-api)。
   - OpenResponses（HTTP）：[`/v1/responses`](/gateway/openresponses-http-api)。
   - Tools Invoke（HTTP）：[`/tools/invoke`](/gateway/tools-invoke-http-api)。
-- 默认在 `canvasHost.port`（默认 `18793`）上启动 Canvas 文件服务器，从 `~/.openclaw/workspace/canvas` 提供 `http://<gateway-host>:18793/__openclaw__/canvas/`。使用 `canvasHost.enabled=false` 或 `OPENCLAW_SKIP_CANVAS_HOST=1` 禁用。
+- 默认在 `canvasHost.port`（默认 `18793`）上启动 Canvas 文件服务器，从 `~/.freeclaw/workspace/canvas` 提供 `http://<gateway-host>:18793/__openclaw__/canvas/`。使用 `canvasHost.enabled=false` 或 `FREECLAW_SKIP_CANVAS_HOST=1` 禁用。
 - 输出日志到 stdout；使用 launchd/systemd 保持运行并轮转日志。
 - 故障排除时传递 `--verbose` 以将调试日志（握手、请求/响应、事件）从日志文件镜像到 stdio。
 - `--force` 使用 `lsof` 查找所选端口上的监听器，发送 SIGTERM，记录它终止了什么，然后启动 Gateway 网关（如果缺少 `lsof` 则快速失败）。
 - 如果你在 supervisor（launchd/systemd/mac 应用子进程模式）下运行，stop/restart 通常发送 **SIGTERM**；旧版本可能将其显示为 `pnpm` `ELIFECYCLE` 退出码 **143**（SIGTERM），这是正常关闭，不是崩溃。
 - **SIGUSR1** 在授权时触发进程内重启（Gateway 网关工具/配置应用/更新，或启用 `commands.restart` 以进行手动重启）。
-- 默认需要 Gateway 网关认证：设置 `gateway.auth.token`（或 `OPENCLAW_GATEWAY_TOKEN`）或 `gateway.auth.password`。客户端必须发送 `connect.params.auth.token/password`，除非使用 Tailscale Serve 身份。
+- 默认需要 Gateway 网关认证：设置 `gateway.auth.token`（或 `FREECLAW_GATEWAY_TOKEN`）或 `gateway.auth.password`。客户端必须发送 `connect.params.auth.token/password`，除非使用 Tailscale Serve 身份。
 - 向导现在默认生成令牌，即使在 loopback 上也是如此。
-- 端口优先级：`--port` > `OPENCLAW_GATEWAY_PORT` > `gateway.port` > 默认 `18789`。
+- 端口优先级：`--port` > `FREECLAW_GATEWAY_PORT` > `gateway.port` > 默认 `18789`。
 
 ## 远程访问
 
@@ -72,13 +72,13 @@ pnpm gateway:watch
 
 - macOS：`bot.molt.<profile>`（旧版 `com.openclaw.*` 可能仍然存在）
 - Linux：`openclaw-gateway-<profile>.service`
-- Windows：`OpenClaw Gateway (<profile>)`
+- Windows：`FreeClaw Gateway (<profile>)`
 
 安装元数据嵌入在服务配置中：
 
-- `OPENCLAW_SERVICE_MARKER=openclaw`
-- `OPENCLAW_SERVICE_KIND=gateway`
-- `OPENCLAW_SERVICE_VERSION=<version>`
+- `FREECLAW_SERVICE_MARKER=openclaw`
+- `FREECLAW_SERVICE_KIND=gateway`
+- `FREECLAW_SERVICE_VERSION=<version>`
 
 救援机器人模式：保持第二个 Gateway 网关隔离，使用自己的配置文件、状态目录、工作区和基础端口间隔。完整指南：[救援机器人指南](/gateway/multiple-gateways#rescue-bot-guide)。
 
@@ -87,49 +87,49 @@ pnpm gateway:watch
 快速路径：运行完全隔离的 dev 实例（配置/状态/工作区）而不触及你的主设置。
 
 ```bash
-openclaw --dev setup
-openclaw --dev gateway --allow-unconfigured
+freeclaw --dev setup
+freeclaw --dev gateway --allow-unconfigured
 # 然后定位到 dev 实例：
-openclaw --dev status
-openclaw --dev health
+freeclaw --dev status
+freeclaw --dev health
 ```
 
 默认值（可通过 env/flags/config 覆盖）：
 
-- `OPENCLAW_STATE_DIR=~/.openclaw-dev`
-- `OPENCLAW_CONFIG_PATH=~/.openclaw-dev/openclaw.json`
-- `OPENCLAW_GATEWAY_PORT=19001`（Gateway 网关 WS + HTTP）
+- `FREECLAW_STATE_DIR=~/.freeclaw-dev`
+- `FREECLAW_CONFIG_PATH=~/.freeclaw-dev/freeclaw.json`
+- `FREECLAW_GATEWAY_PORT=19001`（Gateway 网关 WS + HTTP）
 - 浏览器控制服务端口 = `19003`（派生：`gateway.port+2`，仅 loopback）
 - `canvasHost.port=19005`（派生：`gateway.port+4`）
-- 当你在 `--dev` 下运行 `setup`/`onboard` 时，`agents.defaults.workspace` 默认变为 `~/.openclaw/workspace-dev`。
+- 当你在 `--dev` 下运行 `setup`/`onboard` 时，`agents.defaults.workspace` 默认变为 `~/.freeclaw/workspace-dev`。
 
 派生端口（经验法则）：
 
-- 基础端口 = `gateway.port`（或 `OPENCLAW_GATEWAY_PORT` / `--port`）
+- 基础端口 = `gateway.port`（或 `FREECLAW_GATEWAY_PORT` / `--port`）
 - 浏览器控制服务端口 = 基础 + 2（仅 loopback）
-- `canvasHost.port = 基础 + 4`（或 `OPENCLAW_CANVAS_HOST_PORT` / 配置覆盖）
+- `canvasHost.port = 基础 + 4`（或 `FREECLAW_CANVAS_HOST_PORT` / 配置覆盖）
 - 浏览器配置文件 CDP 端口从 `browser.controlPort + 9 .. + 108` 自动分配（按配置文件持久化）。
 
 每个实例的检查清单：
 
 - 唯一的 `gateway.port`
-- 唯一的 `OPENCLAW_CONFIG_PATH`
-- 唯一的 `OPENCLAW_STATE_DIR`
+- 唯一的 `FREECLAW_CONFIG_PATH`
+- 唯一的 `FREECLAW_STATE_DIR`
 - 唯一的 `agents.defaults.workspace`
 - 单独的 WhatsApp 号码（如果使用 WA）
 
 按配置文件安装服务：
 
 ```bash
-openclaw --profile main gateway install
-openclaw --profile rescue gateway install
+freeclaw --profile main gateway install
+freeclaw --profile rescue gateway install
 ```
 
 示例：
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
-OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
+FREECLAW_CONFIG_PATH=~/.freeclaw/a.json FREECLAW_STATE_DIR=~/.freeclaw-a freeclaw gateway --port 19001
+FREECLAW_CONFIG_PATH=~/.freeclaw/b.json FREECLAW_STATE_DIR=~/.freeclaw-b freeclaw gateway --port 19002
 ```
 
 ## 协议（运维视角）
@@ -220,11 +220,11 @@ OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b opencla
 使用 Gateway 网关 CLI 进行 install/start/stop/restart/status：
 
 ```bash
-openclaw gateway status
-openclaw gateway install
-openclaw gateway stop
-openclaw gateway restart
-openclaw logs --follow
+freeclaw gateway status
+freeclaw gateway install
+freeclaw gateway stop
+freeclaw gateway restart
+freeclaw logs --follow
 ```
 
 注意事项：
@@ -237,14 +237,14 @@ openclaw logs --follow
 - `gateway status` 打印配置路径 + 探测目标以避免"localhost vs LAN 绑定"混淆和配置文件不匹配。
 - `gateway status` 在服务看起来正在运行但端口已关闭时包含最后一行 Gateway 网关错误。
 - `logs` 通过 RPC 尾随 Gateway 网关文件日志（无需手动 `tail`/`grep`）。
-- 如果检测到其他类似 Gateway 网关的服务，CLI 会发出警告，除非它们是 OpenClaw 配置文件服务。
+- 如果检测到其他类似 Gateway 网关的服务，CLI 会发出警告，除非它们是 FreeClaw 配置文件服务。
   我们仍然建议大多数设置**每台机器一个 Gateway 网关**；使用隔离的配置文件/端口进行冗余或救援机器人。参见[多个 Gateway 网关](/gateway/multiple-gateways)。
   - 清理：`openclaw gateway uninstall`（当前服务）和 `openclaw doctor`（旧版迁移）。
 - `gateway install` 在已安装时是无操作的；使用 `openclaw gateway install --force` 重新安装（配置文件/env/路径更改）。
 
 捆绑的 mac 应用：
 
-- OpenClaw.app 可以捆绑基于 Node 的 Gateway 网关中继并安装标记为
+- FreeClaw.app 可以捆绑基于 Node 的 Gateway 网关中继并安装标记为
   `bot.molt.gateway`（或 `bot.molt.<profile>`；旧版 `com.openclaw.*` 标签仍能干净卸载）的按用户 LaunchAgent。
 - 要干净地停止它，使用 `openclaw gateway stop`（或 `launchctl bootout gui/$UID/bot.molt.gateway`）。
 - 要重启，使用 `openclaw gateway restart`（或 `launchctl kickstart -k gui/$UID/bot.molt.gateway`）。
@@ -273,7 +273,7 @@ Wants=network-online.target
 ExecStart=/usr/local/bin/openclaw gateway --port 18789
 Restart=always
 RestartSec=5
-Environment=OPENCLAW_GATEWAY_TOKEN=
+Environment=FREECLAW_GATEWAY_TOKEN=
 WorkingDirectory=/home/youruser
 
 [Install]

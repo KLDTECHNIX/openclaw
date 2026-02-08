@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw builds prompt context and reports token usage + costs"
+summary: "How FreeClaw builds prompt context and reports token usage + costs"
 read_when:
   - Explaining token usage, costs, or context windows
   - Debugging context growth or compaction behavior
@@ -47,7 +47,7 @@ Use these in chat:
 - `/usage off|tokens|full` → appends a **per-response usage footer** to every reply.
   - Persists per session (stored as `responseUsage`).
   - OAuth auth **hides cost** (tokens only).
-- `/usage cost` → shows a local cost summary from OpenClaw session logs.
+- `/usage cost` → shows a local cost summary from FreeClaw session logs.
 
 Other surfaces:
 
@@ -64,12 +64,12 @@ models.providers.<provider>.models[].cost
 ```
 
 These are **USD per 1M tokens** for `input`, `output`, `cacheRead`, and
-`cacheWrite`. If pricing is missing, OpenClaw shows tokens only. OAuth tokens
+`cacheWrite`. If pricing is missing, FreeClaw shows tokens only. OAuth tokens
 never show dollar cost.
 
 ## Cache TTL and pruning impact
 
-Provider prompt caching only applies within the cache TTL window. OpenClaw can
+Provider prompt caching only applies within the cache TTL window. FreeClaw can
 optionally run **cache-ttl pruning**: it prunes the session once the cache TTL
 has expired, then resets the cache window so subsequent requests can re-use the
 freshly cached context instead of re-caching the full history. This keeps cache

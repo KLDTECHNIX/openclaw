@@ -2,7 +2,7 @@
 read_when:
   - 编辑系统提示词文本、工具列表或时间/心跳部分
   - 更改工作区引导或 Skills 注入行为
-summary: OpenClaw 系统提示词包含的内容及其组装方式
+summary: FreeClaw 系统提示词包含的内容及其组装方式
 title: 系统提示词
 x-i18n:
   generated_at: "2026-02-03T07:46:58Z"
@@ -17,7 +17,7 @@ x-i18n:
 
 OpenClaw 为每次智能体运行构建自定义系统提示词。该提示词由 **OpenClaw 拥有**，不使用 p-coding-agent 默认提示词。
 
-该提示词由 OpenClaw 组装并注入到每次智能体运行中。
+该提示词由 FreeClaw 组装并注入到每次智能体运行中。
 
 ## 结构
 
@@ -98,4 +98,4 @@ OpenClaw 可以为子智能体渲染更小的系统提示词。运行时为每�
 
 ## 文档
 
-如果可用，系统提示词包含一个 **Documentation** 部分，指向本地 OpenClaw 文档目录（仓库工作区中的 `docs/` 或打包的 npm 包文档），并注明公共镜像、源仓库、社区 Discord 和 ClawHub (https://clawhub.com) 用于 Skills 发现。提示词指示模型首先查阅本地文档了解 OpenClaw 行为、命令、配置或架构，并尽可能自己运行 `openclaw status`（仅在无法访问时询问用户）。
+如果可用，系统提示词包含一个 **Documentation** 部分，指向本地 FreeClaw 文档目录（仓库工作区中的 `docs/` 或打包的 npm 包文档），并注明公共镜像、源仓库、社区 Discord 和 ClawHub (https://clawhub.com) 用于 Skills 发现。提示词指示模型首先查阅本地文档了解 FreeClaw 行为、命令、配置或架构，并尽可能自己运行 `openclaw status`（仅在无法访问时询问用户）。

@@ -23,6 +23,6 @@ x-i18n:
 ## 命令
 
 ```bash
-openclaw pairing list whatsapp
-openclaw pairing approve whatsapp <code> --notify
+freeclaw pairing list whatsapp
+freeclaw pairing approve whatsapp <code> --notify
 ```

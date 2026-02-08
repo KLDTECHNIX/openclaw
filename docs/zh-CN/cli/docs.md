@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 你想从终端搜索实时 OpenClaw 文档
+  - 你想从终端搜索实时 FreeClaw 文档
 summary: "`openclaw docs` 的 CLI 参考（搜索实时文档索引）"
 title: docs
 x-i18n:
@@ -17,6 +17,6 @@ x-i18n:
 搜索实时文档索引。
 
 ```bash
-openclaw docs browser extension
-openclaw docs sandbox allowHostControl
+freeclaw docs browser extension
+freeclaw docs sandbox allowHostControl
 ```

@@ -1,10 +1,7 @@
 import type { GatewayServiceRuntime } from "../daemon/service-runtime.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import { resolveGatewayRcdServiceName } from "../daemon/constants.js";
-import {
-  isRcdUnavailableDetail,
-  renderRcdUnavailableHints,
-} from "../daemon/systemd-hints.js";
+import { isRcdUnavailableDetail, renderRcdUnavailableHints } from "../daemon/rcd-hints.js";
 import { getResolvedLoggerSettings } from "../logging.js";
 
 type RuntimeHintOptions = {

@@ -1,41 +1,41 @@
 ---
-summary: "Default OpenClaw agent instructions and skills roster for the personal assistant setup"
+summary: "Default FreeClaw agent instructions and skills roster for the personal assistant setup"
 read_when:
-  - Starting a new OpenClaw agent session
+  - Starting a new FreeClaw agent session
   - Enabling or auditing default skills
 ---
 
-# AGENTS.md — OpenClaw Personal Assistant (default)
+# AGENTS.md — FreeClaw Personal Assistant (default)
 
 ## First run (recommended)
 
-OpenClaw uses a dedicated workspace directory for the agent. Default: `~/.openclaw/workspace` (configurable via `agents.defaults.workspace`).
+OpenClaw uses a dedicated workspace directory for the agent. Default: `~/.freeclaw/workspace` (configurable via `agents.defaults.workspace`).
 
 1. Create the workspace (if it doesn’t already exist):
 
 ```bash
-mkdir -p ~/.openclaw/workspace
+mkdir -p ~/.freeclaw/workspace
 ```
 
 2. Copy the default workspace templates into the workspace:
 
 ```bash
-cp docs/reference/templates/AGENTS.md ~/.openclaw/workspace/AGENTS.md
-cp docs/reference/templates/SOUL.md ~/.openclaw/workspace/SOUL.md
-cp docs/reference/templates/TOOLS.md ~/.openclaw/workspace/TOOLS.md
+cp docs/reference/templates/AGENTS.md ~/.freeclaw/workspace/AGENTS.md
+cp docs/reference/templates/SOUL.md ~/.freeclaw/workspace/SOUL.md
+cp docs/reference/templates/TOOLS.md ~/.freeclaw/workspace/TOOLS.md
 ```
 
 3. Optional: if you want the personal assistant skill roster, replace AGENTS.md with this file:
 
 ```bash
-cp docs/reference/AGENTS.default.md ~/.openclaw/workspace/AGENTS.md
+cp docs/reference/AGENTS.default.md ~/.freeclaw/workspace/AGENTS.md
 ```
 
 4. Optional: choose a different workspace by setting `agents.defaults.workspace` (supports `~`):
 
 ```json5
 {
-  agents: { defaults: { workspace: "~/.openclaw/workspace" } },
+  agents: { defaults: { workspace: "~/.freeclaw/workspace" } },
 }
 ```
 
@@ -79,14 +79,14 @@ cp docs/reference/AGENTS.default.md ~/.openclaw/workspace/AGENTS.md
 If you treat this workspace as Clawd’s “memory”, make it a git repo (ideally private) so `AGENTS.md` and your memory files are backed up.
 
 ```bash
-cd ~/.openclaw/workspace
+cd ~/.freeclaw/workspace
 git init
 git add AGENTS.md
 git commit -m "Add Clawd workspace"
 # Optional: add a private remote + push
 ```
 
-## What OpenClaw Does
+## What FreeClaw Does
 
 - Runs WhatsApp gateway + Pi coding agent so the assistant can read/write chats, fetch context, and run skills via the host Mac.
 - macOS app manages permissions (screen recording, notifications, microphone) and exposes the `openclaw` CLI via its bundled binary.

@@ -1,5 +1,5 @@
 ---
-summary: "Optional Docker-based setup and onboarding for OpenClaw"
+summary: "Optional Docker-based setup and onboarding for FreeClaw"
 read_when:
   - You want a containerized gateway instead of local installs
   - You are validating the Docker flow
@@ -12,13 +12,13 @@ Docker is **optional**. Use it only if you want a containerized gateway or to va
 
 ## Is Docker right for me?
 
-- **Yes**: you want an isolated, throwaway gateway environment or to run OpenClaw on a host without local installs.
+- **Yes**: you want an isolated, throwaway gateway environment or to run FreeClaw on a host without local installs.
 - **No**: you’re running on your own machine and just want the fastest dev loop. Use the normal install flow instead.
 - **Sandboxing note**: agent sandboxing uses Docker too, but it does **not** require the full gateway to run in Docker. See [Sandboxing](/gateway/sandboxing).
 
 This guide covers:
 
-- Containerized Gateway (full OpenClaw in Docker)
+- Containerized Gateway (full FreeClaw in Docker)
 - Per-session Agent Sandbox (host gateway + Docker-isolated agent tools)
 
 Sandboxing details: [Sandboxing](/gateway/sandboxing)
@@ -48,9 +48,9 @@ This script:
 
 Optional env vars:
 
-- `OPENCLAW_DOCKER_APT_PACKAGES` — install extra apt packages during build
-- `OPENCLAW_EXTRA_MOUNTS` — add extra host bind mounts
-- `OPENCLAW_HOME_VOLUME` — persist `/home/node` in a named volume
+- `FREECLAW_DOCKER_APT_PACKAGES` — install extra apt packages during build
+- `FREECLAW_EXTRA_MOUNTS` — add extra host bind mounts
+- `FREECLAW_HOME_VOLUME` — persist `/home/node` in a named volume
 
 After it finishes:
 
@@ -60,8 +60,8 @@ After it finishes:
 
 It writes config/workspace on the host:
 
-- `~/.openclaw/`
-- `~/.openclaw/workspace`
+- `~/.freeclaw/`
+- `~/.freeclaw/workspace`
 
 Running on a VPS? See [Hetzner (Docker VPS)](/install/hetzner).
 
@@ -74,7 +74,7 @@ docker compose up -d openclaw-gateway
 ```
 
 Note: run `docker compose ...` from the repo root. If you enabled
-`OPENCLAW_EXTRA_MOUNTS` or `OPENCLAW_HOME_VOLUME`, the setup script writes
+`FREECLAW_EXTRA_MOUNTS` or `FREECLAW_HOME_VOLUME`, the setup script writes
 `docker-compose.extra.yml`; include it when running Compose elsewhere:
 
 ```bash
@@ -97,71 +97,71 @@ More detail: [Dashboard](/web/dashboard), [Devices](/cli/devices).
 ### Extra mounts (optional)
 
 If you want to mount additional host directories into the containers, set
-`OPENCLAW_EXTRA_MOUNTS` before running `docker-setup.sh`. This accepts a
+`FREECLAW_EXTRA_MOUNTS` before running `docker-setup.sh`. This accepts a
 comma-separated list of Docker bind mounts and applies them to both
 `openclaw-gateway` and `openclaw-cli` by generating `docker-compose.extra.yml`.
 
 Example:
 
 ```bash
-export OPENCLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
+export FREECLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
 ./docker-setup.sh
 ```
 
 Notes:
 
 - Paths must be shared with Docker Desktop on macOS/Windows.
-- If you edit `OPENCLAW_EXTRA_MOUNTS`, rerun `docker-setup.sh` to regenerate the
+- If you edit `FREECLAW_EXTRA_MOUNTS`, rerun `docker-setup.sh` to regenerate the
   extra compose file.
 - `docker-compose.extra.yml` is generated. Don’t hand-edit it.
 
 ### Persist the entire container home (optional)
 
 If you want `/home/node` to persist across container recreation, set a named
-volume via `OPENCLAW_HOME_VOLUME`. This creates a Docker volume and mounts it at
+volume via `FREECLAW_HOME_VOLUME`. This creates a Docker volume and mounts it at
 `/home/node`, while keeping the standard config/workspace bind mounts. Use a
 named volume here (not a bind path); for bind mounts, use
-`OPENCLAW_EXTRA_MOUNTS`.
+`FREECLAW_EXTRA_MOUNTS`.
 
 Example:
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_HOME_VOLUME="openclaw_home"
 ./docker-setup.sh
 ```
 
 You can combine this with extra mounts:
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
-export OPENCLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
+export FREECLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
 ./docker-setup.sh
 ```
 
 Notes:
 
-- If you change `OPENCLAW_HOME_VOLUME`, rerun `docker-setup.sh` to regenerate the
+- If you change `FREECLAW_HOME_VOLUME`, rerun `docker-setup.sh` to regenerate the
   extra compose file.
 - The named volume persists until removed with `docker volume rm <name>`.
 
 ### Install extra apt packages (optional)
 
 If you need system packages inside the image (for example, build tools or media
-libraries), set `OPENCLAW_DOCKER_APT_PACKAGES` before running `docker-setup.sh`.
+libraries), set `FREECLAW_DOCKER_APT_PACKAGES` before running `docker-setup.sh`.
 This installs the packages during the image build, so they persist even if the
 container is deleted.
 
 Example:
 
 ```bash
-export OPENCLAW_DOCKER_APT_PACKAGES="ffmpeg build-essential"
+export FREECLAW_DOCKER_APT_PACKAGES="ffmpeg build-essential"
 ./docker-setup.sh
 ```
 
 Notes:
 
 - This accepts a space-separated list of apt package names.
-- If you change `OPENCLAW_DOCKER_APT_PACKAGES`, rerun `docker-setup.sh` to rebuild
+- If you change `FREECLAW_DOCKER_APT_PACKAGES`, rerun `docker-setup.sh` to rebuild
   the image.
 
 ### Power-user / full-featured container (opt-in)
@@ -178,14 +178,14 @@ If you want a more full-featured container, use these opt-in knobs:
 1. **Persist `/home/node`** so browser downloads and tool caches survive:
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_HOME_VOLUME="openclaw_home"
 ./docker-setup.sh
 ```
 
 2. **Bake system deps into the image** (repeatable + persistent):
 
 ```bash
-export OPENCLAW_DOCKER_APT_PACKAGES="git curl jq"
+export FREECLAW_DOCKER_APT_PACKAGES="git curl jq"
 ./docker-setup.sh
 ```
 
@@ -197,14 +197,14 @@ docker compose run --rm openclaw-cli \
 ```
 
 If you need Playwright to install system deps, rebuild the image with
-`OPENCLAW_DOCKER_APT_PACKAGES` instead of using `--with-deps` at runtime.
+`FREECLAW_DOCKER_APT_PACKAGES` instead of using `--with-deps` at runtime.
 
 4. **Persist Playwright browser downloads**:
 
 - Set `PLAYWRIGHT_BROWSERS_PATH=/home/node/.cache/ms-playwright` in
   `docker-compose.yml`.
-- Ensure `/home/node` persists via `OPENCLAW_HOME_VOLUME`, or mount
-  `/home/node/.cache/ms-playwright` via `OPENCLAW_EXTRA_MOUNTS`.
+- Ensure `/home/node` persists via `FREECLAW_HOME_VOLUME`, or mount
+  `/home/node/.cache/ms-playwright` via `FREECLAW_EXTRA_MOUNTS`.
 
 ### Permissions + EACCES
 
@@ -286,7 +286,7 @@ URL you land on and paste it back into the wizard to finish auth.
 ### Health check
 
 ```bash
-docker compose exec openclaw-gateway node dist/index.js health --token "$OPENCLAW_GATEWAY_TOKEN"
+docker compose exec openclaw-gateway node dist/index.js health --token "$FREECLAW_GATEWAY_TOKEN"
 ```
 
 ### E2E smoke test (Docker)
@@ -305,7 +305,7 @@ pnpm test:docker:qr
 
 - Gateway bind defaults to `lan` for container use.
 - Dockerfile CMD uses `--allow-unconfigured`; mounted config with `gateway.mode` not `local` will still start. Override CMD to enforce the guard.
-- The gateway container is the source of truth for sessions (`~/.openclaw/agents/<agentId>/sessions/`).
+- The gateway container is the source of truth for sessions (`~/.freeclaw/agents/<agentId>/sessions/`).
 
 ## Agent Sandbox (host gateway + Docker tools)
 
@@ -343,7 +343,7 @@ precedence, and troubleshooting.
 
 - Image: `openclaw-sandbox:bookworm-slim`
 - One container per agent
-- Agent workspace access: `workspaceAccess: "none"` (default) uses `~/.openclaw/sandboxes`
+- Agent workspace access: `workspaceAccess: "none"` (default) uses `~/.freeclaw/sandboxes`
   - `"ro"` keeps the sandbox workspace at `/workspace` and mounts the agent workspace read-only at `/agent` (disables `write`/`edit`/`apply_patch`)
   - `"rw"` mounts the agent workspace read/write at `/workspace`
 - Auto-prune: idle > 24h OR age > 7d
@@ -358,7 +358,7 @@ If you plan to install packages in `setupCommand`, note:
 - Default `docker.network` is `"none"` (no egress).
 - `readOnlyRoot: true` blocks package installs.
 - `user` must be root for `apt-get` (omit `user` or set `user: "0:0"`).
-  OpenClaw auto-recreates containers when `setupCommand` (or docker config) changes
+  FreeClaw auto-recreates containers when `setupCommand` (or docker config) changes
   unless the container was **recently used** (within ~5 minutes). Hot containers
   log a warning with the exact `openclaw sandbox recreate ...` command.
 
@@ -370,7 +370,7 @@ If you plan to install packages in `setupCommand`, note:
         mode: "non-main", // off | non-main | all
         scope: "agent", // session | agent | shared (agent is default)
         workspaceAccess: "none", // none | ro | rw
-        workspaceRoot: "~/.openclaw/sandboxes",
+        workspaceRoot: "~/.freeclaw/sandboxes",
         docker: {
           image: "openclaw-sandbox:bookworm-slim",
           workdir: "/workspace",
@@ -557,11 +557,11 @@ Example:
 
 ## Troubleshooting
 
-- Image missing: build with [`scripts/sandbox-setup.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/sandbox-setup.sh) or set `agents.defaults.sandbox.docker.image`.
+- Image missing: build with [`scripts/sandbox-setup.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/sandbox-setup.sh) or set `agents.defaults.sandbox.docker.image`.
 - Container not running: it will auto-create per session on demand.
 - Permission errors in sandbox: set `docker.user` to a UID:GID that matches your
   mounted workspace ownership (or chown the workspace folder).
-- Custom tools not found: OpenClaw runs commands with `sh -lc` (login shell), which
+- Custom tools not found: FreeClaw runs commands with `sh -lc` (login shell), which
   sources `/etc/profile` and may reset PATH. Set `docker.env.PATH` to prepend your
   custom tool paths (e.g., `/custom/bin:/usr/local/share/npm-global/bin`), or add
   a script under `/etc/profile.d/` in your Dockerfile.

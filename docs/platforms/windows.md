@@ -1,7 +1,7 @@
 ---
 summary: "Windows (WSL2) support + companion app status"
 read_when:
-  - Installing OpenClaw on Windows
+  - Installing FreeClaw on Windows
   - Looking for Windows companion app status
 title: "Windows (WSL2)"
 ---
@@ -32,19 +32,19 @@ Native Windows companion apps are planned.
 Inside WSL2:
 
 ```
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
 Or:
 
 ```
-openclaw gateway install
+freeclaw gateway install
 ```
 
 Or:
 
 ```
-openclaw configure
+freeclaw configure
 ```
 
 Select **Gateway service** when prompted.
@@ -52,7 +52,7 @@ Select **Gateway service** when prompted.
 Repair/migrate:
 
 ```
-openclaw doctor
+freeclaw doctor
 ```
 
 ## Advanced: expose WSL services over LAN (portproxy)
@@ -138,17 +138,17 @@ Re-open Ubuntu, then verify:
 systemctl --user status
 ```
 
-### 3) Install OpenClaw (inside WSL)
+### 3) Install FreeClaw (inside WSL)
 
 Follow the Linux Getting Started flow inside WSL:
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 pnpm install
 pnpm ui:build # auto-installs UI deps on first run
 pnpm build
-openclaw onboard
+freeclaw onboard
 ```
 
 Full guide: [Getting Started](/start/getting-started)

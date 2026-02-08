@@ -64,9 +64,9 @@ Channel id is `zalouser` to make it explicit this automates a **personal Zalo us
 Use the directory CLI to discover peers/groups and their IDs:
 
 ```bash
-openclaw directory self --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory groups list --channel zalouser --query "work"
+freeclaw directory self --channel zalouser
+freeclaw directory peers list --channel zalouser --query "name"
+freeclaw directory groups list --channel zalouser --query "work"
 ```
 
 ## Limits
@@ -92,7 +92,7 @@ Approve via:
   - `channels.zalouser.groups` (keys are group IDs or names)
 - Block all groups: `channels.zalouser.groupPolicy = "disabled"`.
 - The configure wizard can prompt for group allowlists.
-- On startup, OpenClaw resolves group/user names in allowlists to IDs and logs the mapping; unresolved entries are kept as typed.
+- On startup, FreeClaw resolves group/user names in allowlists to IDs and logs the mapping; unresolved entries are kept as typed.
 
 Example:
 
@@ -137,4 +137,4 @@ Accounts map to zca profiles. Example:
 **Login doesn’t stick:**
 
 - `openclaw channels status --probe`
-- Re-login: `openclaw channels logout --channel zalouser && openclaw channels login --channel zalouser`
+- Re-login: `openclaw channels logout --channel zalouser && freeclaw channels login --channel zalouser`

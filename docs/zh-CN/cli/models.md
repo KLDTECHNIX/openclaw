@@ -25,10 +25,10 @@ x-i18n:
 ## 常用命令
 
 ```bash
-openclaw models status
-openclaw models list
-openclaw models set <model-or-alias>
-openclaw models scan
+freeclaw models status
+freeclaw models list
+freeclaw models set <model-or-alias>
+freeclaw models scan
 ```
 
 `openclaw models status` 显示已解析的默认模型/回退配置以及认证概览。
@@ -36,7 +36,7 @@ openclaw models scan
 添加 `--probe` 可对每个已配置的提供商配置运行实时认证探测。
 探测会发送真实请求（可能消耗令牌并触发速率限制）。
 使用 `--agent <id>` 可检查已配置智能体的模型/认证状态。省略时，
-命令会使用 `OPENCLAW_AGENT_DIR`/`PI_CODING_AGENT_DIR`（如已设置），否则使用
+命令会使用 `FREECLAW_AGENT_DIR`/`PI_CODING_AGENT_DIR`（如已设置），否则使用
 已配置的默认智能体。
 
 注意事项：
@@ -58,22 +58,22 @@ openclaw models scan
 - `--probe-timeout <ms>`
 - `--probe-concurrency <n>`
 - `--probe-max-tokens <n>`
-- `--agent <id>`（已配置的智能体 ID；覆盖 `OPENCLAW_AGENT_DIR`/`PI_CODING_AGENT_DIR`）
+- `--agent <id>`（已配置的智能体 ID；覆盖 `FREECLAW_AGENT_DIR`/`PI_CODING_AGENT_DIR`）
 
 ## 别名 + 回退
 
 ```bash
-openclaw models aliases list
-openclaw models fallbacks list
+freeclaw models aliases list
+freeclaw models fallbacks list
 ```
 
 ## 认证配置
 
 ```bash
-openclaw models auth add
-openclaw models auth login --provider <id>
-openclaw models auth setup-token
-openclaw models auth paste-token
+freeclaw models auth add
+freeclaw models auth login --provider <id>
+freeclaw models auth setup-token
+freeclaw models auth paste-token
 ```
 
 `models auth login` 运行提供商插件的认证流程（OAuth/API 密钥）。使用

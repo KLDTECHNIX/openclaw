@@ -526,7 +526,7 @@ export async function updateStatusCommand(opts: UpdateStatusOptions): Promise<vo
     },
   ];
 
-  defaultRuntime.log(theme.heading("OpenClaw update status"));
+  defaultRuntime.log(theme.heading("FreeClaw update status"));
   defaultRuntime.log("");
   defaultRuntime.log(
     renderTable({
@@ -808,7 +808,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
   const showProgress = !opts.json && process.stdout.isTTY;
 
   if (!opts.json) {
-    defaultRuntime.log(theme.heading("Updating OpenClaw..."));
+    defaultRuntime.log(theme.heading("Updating FreeClaw..."));
     defaultRuntime.log("");
   }
 
@@ -952,7 +952,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
     if (result.reason === "not-git-install") {
       defaultRuntime.log(
         theme.warn(
-          `Skipped: this OpenClaw install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("freeclaw doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}\`.`,
+          `Skipped: this FreeClaw install isn't a git checkout, and the package manager couldn't be detected. Update via your package manager, then run \`${replaceCliName(formatCliCommand("freeclaw doctor"), CLI_NAME)}\` and \`${replaceCliName(formatCliCommand("freeclaw gateway restart"), CLI_NAME)}\`.`,
         ),
       );
       defaultRuntime.log(
@@ -1256,7 +1256,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
 export function registerUpdateCli(program: Command) {
   const update = program
     .command("update")
-    .description("Update OpenClaw to the latest version")
+    .description("Update FreeClaw to the latest version")
     .option("--json", "Output result as JSON", false)
     .option("--no-restart", "Skip restarting the gateway service after a successful update")
     .option("--channel <stable|beta|dev>", "Persist update channel (git + npm)")

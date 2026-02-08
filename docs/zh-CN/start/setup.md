@@ -2,7 +2,7 @@
 read_when:
   - 设置新机器
   - 你想要"最新最好的"而不破坏你的个人设置
-summary: 设置指南：在保持最新的同时保持你的 OpenClaw 设置个性化
+summary: 设置指南：在保持最新的同时保持你的 FreeClaw 设置个性化
 title: 设置
 x-i18n:
   generated_at: "2026-02-03T07:54:27Z"
@@ -19,7 +19,7 @@ x-i18n:
 
 ## 太长不看
 
-- **个性化设置存放在仓库之外：** `~/.openclaw/workspace`（工作区）+ `~/.openclaw/openclaw.json`（配置）。
+- **个性化设置存放在仓库之外：** `~/.freeclaw/workspace`（工作区）+ `~/.freeclaw/freeclaw.json`（配置）。
 - **稳定工作流：** 安装 macOS 应用；让它运行内置的 Gateway 网关。
 - **前沿工作流：** 通过 `pnpm gateway:watch` 自己运行 Gateway 网关，然后让 macOS 应用以本地模式连接。
 
@@ -33,22 +33,22 @@ x-i18n:
 
 如果你想要"100% 为我定制"*并且*易于更新，将你的自定义内容保存在：
 
-- **配置：** `~/.openclaw/openclaw.json`（JSON/JSON5 格式）
-- **工作区：** `~/.openclaw/workspace`（Skills、提示、记忆；将其设为私有 git 仓库）
+- **配置：** `~/.freeclaw/freeclaw.json`（JSON/JSON5 格式）
+- **工作区：** `~/.freeclaw/workspace`（Skills、提示、记忆；将其设为私有 git 仓库）
 
 引导一次：
 
 ```bash
-openclaw setup
+freeclaw setup
 ```
 
 在此仓库内部，使用本地 CLI 入口：
 
 ```bash
-openclaw setup
+freeclaw setup
 ```
 
-如果你还没有全局安装，通过 `pnpm openclaw setup` 运行它。
+如果你还没有全局安装，通过 `pnpm freeclaw setup` 运行它。
 
 ## 稳定工作流（macOS 应用优先）
 
@@ -58,13 +58,13 @@ openclaw setup
 4. 链接表面（示例：WhatsApp）：
 
 ```bash
-openclaw channels login
+freeclaw channels login
 ```
 
 5. 完整性检查：
 
 ```bash
-openclaw health
+freeclaw health
 ```
 
 如果你的构建版本中没有新手引导：
@@ -105,33 +105,33 @@ pnpm gateway:watch
 - 或通过 CLI：
 
 ```bash
-openclaw health
+freeclaw health
 ```
 
 ### 常见陷阱
 
 - **端口错误：** Gateway 网关 WS 默认为 `ws://127.0.0.1:18789`；保持应用 + CLI 在同一端口上。
 - **状态存储位置：**
-  - 凭证：`~/.openclaw/credentials/`
-  - 会话：`~/.openclaw/agents/<agentId>/sessions/`
+  - 凭证：`~/.freeclaw/credentials/`
+  - 会话：`~/.freeclaw/agents/<agentId>/sessions/`
   - 日志：`/tmp/openclaw/`
 
 ## 凭证存储映射
 
 在调试认证或决定备份什么时使用此映射：
 
-- **WhatsApp**：`~/.openclaw/credentials/whatsapp/<accountId>/creds.json`
+- **WhatsApp**：`~/.freeclaw/credentials/whatsapp/<accountId>/creds.json`
 - **Telegram bot token**：配置/环境变量或 `channels.telegram.tokenFile`
 - **Discord bot token**：配置/环境变量（尚不支持令牌文件）
 - **Slack tokens**：配置/环境变量（`channels.slack.*`）
-- **配对允许列表**：`~/.openclaw/credentials/<channel>-allowFrom.json`
-- **模型认证配置文件**：`~/.openclaw/agents/<agentId>/agent/auth-profiles.json`
-- **旧版 OAuth 导入**：`~/.openclaw/credentials/oauth.json`
+- **配对允许列表**：`~/.freeclaw/credentials/<channel>-allowFrom.json`
+- **模型认证配置文件**：`~/.freeclaw/agents/<agentId>/agent/auth-profiles.json`
+- **旧版 OAuth 导入**：`~/.freeclaw/credentials/oauth.json`
   更多详情：[安全](/gateway/security#credential-storage-map)。
 
 ## 更新（不破坏你的设置）
 
-- 将 `~/.openclaw/workspace` 和 `~/.openclaw/` 保持为"你的东西"；不要将个人提示/配置放入 `openclaw` 仓库。
+- 将 `~/.freeclaw/workspace` 和 `~/.freeclaw/` 保持为"你的东西"；不要将个人提示/配置放入 `openclaw` 仓库。
 - 更新源码：`git pull` + `pnpm install`（当锁文件更改时）+ 继续使用 `pnpm gateway:watch`。
 
 ## Linux（systemd 用户服务）

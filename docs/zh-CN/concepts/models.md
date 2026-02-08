@@ -29,7 +29,7 @@ OpenClaw 按以下顺序选择模型：
 
 相关：
 
-- `agents.defaults.models` 是 OpenClaw 可使用的模型白名单/目录（加上别名）。
+- `agents.defaults.models` 是 FreeClaw 可使用的模型白名单/目录（加上别名）。
 - `agents.defaults.imageModel` **仅在**主要模型无法接受图像时使用。
 - 每个智能体的默认值可以通过 `agents.list[].model` 加绑定覆盖 `agents.defaults.model`（参见 [/concepts/multi-agent](/concepts/multi-agent)）。
 
@@ -43,7 +43,7 @@ OpenClaw 按以下顺序选择模型：
 如果你不想手动编辑配置，请运行新手引导向导：
 
 ```bash
-openclaw onboard
+freeclaw onboard
 ```
 
 它可以为常见提供商设置模型 + 认证，包括 **OpenAI Code（Codex）订阅**（OAuth）和 **Anthropic**（推荐使用 API 密钥；也支持 `claude setup-token`）。
@@ -113,24 +113,24 @@ Model "provider/model" is not allowed. Use /model to list available models.
 ## CLI 命令
 
 ```bash
-openclaw models list
-openclaw models status
-openclaw models set <provider/model>
-openclaw models set-image <provider/model>
+freeclaw models list
+freeclaw models status
+freeclaw models set <provider/model>
+freeclaw models set-image <provider/model>
 
-openclaw models aliases list
-openclaw models aliases add <alias> <provider/model>
-openclaw models aliases remove <alias>
+freeclaw models aliases list
+freeclaw models aliases add <alias> <provider/model>
+freeclaw models aliases remove <alias>
 
-openclaw models fallbacks list
-openclaw models fallbacks add <provider/model>
-openclaw models fallbacks remove <provider/model>
-openclaw models fallbacks clear
+freeclaw models fallbacks list
+freeclaw models fallbacks add <provider/model>
+freeclaw models fallbacks remove <provider/model>
+freeclaw models fallbacks clear
 
-openclaw models image-fallbacks list
-openclaw models image-fallbacks add <provider/model>
-openclaw models image-fallbacks remove <provider/model>
-openclaw models image-fallbacks clear
+freeclaw models image-fallbacks list
+freeclaw models image-fallbacks add <provider/model>
+freeclaw models image-fallbacks remove <provider/model>
+freeclaw models image-fallbacks clear
 ```
 
 `openclaw models`（无子命令）是 `models status` 的快捷方式。
@@ -156,7 +156,7 @@ JSON 包括 `auth.oauth`（警告窗口 + 配置文件）和 `auth.providers`（
 
 ```bash
 claude setup-token
-openclaw models status
+freeclaw models status
 ```
 
 ## 扫描（OpenRouter 免费模型）
@@ -193,4 +193,4 @@ openclaw models status
 
 ## 模型注册表（`models.json`）
 
-`models.providers` 中的自定义提供商会写入智能体目录下的 `models.json`（默认 `~/.openclaw/agents/<agentId>/models.json`）。除非 `models.mode` 设置为 `replace`，否则此文件默认会被合并。
+`models.providers` 中的自定义提供商会写入智能体目录下的 `models.json`（默认 `~/.freeclaw/agents/<agentId>/models.json`）。除非 `models.mode` 设置为 `replace`，否则此文件默认会被合并。

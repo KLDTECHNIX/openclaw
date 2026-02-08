@@ -2,7 +2,7 @@
 read_when:
   - 新手引导新助手实例时
   - 审查安全/权限影响时
-summary: 将 OpenClaw 作为个人助手运行的端到端指南，包含安全注意事项
+summary: 将 FreeClaw 作为个人助手运行的端到端指南，包含安全注意事项
 title: 个人助手设置
 x-i18n:
   generated_at: "2026-02-03T07:54:35Z"
@@ -13,7 +13,7 @@ x-i18n:
   workflow: 15
 ---
 
-# 使用 OpenClaw 构建个人助手
+# 使用 FreeClaw 构建个人助手
 
 OpenClaw 是 **Pi** 智能体的 WhatsApp + Telegram + Discord + iMessage Gateway 网关。插件可添加 Mattermost。本指南是"个人助手"设置：一个专用的 WhatsApp 号码，表现得像你的常驻智能体。
 
@@ -34,19 +34,19 @@ OpenClaw 是 **Pi** 智能体的 WhatsApp + Telegram + Discord + iMessage Gatewa
 ## 先决条件
 
 - Node **22+**
-- OpenClaw 在 PATH 中可用（推荐：全局安装）
+- FreeClaw 在 PATH 中可用（推荐：全局安装）
 - 助手的第二个手机号码（SIM/eSIM/预付费）
 
 ```bash
-npm install -g openclaw@latest
+npm install -g freeclaw@latest
 # 或：pnpm add -g openclaw@latest
 ```
 
 从源代码（开发）：
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 pnpm install
 pnpm ui:build # 首次运行时自动安装 UI 依赖
 pnpm build
@@ -79,16 +79,16 @@ pnpm link --global
 1. 配对 WhatsApp Web（显示二维码；用助手手机扫描）：
 
 ```bash
-openclaw channels login
+freeclaw channels login
 ```
 
 2. 启动 Gateway 网关（保持运行）：
 
 ```bash
-openclaw gateway --port 18789
+freeclaw gateway --port 18789
 ```
 
-3. 在 `~/.openclaw/openclaw.json` 中放置最小配置：
+3. 在 `~/.freeclaw/freeclaw.json` 中放置最小配置：
 
 ```json5
 {
@@ -104,12 +104,12 @@ openclaw gateway --port 18789
 
 OpenClaw 从其工作区目录读取操作指令和"记忆"。
 
-默认情况下，OpenClaw 使用 `~/.openclaw/workspace` 作为智能体工作区，并会在设置/首次智能体运行时自动创建它（加上起始的 `AGENTS.md`、`SOUL.md`、`TOOLS.md`、`IDENTITY.md`、`USER.md`）。`BOOTSTRAP.md` 仅在工作区是全新的时候创建（删除后不应再出现）。
+默认情况下，OpenClaw 使用 `~/.freeclaw/workspace` 作为智能体工作区，并会在设置/首次智能体运行时自动创建它（加上起始的 `AGENTS.md`、`SOUL.md`、`TOOLS.md`、`IDENTITY.md`、`USER.md`）。`BOOTSTRAP.md` 仅在工作区是全新的时候创建（删除后不应再出现）。
 
-提示：将此文件夹视为 OpenClaw 的"记忆"，并将其设为 git 仓库（最好是私有的），这样你的 `AGENTS.md` + 记忆文件就有了备份。如果安装了 git，全新的工作区会自动初始化。
+提示：将此文件夹视为 FreeClaw 的"记忆"，并将其设为 git 仓库（最好是私有的），这样你的 `AGENTS.md` + 记忆文件就有了备份。如果安装了 git，全新的工作区会自动初始化。
 
 ```bash
-openclaw setup
+freeclaw setup
 ```
 
 完整工作区布局 + 备份指南：[智能体工作区](/concepts/agent-workspace)
@@ -120,7 +120,7 @@ openclaw setup
 ```json5
 {
   agent: {
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
   },
 }
 ```
@@ -150,7 +150,7 @@ OpenClaw 默认为良好的助手设置，但你通常需要调整：
   logging: { level: "info" },
   agent: {
     model: "anthropic/claude-opus-4-5",
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
     thinkingDefault: "high",
     timeoutSeconds: 1800,
     // 从 0 开始；稍后启用。
@@ -183,8 +183,8 @@ OpenClaw 默认为良好的助手设置，但你通常需要调整：
 
 ## 会话和记忆
 
-- 会话文件：`~/.openclaw/agents/<agentId>/sessions/{{SessionId}}.jsonl`
-- 会话元数据（token 使用量、最后路由等）：`~/.openclaw/agents/<agentId>/sessions/sessions.json`（旧版：`~/.openclaw/sessions/sessions.json`）
+- 会话文件：`~/.freeclaw/agents/<agentId>/sessions/{{SessionId}}.jsonl`
+- 会话元数据（token 使用量、最后路由等）：`~/.freeclaw/agents/<agentId>/sessions/sessions.json`（旧版：`~/.freeclaw/sessions/sessions.json`）
 - `/new` 或 `/reset` 为该聊天启动新会话（可通过 `resetTriggers` 配置）。如果单独发送，智能体会回复一个简短的问候来确认重置。
 - `/compact [instructions]` 压缩会话上下文并报告剩余的上下文预算。
 
@@ -227,10 +227,10 @@ OpenClaw 会提取这些并将它们作为媒体与文本一起发送。
 ## 运维检查清单
 
 ```bash
-openclaw status          # 本地状态（凭证、会话、排队事件）
-openclaw status --all    # 完整诊断（只读，可粘贴）
-openclaw status --deep   # 添加 Gateway 网关健康探测（Telegram + Discord）
-openclaw health --json   # Gateway 网关健康快照（WS）
+freeclaw status          # 本地状态（凭证、会话、排队事件）
+freeclaw status --all    # 完整诊断（只读，可粘贴）
+freeclaw status --deep   # 添加 Gateway 网关健康探测（Telegram + Discord）
+freeclaw health --json   # Gateway 网关健康快照（WS）
 ```
 
 日志位于 `/tmp/openclaw/`（默认：`openclaw-YYYY-MM-DD.log`）。

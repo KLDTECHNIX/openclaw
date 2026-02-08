@@ -7,7 +7,7 @@ title: "Twitch"
 
 # Twitch (plugin)
 
-Twitch chat support via IRC connection. OpenClaw connects as a Twitch user (bot account) to receive and send messages in channels.
+Twitch chat support via IRC connection. FreeClaw connects as a Twitch user (bot account) to receive and send messages in channels.
 
 ## Plugin required
 
@@ -16,13 +16,13 @@ Twitch ships as a plugin and is not bundled with the core install.
 Install via CLI (npm registry):
 
 ```bash
-openclaw plugins install @openclaw/twitch
+freeclaw plugins install @openclaw/twitch
 ```
 
 Local checkout (when running from a git repo):
 
 ```bash
-openclaw plugins install ./extensions/twitch
+freeclaw plugins install ./extensions/twitch
 ```
 
 Details: [Plugins](/plugin)
@@ -36,7 +36,7 @@ Details: [Plugins](/plugin)
    - Copy the **Client ID** and **Access Token**
 3. Find your Twitch user ID: [https://www.streamweasels.com/tools/convert-twitch-username-to-user-id/](https://www.streamweasels.com/tools/convert-twitch-username-to-user-id/)
 4. Configure the token:
-   - Env: `OPENCLAW_TWITCH_ACCESS_TOKEN=...` (default account only)
+   - Env: `FREECLAW_TWITCH_ACCESS_TOKEN=...` (default account only)
    - Or config: `channels.twitch.accessToken`
    - If both are set, config takes precedence (env fallback is default-account only).
 5. Start the gateway.
@@ -51,7 +51,7 @@ Minimal config:
     twitch: {
       enabled: true,
       username: "openclaw", // Bot's Twitch account
-      accessToken: "oauth:abc123...", // OAuth Access Token (or use OPENCLAW_TWITCH_ACCESS_TOKEN env var)
+      accessToken: "oauth:abc123...", // OAuth Access Token (or use FREECLAW_TWITCH_ACCESS_TOKEN env var)
       clientId: "xyz789...", // Client ID from Token Generator
       channel: "vevisk", // Which Twitch channel's chat to join (required)
       allowFrom: ["123456789"], // (recommended) Your Twitch user ID only - get it from https://www.streamweasels.com/tools/convert-twitch-username-to-user-id/
@@ -84,7 +84,7 @@ No manual app registration needed. Tokens expire after several hours.
 **Env var (default account only):**
 
 ```bash
-OPENCLAW_TWITCH_ACCESS_TOKEN=oauth:abc123...
+FREECLAW_TWITCH_ACCESS_TOKEN=oauth:abc123...
 ```
 
 **Or config:**
@@ -251,8 +251,8 @@ By default, `requireMention` is `true`. To disable and respond to all messages:
 First, run diagnostic commands:
 
 ```bash
-openclaw doctor
-openclaw channels status --probe
+freeclaw doctor
+freeclaw channels status --probe
 ```
 
 ### Bot doesn't respond to messages

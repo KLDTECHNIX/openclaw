@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw sandboxing works: modes, scopes, workspace access, and images"
+summary: "How FreeClaw sandboxing works: modes, scopes, workspace access, and images"
 title: Sandboxing
 read_when: "You want a dedicated explanation of sandboxing or need to tune agents.defaults.sandbox."
 status: active
@@ -54,7 +54,7 @@ Not sandboxed:
 
 `agents.defaults.sandbox.workspaceAccess` controls **what the sandbox can see**:
 
-- `"none"` (default): tools see a sandbox workspace under `~/.openclaw/sandboxes`.
+- `"none"` (default): tools see a sandbox workspace under `~/.freeclaw/sandboxes`.
 - `"ro"`: mounts the agent workspace read-only at `/agent` (disables `write`/`edit`/`apply_patch`).
 - `"rw"`: mounts the agent workspace read/write at `/workspace`.
 

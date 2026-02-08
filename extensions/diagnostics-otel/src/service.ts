@@ -389,7 +389,7 @@ export function createDiagnosticsOtelService(): OpenClawPluginService {
         }
         const spanAttrs: Record<string, string | number> = {
           ...attrs,
-          "openclaw.sessionKey": evt.sessionKey ?? "",
+          "freeclaw.sessionKey": evt.sessionKey ?? "",
           "openclaw.sessionId": evt.sessionId ?? "",
           "openclaw.tokens.input": usage.input ?? 0,
           "openclaw.tokens.output": usage.output ?? 0,
@@ -487,7 +487,7 @@ export function createDiagnosticsOtelService(): OpenClawPluginService {
         }
         const spanAttrs: Record<string, string | number> = { ...attrs };
         if (evt.sessionKey) {
-          spanAttrs["openclaw.sessionKey"] = evt.sessionKey;
+          spanAttrs["freeclaw.sessionKey"] = evt.sessionKey;
         }
         if (evt.sessionId) {
           spanAttrs["openclaw.sessionId"] = evt.sessionId;
@@ -550,7 +550,7 @@ export function createDiagnosticsOtelService(): OpenClawPluginService {
         }
         const spanAttrs: Record<string, string | number> = { ...attrs };
         if (evt.sessionKey) {
-          spanAttrs["openclaw.sessionKey"] = evt.sessionKey;
+          spanAttrs["freeclaw.sessionKey"] = evt.sessionKey;
         }
         if (evt.sessionId) {
           spanAttrs["openclaw.sessionId"] = evt.sessionId;

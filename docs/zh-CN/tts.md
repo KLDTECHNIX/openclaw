@@ -16,7 +16,7 @@ x-i18n:
 
 # 文本转语音（TTS）
 
-OpenClaw 可以使用 ElevenLabs、OpenAI 或 Edge TTS 将出站回复转换为音频。它可以在任何 OpenClaw 能发送音频的地方工作；Telegram 会显示圆形语音消息气泡。
+OpenClaw 可以使用 ElevenLabs、OpenAI 或 Edge TTS 将出站回复转换为音频。它可以在任何 FreeClaw 能发送音频的地方工作；Telegram 会显示圆形语音消息气泡。
 
 ## 支持的服务
 
@@ -58,7 +58,7 @@ Edge TTS **不**需要 API 密钥。如果没有找到 API 密钥，OpenClaw 默
 
 ## 配置
 
-TTS 配置位于 `openclaw.json` 中的 `messages.tts` 下。完整 schema 在 [Gateway 网关配置](/gateway/configuration)中。
+TTS 配置位于 `freeclaw.json` 中的 `messages.tts` 下。完整 schema 在 [Gateway 网关配置](/gateway/configuration)中。
 
 ### 最小配置（启用 + 提供商）
 
@@ -155,7 +155,7 @@ TTS 配置位于 `openclaw.json` 中的 `messages.tts` 下。完整 schema 在 [
       auto: "always",
       maxTextLength: 4000,
       timeoutMs: 30000,
-      prefsPath: "~/.openclaw/settings/tts.json",
+      prefsPath: "~/.freeclaw/settings/tts.json",
     },
   },
 }
@@ -282,7 +282,7 @@ Here you go.
 
 ## 单用户偏好
 
-斜杠命令将本地覆盖写入 `prefsPath`（默认：`~/.openclaw/settings/tts.json`，可通过 `OPENCLAW_TTS_PREFS` 或 `messages.tts.prefsPath` 覆盖）。
+斜杠命令将本地覆盖写入 `prefsPath`（默认：`~/.freeclaw/settings/tts.json`，可通过 `FREECLAW_TTS_PREFS` 或 `messages.tts.prefsPath` 覆盖）。
 
 存储的字段：
 
@@ -337,7 +337,7 @@ OpenAI/ElevenLabs 格式是固定的；Telegram 期望 Opus 以获得语音消�
 
 只有一个命令：`/tts`。参见[斜杠命令](/tools/slash-commands)了解启用详情。
 
-Discord 注意：`/tts` 是 Discord 的内置命令，所以 OpenClaw 在那里注册 `/voice` 作为原生命令。文本 `/tts ...` 仍然有效。
+Discord 注意：`/tts` 是 Discord 的内置命令，所以 FreeClaw 在那里注册 `/voice` 作为原生命令。文本 `/tts ...` 仍然有效。
 
 ```
 /tts off

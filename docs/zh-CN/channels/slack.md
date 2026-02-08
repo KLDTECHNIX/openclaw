@@ -19,7 +19,7 @@ x-i18n:
 
 1. 创建一个 Slack 应用并启用 **Socket Mode**。
 2. 创建一个 **App Token**（`xapp-...`）和 **Bot Token**（`xoxb-...`）。
-3. 为 OpenClaw 设置令牌并启动 Gateway 网关。
+3. 为 FreeClaw 设置令牌并启动 Gateway 网关。
 
 最小配置：
 
@@ -56,7 +56,7 @@ x-i18n:
 
 多账户支持：使用 `channels.slack.accounts` 配置每个账户的令牌和可选的 `name`。参见 [`gateway/configuration`](/gateway/configuration#telegramaccounts--discordaccounts--slackaccounts--signalaccounts--imessageaccounts) 了解共享模式。
 
-### OpenClaw 配置（最小）
+### FreeClaw 配置（最小）
 
 通过环境变量设置令牌（推荐）：
 
@@ -141,7 +141,7 @@ HTTP 模式使用 Events API + Interactivity + Slash Commands，共享一个请�
 示例请求 URL：
 `https://gateway-host/slack/events`
 
-### OpenClaw 配置（最小）
+### FreeClaw 配置（最小）
 
 ```json5
 {
@@ -166,12 +166,12 @@ HTTP 模式使用 Events API + Interactivity + Slash Commands，共享一个请�
 ```json
 {
   "display_information": {
-    "name": "OpenClaw",
-    "description": "Slack connector for OpenClaw"
+    "name": "FreeClaw",
+    "description": "Slack connector for FreeClaw"
   },
   "features": {
     "bot_user": {
-      "display_name": "OpenClaw",
+      "display_name": "FreeClaw",
       "always_online": false
     },
     "app_home": {
@@ -181,7 +181,7 @@ HTTP 模式使用 Events API + Interactivity + Slash Commands，共享一个请�
     "slash_commands": [
       {
         "command": "/openclaw",
-        "description": "Send a message to OpenClaw",
+        "description": "Send a message to FreeClaw",
         "should_escape": false
       }
     ]

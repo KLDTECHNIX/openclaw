@@ -1,22 +1,22 @@
 ---
-summary: "OpenClaw is a multi-channel gateway for AI agents that runs on any OS."
+summary: "FreeClaw is a multi-channel gateway for AI agents that runs on any OS."
 read_when:
-  - Introducing OpenClaw to newcomers
-title: "OpenClaw"
+  - Introducing FreeClaw to newcomers
+title: "FreeClaw"
 ---
 
-# OpenClaw 🦞
+# FreeClaw 🦞
 
 <p align="center">
     <img
         src="/assets/openclaw-logo-text-dark.png"
-        alt="OpenClaw"
+        alt="FreeClaw"
         width="500"
         class="dark:hidden"
     />
     <img
         src="/assets/openclaw-logo-text.png"
-        alt="OpenClaw"
+        alt="FreeClaw"
         width="500"
         class="hidden dark:block"
     />
@@ -31,7 +31,7 @@ title: "OpenClaw"
 
 <Columns>
   <Card title="Get Started" href="/start/getting-started" icon="rocket">
-    Install OpenClaw and bring up the Gateway in minutes.
+    Install FreeClaw and bring up the Gateway in minutes.
   </Card>
   <Card title="Run the Wizard" href="/start/wizard" icon="sparkles">
     Guided setup with `openclaw onboard` and pairing flows.
@@ -41,7 +41,7 @@ title: "OpenClaw"
   </Card>
 </Columns>
 
-## What is OpenClaw?
+## What is FreeClaw?
 
 OpenClaw is a **self-hosted gateway** that connects your favorite chat apps — WhatsApp, Telegram, Discord, iMessage, and more — to AI coding agents like Pi. You run a single Gateway process on your own machine (or a server), and it becomes the bridge between your messaging apps and an always-available AI assistant.
 
@@ -96,20 +96,20 @@ The Gateway is the single source of truth for sessions, routing, and channel con
 ## Quick start
 
 <Steps>
-  <Step title="Install OpenClaw">
+  <Step title="Install FreeClaw">
     ```bash
-    npm install -g openclaw@latest
+    npm install -g freeclaw@latest
     ```
   </Step>
   <Step title="Onboard and install the service">
     ```bash
-    openclaw onboard --install-daemon
+    freeclaw onboard --install-daemon
     ```
   </Step>
   <Step title="Pair WhatsApp and start the Gateway">
     ```bash
-    openclaw channels login
-    openclaw gateway --port 18789
+    freeclaw channels login
+    freeclaw gateway --port 18789
     ```
   </Step>
 </Steps>
@@ -124,14 +124,14 @@ Open the browser Control UI after the Gateway starts.
 - Remote access: [Web surfaces](/web) and [Tailscale](/gateway/tailscale)
 
 <p align="center">
-  <img src="whatsapp-openclaw.jpg" alt="OpenClaw" width="420" />
+  <img src="whatsapp-openclaw.jpg" alt="FreeClaw" width="420" />
 </p>
 
 ## Configuration (optional)
 
-Config lives at `~/.openclaw/openclaw.json`.
+Config lives at `~/.freeclaw/freeclaw.json`.
 
-- If you **do nothing**, OpenClaw uses the bundled Pi binary in RPC mode with per-sender sessions.
+- If you **do nothing**, FreeClaw uses the bundled Pi binary in RPC mode with per-sender sessions.
 - If you want to lock it down, start with `channels.whatsapp.allowFrom` and (for groups) mention rules.
 
 Example:

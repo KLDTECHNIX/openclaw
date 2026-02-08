@@ -9,7 +9,7 @@ title: "Context"
 
 # Context
 
-“Context” is **everything OpenClaw sends to the model for a run**. It is bounded by the model’s **context window** (token limit).
+“Context” is **everything FreeClaw sends to the model for a run**. It is bounded by the model’s **context window** (token limit).
 
 Beginner mental model:
 
@@ -87,7 +87,7 @@ Everything the model receives counts, including:
 - Compaction summaries and pruning artifacts.
 - Provider “wrappers” or hidden headers (not visible, still counted).
 
-## How OpenClaw builds the system prompt
+## How FreeClaw builds the system prompt
 
 The system prompt is **OpenClaw-owned** and rebuilt each run. It includes:
 
@@ -102,7 +102,7 @@ Full breakdown: [System Prompt](/concepts/system-prompt).
 
 ## Injected workspace files (Project Context)
 
-By default, OpenClaw injects a fixed set of workspace files (if present):
+By default, FreeClaw injects a fixed set of workspace files (if present):
 
 - `AGENTS.md`
 - `SOUL.md`

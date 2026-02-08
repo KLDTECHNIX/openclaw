@@ -21,7 +21,7 @@ x-i18n:
 ## 用法
 
 ```
-openclaw message <subcommand> [flags]
+freeclaw message <subcommand> [flags]
 ```
 
 渠道选择：
@@ -193,14 +193,14 @@ openclaw message <subcommand> [flags]
 发送 Discord 回复：
 
 ```
-openclaw message send --channel discord \
+freeclaw message send --channel discord \
   --target channel:123 --message "hi" --reply-to 456
 ```
 
 创建 Discord 投票：
 
 ```
-openclaw message poll --channel discord \
+freeclaw message poll --channel discord \
   --target channel:123 \
   --poll-question "Snack?" \
   --poll-option Pizza --poll-option Sushi \
@@ -210,14 +210,14 @@ openclaw message poll --channel discord \
 发送 Teams 主动消息：
 
 ```
-openclaw message send --channel msteams \
+freeclaw message send --channel msteams \
   --target conversation:19:abc@thread.tacv2 --message "hi"
 ```
 
 创建 Teams 投票：
 
 ```
-openclaw message poll --channel msteams \
+freeclaw message poll --channel msteams \
   --target conversation:19:abc@thread.tacv2 \
   --poll-question "Lunch?" \
   --poll-option Pizza --poll-option Sushi
@@ -226,14 +226,14 @@ openclaw message poll --channel msteams \
 在 Slack 中添加表情回应：
 
 ```
-openclaw message react --channel slack \
+freeclaw message react --channel slack \
   --target C123 --message-id 456 --emoji "✅"
 ```
 
 在 Signal 群组中添加表情回应：
 
 ```
-openclaw message react --channel signal \
+freeclaw message react --channel signal \
   --target signal:group:abc123 --message-id 1737630212345 \
   --emoji "✅" --target-author-uuid 123e4567-e89b-12d3-a456-426614174000
 ```
@@ -241,6 +241,6 @@ openclaw message react --channel signal \
 发送 Telegram 内联按钮：
 
 ```
-openclaw message send --channel telegram --target @mychat --message "Choose:" \
+freeclaw message send --channel telegram --target @mychat --message "Choose:" \
   --buttons '[ [{"text":"Yes","callback_data":"cmd:yes"}], [{"text":"No","callback_data":"cmd:no"}] ]'
 ```

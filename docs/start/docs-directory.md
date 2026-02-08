@@ -1,5 +1,5 @@
 ---
-summary: "Curated links to the most used OpenClaw docs."
+summary: "Curated links to the most used FreeClaw docs."
 read_when:
   - You want quick access to key docs pages
 title: "Docs directory"

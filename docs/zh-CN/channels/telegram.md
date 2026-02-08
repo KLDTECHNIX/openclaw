@@ -161,7 +161,7 @@ OpenClaw 在启动时向 Telegram 的机器人菜单注册原生命令（如 `/s
 
 注意：
 
-- 自定义命令**仅是菜单条目**；除非你在其他地方处理它们，否则 OpenClaw 不会实现它们。
+- 自定义命令**仅是菜单条目**；除非你在其他地方处理它们，否则 FreeClaw 不会实现它们。
 - 命令名称会被规范化（去除前导 `/`，转为小写），必须匹配 `a-z`、`0-9`、`_`（1-32 个字符）。
 - 自定义命令**不能覆盖原生命令**。冲突会被忽略并记录日志。
 - 如果禁用了 `commands.native`，则只注册自定义命令（如果没有则清空）。
@@ -469,7 +469,7 @@ OpenClaw 支持接收和发送 Telegram 贴纸，并具有智能缓存功能。
 2. **缓存存储：** 描述与贴纸的文件 ID、表情符号和集合名称一起保存。
 3. **后续遇到：** 当再次看到相同贴纸时，直接使用缓存的描述。图像不会发送给 AI。
 
-**缓存位置：** `~/.openclaw/telegram/sticker-cache.json`
+**缓存位置：** `~/.freeclaw/telegram/sticker-cache.json`
 
 **缓存条目格式：**
 
@@ -654,7 +654,7 @@ Telegram 反应作为**单独的 `message_reaction` 事件**到达，而不是�
 
 **要求：**
 
-- Telegram 机器人必须在 `allowed_updates` 中明确请求 `message_reaction`（由 OpenClaw 自动配置）
+- Telegram 机器人必须在 `allowed_updates` 中明确请求 `message_reaction`（由 FreeClaw 自动配置）
 - 对于 webhook 模式，反应包含在 webhook `allowed_updates` 中
 - 对于轮询模式，反应包含在 `getUpdates` `allowed_updates` 中
 
@@ -693,7 +693,7 @@ Telegram 反应作为**单独的 `message_reaction` 事件**到达，而不是�
 **长轮询在 Node 22+ 上立即中止（通常与代理/自定义 fetch 有关）：**
 
 - Node 22+ 对 `AbortSignal` 实例更严格；外部信号可以立即中止 `fetch` 调用。
-- 升级到规范化中止信号的 OpenClaw 构建版本，或在可以升级之前在 Node 20 上运行 Gateway 网关。
+- 升级到规范化中止信号的 FreeClaw 构建版本，或在可以升级之前在 Node 20 上运行 Gateway 网关。
 
 **机器人启动后静默停止响应（或日志显示 `HttpError: Network request ... failed`）：**
 

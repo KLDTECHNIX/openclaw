@@ -17,13 +17,13 @@ title: 飞书
 安装 Feishu 插件：
 
 ```bash
-openclaw plugins install @openclaw/feishu
+freeclaw plugins install @openclaw/feishu
 ```
 
 本地 checkout（在 git 仓库内运行）：
 
 ```bash
-openclaw plugins install ./extensions/feishu
+freeclaw plugins install ./extensions/feishu
 ```
 
 ---
@@ -37,7 +37,7 @@ openclaw plugins install ./extensions/feishu
 如果您刚安装完 OpenClaw，可以直接运行向导，根据提示添加飞书：
 
 ```bash
-openclaw onboard
+freeclaw onboard
 ```
 
 向导会引导您完成：
@@ -56,7 +56,7 @@ openclaw onboard
 如果您已经完成了初始安装，可以用以下命令添加飞书渠道：
 
 ```bash
-openclaw channels add
+freeclaw channels add
 ```
 
 然后根据交互式提示选择 Feishu，输入 App ID 和 App Secret 即可。
@@ -174,14 +174,14 @@ Lark（国际版）请使用 https://open.larksuite.com/app，并在配置中设
 运行以下命令，根据提示粘贴 App ID 和 App Secret：
 
 ```bash
-openclaw channels add
+freeclaw channels add
 ```
 
 选择 **Feishu**，然后输入您在第一步获取的凭证即可。
 
 ### 通过配置文件配置
 
-编辑 `~/.openclaw/openclaw.json`：
+编辑 `~/.freeclaw/freeclaw.json`：
 
 ```json5
 {
@@ -235,7 +235,7 @@ export FEISHU_APP_SECRET="xxx"
 ### 1. 启动网关
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 ### 2. 发送测试消息
@@ -247,7 +247,7 @@ openclaw gateway
 默认情况下，机器人会回复一个 **配对码**。您需要批准此代码：
 
 ```bash
-openclaw pairing approve feishu <配对码>
+freeclaw pairing approve feishu <配对码>
 ```
 
 批准后即可正常对话。
@@ -270,8 +270,8 @@ openclaw pairing approve feishu <配对码>
 - **默认**：`dmPolicy: "pairing"`，陌生用户会收到配对码
 - **批准配对**：
   ```bash
-  openclaw pairing list feishu      # 查看待审批列表
-  openclaw pairing approve feishu <CODE>  # 批准
+  freeclaw pairing list feishu      # 查看待审批列表
+  freeclaw pairing approve feishu <CODE>  # 批准
   ```
 - **白名单模式**：通过 `channels.feishu.allowFrom` 配置允许的用户 Open ID
 
@@ -363,7 +363,7 @@ openclaw pairing approve feishu <配对码>
 查看配对请求列表，其中包含用户的 Open ID：
 
 ```bash
-openclaw pairing list feishu
+freeclaw pairing list feishu
 ```
 
 ---

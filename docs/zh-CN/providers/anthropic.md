@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 你想在 OpenClaw 中使用 Anthropic 模型
+  - 你想在 FreeClaw 中使用 Anthropic 模型
   - 你想使用 setup-token 而不是 API 密钥
-summary: 在 OpenClaw 中通过 API 密钥或 setup-token 使用 Anthropic Claude
+summary: 在 FreeClaw 中通过 API 密钥或 setup-token 使用 Anthropic Claude
 title: Anthropic
 x-i18n:
   generated_at: "2026-02-03T10:08:33Z"
@@ -16,7 +16,7 @@ x-i18n:
 # Anthropic（Claude）
 
 Anthropic 构建了 **Claude** 模型系列，并通过 API 提供访问。
-在 OpenClaw 中，你可以使用 API 密钥或 **setup-token** 进行认证。
+在 FreeClaw 中，你可以使用 API 密钥或 **setup-token** 进行认证。
 
 ## 选项 A：Anthropic API 密钥
 
@@ -26,11 +26,11 @@ Anthropic 构建了 **Claude** 模型系列，并通过 API 提供访问。
 ### CLI 设置
 
 ```bash
-openclaw onboard
+freeclaw onboard
 # 选择：Anthropic API key
 
 # 或非交互式
-openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
+freeclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
 ```
 
 ### 配置片段
@@ -101,20 +101,20 @@ claude setup-token
 将令牌粘贴到 OpenClaw（向导：**Anthropic token (paste setup-token)**），或在 Gateway 网关主机上运行：
 
 ```bash
-openclaw models auth setup-token --provider anthropic
+freeclaw models auth setup-token --provider anthropic
 ```
 
 如果你在不同的机器上生成了令牌，请粘贴它：
 
 ```bash
-openclaw models auth paste-token --provider anthropic
+freeclaw models auth paste-token --provider anthropic
 ```
 
 ### CLI 设置
 
 ```bash
 # 在新手引导期间粘贴 setup-token
-openclaw onboard --auth-choice setup-token
+freeclaw onboard --auth-choice setup-token
 ```
 
 ### 配置片段

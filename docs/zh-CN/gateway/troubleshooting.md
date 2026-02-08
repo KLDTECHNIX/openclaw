@@ -1,7 +1,7 @@
 ---
 read_when:
   - 调查运行时问题或故障
-summary: OpenClaw 常见故障的快速故障排除指南
+summary: FreeClaw 常见故障的快速故障排除指南
 title: 故障排除
 x-i18n:
   generated_at: "2026-02-03T10:09:42Z"
@@ -14,7 +14,7 @@ x-i18n:
 
 # 故障排除 🔧
 
-当 OpenClaw 出现异常时，以下是解决方法。
+当 FreeClaw 出现异常时，以下是解决方法。
 
 如果你只想快速分类问题，请先查看常见问题的[最初的六十秒](/help/faq#first-60-seconds-if-somethings-broken)。本页深入介绍运行时故障和诊断。
 
@@ -34,7 +34,7 @@ x-i18n:
 | `openclaw gateway status`          | 监管程序状态（launchd/systemd/schtasks）、运行时 PID/退出、最后的 Gateway 网关错误    | 当服务"看起来已加载"但没有运行时      |
 | `openclaw logs --follow`           | 实时日志（运行时问题的最佳信号）                                                      | 当你需要实际的故障原因时              |
 
-**分享输出：** 优先使用 `openclaw status --all`（它会隐藏令牌）。如果你粘贴 `openclaw status`，考虑先设置 `OPENCLAW_SHOW_SECRETS=0`（令牌预览）。
+**分享输出：** 优先使用 `openclaw status --all`（它会隐藏令牌）。如果你粘贴 `openclaw status`，考虑先设置 `FREECLAW_SHOW_SECRETS=0`（令牌预览）。
 
 另请参阅：[健康检查](/gateway/health) 和 [日志](/logging)。
 
@@ -50,14 +50,14 @@ x-i18n:
 - 重新运行新手引导并为该智能体选择 **Anthropic**。
 - 或在 **Gateway 网关主机**上粘贴 setup-token：
   ```bash
-  openclaw models auth setup-token --provider anthropic
+  freeclaw models auth setup-token --provider anthropic
   ```
 - 或将 `auth-profiles.json` 从主智能体目录复制到新智能体目录。
 
 验证：
 
 ```bash
-openclaw models status
+freeclaw models status
 ```
 
 ### OAuth token refresh failed（Anthropic Claude 订阅）
@@ -70,15 +70,15 @@ openclaw models status
 
 ```bash
 # 在 Gateway 网关主机上运行（粘贴 setup-token）
-openclaw models auth setup-token --provider anthropic
-openclaw models status
+freeclaw models auth setup-token --provider anthropic
+freeclaw models status
 ```
 
 如果你在其他地方生成了令牌：
 
 ```bash
-openclaw models auth paste-token --provider anthropic
-openclaw models status
+freeclaw models auth paste-token --provider anthropic
+freeclaw models status
 ```
 
 更多详情：[Anthropic](/providers/anthropic) 和 [OAuth](/concepts/oauth)。
@@ -110,8 +110,8 @@ openclaw models status
 **检查：**
 
 ```bash
-openclaw gateway status
-openclaw doctor
+freeclaw gateway status
+freeclaw doctor
 ```
 
 Doctor/service 将显示运行时状态（PID/最后退出）和日志提示。
@@ -120,9 +120,9 @@ Doctor/service 将显示运行时状态（PID/最后退出）和日志提示。
 
 - 优先：`openclaw logs --follow`
 - 文件日志（始终）：`/tmp/openclaw/openclaw-YYYY-MM-DD.log`（或你配置的 `logging.file`）
-- macOS LaunchAgent（如果已安装）：`$OPENCLAW_STATE_DIR/logs/gateway.log` 和 `gateway.err.log`
+- macOS LaunchAgent（如果已安装）：`$FREECLAW_STATE_DIR/logs/gateway.log` 和 `gateway.err.log`
 - Linux systemd（如果已安装）：`journalctl --user -u openclaw-gateway[-<profile>].service -n 200 --no-pager`
-- Windows：`schtasks /Query /TN "OpenClaw Gateway (<profile>)" /V /FO LIST`
+- Windows：`schtasks /Query /TN "FreeClaw Gateway (<profile>)" /V /FO LIST`
 
 **启用更多日志：**
 
@@ -147,19 +147,19 @@ Gateway 网关拒绝启动。
 
 - 运行向导并将 Gateway 网关运行模式设置为 **Local**：
   ```bash
-  openclaw configure
+  freeclaw configure
   ```
 - 或直接设置：
   ```bash
-  openclaw config set gateway.mode local
+  freeclaw config set gateway.mode local
   ```
 
 **如果你打算运行远程 Gateway 网关：**
 
 - 设置远程 URL 并保持 `gateway.mode=remote`：
   ```bash
-  openclaw config set gateway.mode remote
-  openclaw config set gateway.remote.url "wss://gateway.example.com"
+  freeclaw config set gateway.mode remote
+  freeclaw config set gateway.remote.url "wss://gateway.example.com"
   ```
 
 **仅临时/开发使用：** 传递 `--allow-unconfigured` 以在没有
@@ -177,7 +177,7 @@ Gateway 网关服务使用**最小 PATH** 运行以避免 shell/管理器的干�
 
 这有意排除版本管理器（nvm/fnm/volta/asdf）和包
 管理器（pnpm/npm），因为服务不加载你的 shell 初始化。运行时
-变量如 `DISPLAY` 应该放在 `~/.openclaw/.env` 中（由 Gateway 网关早期加载）。
+变量如 `DISPLAY` 应该放在 `~/.freeclaw/.env` 中（由 Gateway 网关早期加载）。
 在 `host=gateway` 上的 Exec 运行会将你的登录 shell `PATH` 合并到 exec 环境中，
 所以缺少的工具通常意味着你的 shell 初始化没有导出它们（或设置
 `tools.exec.pathPrepend`）。参见 [/tools/exec](/tools/exec)。
@@ -215,7 +215,7 @@ Gateway 网关可能拒绝绑定。
 - 如果你设置了 `gateway.mode=remote`，**CLI 默认**使用远程 URL。服务可能仍在本地运行，但你的 CLI 可能在探测错误的位置。使用 `openclaw gateway status` 查看服务解析的端口 + 探测目标（或传递 `--url`）。
 - `openclaw gateway status` 和 `openclaw doctor` 在服务看起来正在运行但端口关闭时会显示日志中的**最后 Gateway 网关错误**。
 - 非本地回环绑定（`lan`/`tailnet`/`custom`，或本地回环不可用时的 `auto`）需要认证：
-  `gateway.auth.token`（或 `OPENCLAW_GATEWAY_TOKEN`）。
+  `gateway.auth.token`（或 `FREECLAW_GATEWAY_TOKEN`）。
 - `gateway.remote.token` 仅用于远程 CLI 调用；它**不**启用本地认证。
 - `gateway.token` 被忽略；使用 `gateway.auth.token`。
 
@@ -223,7 +223,7 @@ Gateway 网关可能拒绝绑定。
 
 - `Config (cli): ...` 和 `Config (service): ...` 通常应该匹配。
 - 如果不匹配，你几乎肯定是在编辑一个配置而服务运行的是另一个。
-- 修复：从你希望服务使用的相同 `--profile` / `OPENCLAW_STATE_DIR` 重新运行 `openclaw gateway install --force`。
+- 修复：从你希望服务使用的相同 `--profile` / `FREECLAW_STATE_DIR` 重新运行 `openclaw gateway install --force`。
 
 **如果 `openclaw gateway status` 报告服务配置问题**
 
@@ -233,7 +233,7 @@ Gateway 网关可能拒绝绑定。
 **如果 `Last gateway error:` 提到"refusing to bind … without auth"**
 
 - 你将 `gateway.bind` 设置为非本地回环模式（`lan`/`tailnet`/`custom`，或本地回环不可用时的 `auto`）但没有配置认证。
-- 修复：设置 `gateway.auth.mode` + `gateway.auth.token`（或导出 `OPENCLAW_GATEWAY_TOKEN`）并重启服务。
+- 修复：设置 `gateway.auth.mode` + `gateway.auth.token`（或导出 `FREECLAW_GATEWAY_TOKEN`）并重启服务。
 
 **如果 `openclaw gateway status` 显示 `bind=tailnet` 但未找到 tailnet 接口**
 
@@ -252,7 +252,7 @@ Gateway 网关可能拒绝绑定。
 **检查：**
 
 ```bash
-openclaw gateway status
+freeclaw gateway status
 ```
 
 它将显示监听器和可能的原因（Gateway 网关已在运行、SSH 隧道）。
@@ -269,7 +269,7 @@ openclaw gateway status
 
 ### 主聊天在沙箱工作区中运行
 
-症状：`pwd` 或文件工具显示 `~/.openclaw/sandboxes/...` 即使你
+症状：`pwd` 或文件工具显示 `~/.freeclaw/sandboxes/...` 即使你
 期望的是主机工作区。
 
 **原因：** `agents.defaults.sandbox.mode: "non-main"` 基于 `session.mainKey`（默认 `"main"`）判断。
@@ -311,7 +311,7 @@ OpenClaw 有意拒绝**较旧/不安全的模型**（尤其是那些更容易受
 **检查 1：** 发送者是否在白名单中？
 
 ```bash
-openclaw status
+freeclaw status
 ```
 
 在输出中查找 `AllowFrom: ...`。
@@ -322,13 +322,13 @@ openclaw status
 # 消息必须匹配 mentionPatterns 或显式提及；默认值在渠道 groups/guilds 中。
 # 多智能体：`agents.list[].groupChat.mentionPatterns` 覆盖全局模式。
 grep -n "agents\\|groupChat\\|mentionPatterns\\|channels\\.whatsapp\\.groups\\|channels\\.telegram\\.groups\\|channels\\.imessage\\.groups\\|channels\\.discord\\.guilds" \
-  "${OPENCLAW_CONFIG_PATH:-$HOME/.openclaw/openclaw.json}"
+  "${FREECLAW_CONFIG_PATH:-$HOME/.openclaw/freeclaw.json}"
 ```
 
 **检查 3：** 检查日志
 
 ```bash
-openclaw logs --follow
+freeclaw logs --follow
 # 或者如果你想快速过滤：
 tail -f "$(ls -t /tmp/openclaw/openclaw-*.log | head -1)" | grep "blocked\\|skip\\|unauthorized"
 ```
@@ -340,7 +340,7 @@ tail -f "$(ls -t /tmp/openclaw/openclaw-*.log | head -1)" | grep "blocked\\|skip
 **检查 1：** 是否已有待处理的请求在等待？
 
 ```bash
-openclaw pairing list <channel>
+freeclaw pairing list <channel>
 ```
 
 待处理的私信配对请求默认每个渠道上限为 **3 个**。如果列表已满，新请求将不会生成代码，直到一个被批准或过期。
@@ -348,7 +348,7 @@ openclaw pairing list <channel>
 **检查 2：** 请求是否已创建但未发送回复？
 
 ```bash
-openclaw logs --follow | grep "pairing request"
+freeclaw logs --follow | grep "pairing request"
 ```
 
 **检查 3：** 确认该渠道的 `dmPolicy` 不是 `open`/`allowlist`。
@@ -367,7 +367,7 @@ openclaw logs --follow | grep "pairing request"
 **检查 1：** 会话文件是否存在？
 
 ```bash
-ls -la ~/.openclaw/agents/<agentId>/sessions/
+ls -la ~/.freeclaw/agents/<agentId>/sessions/
 ```
 
 **检查 2：** 重置窗口是否太短？
@@ -404,26 +404,26 @@ ls -la ~/.openclaw/agents/<agentId>/sessions/
 
 ```bash
 # 检查本地状态（凭证、会话、排队事件）
-openclaw status
+freeclaw status
 # 探测运行中的 Gateway 网关 + 渠道（WA 连接 + Telegram + Discord API）
-openclaw status --deep
+freeclaw status --deep
 
 # 查看最近的连接事件
-openclaw logs --limit 200 | grep "connection\\|disconnect\\|logout"
+freeclaw logs --limit 200 | grep "connection\\|disconnect\\|logout"
 ```
 
 **修复：** 通常在 Gateway 网关运行后会自动重连。如果卡住，重启 Gateway 网关进程（无论你如何监管它），或使用详细输出手动运行：
 
 ```bash
-openclaw gateway --verbose
+freeclaw gateway --verbose
 ```
 
 如果你已登出/取消关联：
 
 ```bash
-openclaw channels logout
-trash "${OPENCLAW_STATE_DIR:-$HOME/.openclaw}/credentials" # 如果 logout 无法完全清除所有内容
-openclaw channels login --verbose       # 重新扫描二维码
+freeclaw channels logout
+trash "${FREECLAW_STATE_DIR:-$HOME/.openclaw}/credentials" # 如果 logout 无法完全清除所有内容
+freeclaw channels login --verbose       # 重新扫描二维码
 ```
 
 ### 媒体发送失败
@@ -470,8 +470,8 @@ OpenClaw 在内存中保留对话历史。
 用 Doctor 修复：
 
 ```bash
-openclaw doctor
-openclaw doctor --fix
+freeclaw doctor
+freeclaw doctor --fix
 ```
 
 注意事项：
@@ -510,7 +510,7 @@ openclaw doctor --fix
 再次运行登录命令并扫描二维码：
 
 ```bash
-openclaw channels login
+freeclaw channels login
 ```
 
 ### `main` 上的构建错误 — 标准修复路径是什么？
@@ -531,8 +531,8 @@ openclaw channels login
 git status   # 确保你在仓库根目录
 pnpm install
 pnpm build
-openclaw doctor
-openclaw gateway restart
+freeclaw doctor
+freeclaw gateway restart
 ```
 
 原因：pnpm 是此仓库配置的包管理器。
@@ -545,13 +545,13 @@ openclaw gateway restart
 切换**到 git 安装**：
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
+curl -fsSL https://freeclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
 ```
 
 切换**到 npm 全局**：
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 ```
 
 注意事项：
@@ -559,8 +559,8 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 - git 流程仅在仓库干净时才 rebase。先提交或 stash 更改。
 - 切换后，运行：
   ```bash
-  openclaw doctor
-  openclaw gateway restart
+  freeclaw doctor
+  freeclaw gateway restart
   ```
 
 ### Telegram 分块流式传输没有在工具调用之间分割文本。为什么？
@@ -631,7 +631,7 @@ tccutil reset All bot.molt.mac.debug
 ```
 
 **修复 2：强制使用新的 Bundle ID**
-如果重置不起作用，在 [`scripts/package-mac-app.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/package-mac-app.sh) 中更改 `BUNDLE_ID`（例如，添加 `.test` 后缀）并重新构建。这会强制 macOS 将其视为新应用。
+如果重置不起作用，在 [`scripts/package-mac-app.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/package-mac-app.sh) 中更改 `BUNDLE_ID`（例如，添加 `.test` 后缀）并重新构建。这会强制 macOS 将其视为新应用。
 
 ### Gateway 网关卡在"Starting..."
 
@@ -641,8 +641,8 @@ tccutil reset All bot.molt.mac.debug
 如果 Gateway 网关由 launchd 监管，杀死 PID 只会重新生成它。先停止监管程序：
 
 ```bash
-openclaw gateway status
-openclaw gateway stop
+freeclaw gateway status
+freeclaw gateway stop
 # 或：launchctl bootout gui/$UID/bot.molt.gateway（用 bot.molt.<profile> 替换；旧版 com.openclaw.* 仍然有效）
 ```
 
@@ -664,8 +664,8 @@ kill -9 <PID> # 最后手段
 确保全局 `openclaw` CLI 已安装且与应用版本匹配：
 
 ```bash
-openclaw --version
-npm install -g openclaw@<version>
+freeclaw --version
+npm install -g freeclaw@<version>
 ```
 
 ## 调试模式
@@ -674,11 +674,11 @@ npm install -g openclaw@<version>
 
 ```bash
 # 在配置中打开跟踪日志：
-#   ${OPENCLAW_CONFIG_PATH:-$HOME/.openclaw/openclaw.json} -> { logging: { level: "trace" } }
+#   ${FREECLAW_CONFIG_PATH:-$HOME/.openclaw/freeclaw.json} -> { logging: { level: "trace" } }
 #
 # 然后运行详细命令将调试输出镜像到标准输出：
-openclaw gateway --verbose
-openclaw channels login --verbose
+freeclaw gateway --verbose
+freeclaw channels login --verbose
 ```
 
 ## 日志位置
@@ -686,29 +686,29 @@ openclaw channels login --verbose
 | 日志                             | 位置                                                                                                                                                                                                                                                                                                                      |
 | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Gateway 网关文件日志（结构化）   | `/tmp/openclaw/openclaw-YYYY-MM-DD.log`（或 `logging.file`）                                                                                                                                                                                                                                                              |
-| Gateway 网关服务日志（监管程序） | macOS：`$OPENCLAW_STATE_DIR/logs/gateway.log` + `gateway.err.log`（默认：`~/.openclaw/logs/...`；配置文件使用 `~/.openclaw-<profile>/logs/...`）<br />Linux：`journalctl --user -u openclaw-gateway[-<profile>].service -n 200 --no-pager`<br />Windows：`schtasks /Query /TN "OpenClaw Gateway (<profile>)" /V /FO LIST` |
-| 会话文件                         | `$OPENCLAW_STATE_DIR/agents/<agentId>/sessions/`                                                                                                                                                                                                                                                                          |
-| 媒体缓存                         | `$OPENCLAW_STATE_DIR/media/`                                                                                                                                                                                                                                                                                              |
-| 凭证                             | `$OPENCLAW_STATE_DIR/credentials/`                                                                                                                                                                                                                                                                                        |
+| Gateway 网关服务日志（监管程序） | macOS：`$FREECLAW_STATE_DIR/logs/gateway.log` + `gateway.err.log`（默认：`~/.freeclaw/logs/...`；配置文件使用 `~/.freeclaw-<profile>/logs/...`）<br />Linux：`journalctl --user -u openclaw-gateway[-<profile>].service -n 200 --no-pager`<br />Windows：`schtasks /Query /TN "FreeClaw Gateway (<profile>)" /V /FO LIST` |
+| 会话文件                         | `$FREECLAW_STATE_DIR/agents/<agentId>/sessions/`                                                                                                                                                                                                                                                                          |
+| 媒体缓存                         | `$FREECLAW_STATE_DIR/media/`                                                                                                                                                                                                                                                                                              |
+| 凭证                             | `$FREECLAW_STATE_DIR/credentials/`                                                                                                                                                                                                                                                                                        |
 
 ## 健康检查
 
 ```bash
 # 监管程序 + 探测目标 + 配置路径
-openclaw gateway status
+freeclaw gateway status
 # 包括系统级扫描（旧版/额外服务、端口监听器）
-openclaw gateway status --deep
+freeclaw gateway status --deep
 
 # Gateway 网关是否可达？
-openclaw health --json
+freeclaw health --json
 # 如果失败，使用连接详情重新运行：
-openclaw health --verbose
+freeclaw health --verbose
 
 # 默认端口上是否有东西在监听？
 lsof -nP -iTCP:18789 -sTCP:LISTEN
 
 # 最近活动（RPC 日志尾部）
-openclaw logs --follow
+freeclaw logs --follow
 # 如果 RPC 宕机的备用方案
 tail -20 /tmp/openclaw/openclaw-*.log
 ```
@@ -718,13 +718,13 @@ tail -20 /tmp/openclaw/openclaw-*.log
 核选项：
 
 ```bash
-openclaw gateway stop
+freeclaw gateway stop
 # 如果你安装了服务并想要干净安装：
-# openclaw gateway uninstall
+# freeclaw gateway uninstall
 
-trash "${OPENCLAW_STATE_DIR:-$HOME/.openclaw}"
-openclaw channels login         # 重新配对 WhatsApp
-openclaw gateway restart           # 或：openclaw gateway
+trash "${FREECLAW_STATE_DIR:-$HOME/.openclaw}"
+freeclaw channels login         # 重新配对 WhatsApp
+freeclaw gateway restart           # 或：openclaw gateway
 ```
 
 ⚠️ 这会丢失所有会话并需要重新配对 WhatsApp。
@@ -734,7 +734,7 @@ openclaw gateway restart           # 或：openclaw gateway
 1. 首先检查日志：`/tmp/openclaw/`（默认：`openclaw-YYYY-MM-DD.log`，或你配置的 `logging.file`）
 2. 在 GitHub 上搜索现有问题
 3. 提交新问题时包含：
-   - OpenClaw 版本
+   - FreeClaw 版本
    - 相关日志片段
    - 重现步骤
    - 你的配置（隐藏密钥！）

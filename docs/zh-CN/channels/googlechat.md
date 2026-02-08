@@ -31,11 +31,11 @@ x-i18n:
    - 前往 **Keys** 标签页。
    - 点击 **Add Key** > **Create new key**。
    - 选择 **JSON** 并点击 **Create**。
-4. 将下载的 JSON 文件存储在 Gateway 网关主机上（例如 `~/.openclaw/googlechat-service-account.json`）。
+4. 将下载的 JSON 文件存储在 Gateway 网关主机上（例如 `~/.freeclaw/googlechat-service-account.json`）。
 5. 在 [Google Cloud Console Chat Configuration](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat) 中创建一个 Google Chat 应用：
    - 填写 **Application info**：
-     - **App name**：（例如 `OpenClaw`）
-     - **Avatar URL**：（例如 `https://openclaw.ai/logo.png`）
+     - **App name**：（例如 `FreeClaw`）
+     - **Avatar URL**：（例如 `https://freeclaw.ai/logo.png`）
      - **Description**：（例如 `Personal AI Assistant`）
    - 启用 **Interactive features**。
    - 在 **Functionality** 下，勾选 **Join spaces and group conversations**。
@@ -70,7 +70,7 @@ Gateway 网关运行后，且你的邮箱已添加到可见性列表中：
 
 ## 公网 URL（仅 Webhook）
 
-Google Chat webhooks 需要一个公网 HTTPS 端点。为了安全起见，**只将 `/googlechat` 路径暴露到互联网**。将 OpenClaw 仪表板和其他敏感端点保留在你的私有网络上。
+Google Chat webhooks 需要一个公网 HTTPS 端点。为了安全起见，**只将 `/googlechat` 路径暴露到互联网**。将 FreeClaw 仪表板和其他敏感端点保留在你的私有网络上。
 
 ### 方案 A：Tailscale Funnel（推荐）
 
@@ -145,7 +145,7 @@ your-domain.com {
 ## 工作原理
 
 1. Google Chat 向 Gateway 网关发送 webhook POST 请求。每个请求都包含一个 `Authorization: Bearer <token>` 头。
-2. OpenClaw 根据配置的 `audienceType` + `audience` 验证令牌：
+2. FreeClaw 根据配置的 `audienceType` + `audience` 验证令牌：
    - `audienceType: "app-url"` → audience 是你的 HTTPS webhook URL。
    - `audienceType: "project-number"` → audience 是 Cloud 项目编号。
 3. 消息按空间路由：
@@ -218,7 +218,7 @@ status code: 405, reason phrase: HTTP error response: HTTP/1.1 405 Method Not Al
 1. **渠道未配置**：配置中缺少 `channels.googlechat` 部分。使用以下命令验证：
 
    ```bash
-   openclaw config get channels.googlechat
+   freeclaw config get channels.googlechat
    ```
 
    如果返回"Config path not found"，请添加配置（参见[配置要点](#配置要点)）。
@@ -226,20 +226,20 @@ status code: 405, reason phrase: HTTP error response: HTTP/1.1 405 Method Not Al
 2. **插件未启用**：检查插件状态：
 
    ```bash
-   openclaw plugins list | grep googlechat
+   freeclaw plugins list | grep googlechat
    ```
 
    如果显示"disabled"，请在配置中添加 `plugins.entries.googlechat.enabled: true`。
 
 3. **Gateway 网关未重启**：添加配置后，重启 Gateway 网关：
    ```bash
-   openclaw gateway restart
+   freeclaw gateway restart
    ```
 
 验证渠道是否正在运行：
 
 ```bash
-openclaw channels status
+freeclaw channels status
 # 应显示：Google Chat default: enabled, configured, ...
 ```
 

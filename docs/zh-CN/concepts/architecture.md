@@ -80,7 +80,7 @@ Client                    Gateway
 - 握手后：
   - 请求：`{type:"req", id, method, params}` → `{type:"res", id, ok, payload|error}`
   - 事件：`{type:"event", event, payload, seq?, stateVersion?}`
-- 如果设置了 `OPENCLAW_GATEWAY_TOKEN`（或 `--token`），`connect.params.auth.token` 必须匹配，否则套接字关闭。
+- 如果设置了 `FREECLAW_GATEWAY_TOKEN`（或 `--token`），`connect.params.auth.token` 必须匹配，否则套接字关闭。
 - 有副作用的方法（`send`、`agent`）需要幂等键以安全重试；服务器保持短期去重缓存。
 - 节点必须在 `connect` 中包含 `role: "node"` 以及能力/命令/权限。
 

@@ -23,7 +23,7 @@ has no effect on sub-agents.
 ## Enable
 
 ```bash
-openclaw hooks enable soul-evil
+freeclaw hooks enable soul-evil
 ```
 
 Then set the config:

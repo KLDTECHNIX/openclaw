@@ -172,7 +172,7 @@ describe("uploadStickerDiscord", () => {
       {
         guildId: "g1",
         name: "freeclaw_wave",
-        description: "OpenClaw waving",
+        description: "FreeClaw waving",
         tags: "👋",
         mediaUrl: "file:///tmp/wave.png",
       },
@@ -183,7 +183,7 @@ describe("uploadStickerDiscord", () => {
       expect.objectContaining({
         body: {
           name: "freeclaw_wave",
-          description: "OpenClaw waving",
+          description: "FreeClaw waving",
           tags: "👋",
           files: [
             expect.objectContaining({

@@ -59,7 +59,7 @@ Gateway 网关从与 Gateway 网关 WebSocket 相同的端口提供一个小型*
 然后启动 Gateway 网关：
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 打开：
@@ -81,7 +81,7 @@ openclaw gateway
 然后启动 Gateway 网关（非本地回环绑定需要令牌）：
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 打开：
@@ -95,7 +95,7 @@ openclaw gateway
   gateway: {
     bind: "loopback",
     tailscale: { mode: "funnel" },
-    auth: { mode: "password" }, // 或 OPENCLAW_GATEWAY_PASSWORD
+    auth: { mode: "password" }, // 或 FREECLAW_GATEWAY_PASSWORD
   },
 }
 ```

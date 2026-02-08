@@ -16,7 +16,7 @@ title: "Tests"
 
 ## Model latency bench (local keys)
 
-Script: [`scripts/bench-model.ts`](https://github.com/openclaw/openclaw/blob/main/scripts/bench-model.ts)
+Script: [`scripts/bench-model.ts`](https://github.com/freeclaw/freeclaw/blob/main/scripts/bench-model.ts)
 
 Usage:
 

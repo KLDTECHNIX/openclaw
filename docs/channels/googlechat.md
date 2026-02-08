@@ -24,11 +24,11 @@ Status: ready for DMs + spaces via Google Chat API webhooks (HTTP only).
    - Go to the **Keys** tab.
    - Click **Add Key** > **Create new key**.
    - Select **JSON** and press **Create**.
-4. Store the downloaded JSON file on your gateway host (e.g., `~/.openclaw/googlechat-service-account.json`).
+4. Store the downloaded JSON file on your gateway host (e.g., `~/.freeclaw/googlechat-service-account.json`).
 5. Create a Google Chat app in the [Google Cloud Console Chat Configuration](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat):
    - Fill in the **Application info**:
-     - **App name**: (e.g. `OpenClaw`)
-     - **Avatar URL**: (e.g. `https://openclaw.ai/logo.png`)
+     - **App name**: (e.g. `FreeClaw`)
+     - **Avatar URL**: (e.g. `https://freeclaw.ai/logo.png`)
      - **Description**: (e.g. `Personal AI Assistant`)
    - Enable **Interactive features**.
    - Under **Functionality**, check **Join spaces and group conversations**.
@@ -43,7 +43,7 @@ Status: ready for DMs + spaces via Google Chat API webhooks (HTTP only).
    - Look for the **App status** section (usually near the top or bottom after saving).
    - Change the status to **Live - available to users**.
    - Click **Save** again.
-7. Configure OpenClaw with the service account path + webhook audience:
+7. Configure FreeClaw with the service account path + webhook audience:
    - Env: `GOOGLE_CHAT_SERVICE_ACCOUNT_FILE=/path/to/service-account.json`
    - Or config: `channels.googlechat.serviceAccountFile: "/path/to/service-account.json"`.
 8. Set the webhook audience type + value (matches your Chat app config).
@@ -63,7 +63,7 @@ Once the gateway is running and your email is added to the visibility list:
 
 ## Public URL (Webhook-only)
 
-Google Chat webhooks require a public HTTPS endpoint. For security, **only expose the `/googlechat` path** to the internet. Keep the OpenClaw dashboard and other sensitive endpoints on your private network.
+Google Chat webhooks require a public HTTPS endpoint. For security, **only expose the `/googlechat` path** to the internet. Keep the FreeClaw dashboard and other sensitive endpoints on your private network.
 
 ### Option A: Tailscale Funnel (Recommended)
 
@@ -127,7 +127,7 @@ your-domain.com {
 }
 ```
 
-With this config, any request to `your-domain.com/` will be ignored or returned as 404, while `your-domain.com/googlechat` is safely routed to OpenClaw.
+With this config, any request to `your-domain.com/` will be ignored or returned as 404, while `your-domain.com/googlechat` is safely routed to FreeClaw.
 
 ### Option C: Cloudflare Tunnel
 
@@ -139,7 +139,7 @@ Configure your tunnel's ingress rules to only route the webhook path:
 ## How it works
 
 1. Google Chat sends webhook POSTs to the gateway. Each request includes an `Authorization: Bearer <token>` header.
-2. OpenClaw verifies the token against the configured `audienceType` + `audience`:
+2. FreeClaw verifies the token against the configured `audienceType` + `audience`:
    - `audienceType: "app-url"` → audience is your HTTPS webhook URL.
    - `audienceType: "project-number"` → audience is the Cloud project number.
 3. Messages are routed by space:
@@ -212,7 +212,7 @@ This means the webhook handler isn't registered. Common causes:
 1. **Channel not configured**: The `channels.googlechat` section is missing from your config. Verify with:
 
    ```bash
-   openclaw config get channels.googlechat
+   freeclaw config get channels.googlechat
    ```
 
    If it returns "Config path not found", add the configuration (see [Config highlights](#config-highlights)).
@@ -220,7 +220,7 @@ This means the webhook handler isn't registered. Common causes:
 2. **Plugin not enabled**: Check plugin status:
 
    ```bash
-   openclaw plugins list | grep googlechat
+   freeclaw plugins list | grep googlechat
    ```
 
    If it shows "disabled", add `plugins.entries.googlechat.enabled: true` to your config.
@@ -228,13 +228,13 @@ This means the webhook handler isn't registered. Common causes:
 3. **Gateway not restarted**: After adding config, restart the gateway:
 
    ```bash
-   openclaw gateway restart
+   freeclaw gateway restart
    ```
 
 Verify the channel is running:
 
 ```bash
-openclaw channels status
+freeclaw channels status
 # Should show: Google Chat default: enabled, configured, ...
 ```
 

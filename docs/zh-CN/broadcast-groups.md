@@ -25,7 +25,7 @@ x-i18n:
 
 当前范围：**仅限 WhatsApp**（web 渠道）。
 
-广播群组在渠道白名单和群组激活规则之后进行评估。在 WhatsApp 群组中，这意味着广播会在 OpenClaw 正常回复时发生（例如：被提及时，具体取决于你的群组设置）。
+广播群组在渠道白名单和群组激活规则之后进行评估。在 WhatsApp 群组中，这意味着广播会在 FreeClaw 正常回复时发生（例如：被提及时，具体取决于你的群组设置）。
 
 ## 使用场景
 
@@ -90,7 +90,7 @@ Agents:
 }
 ```
 
-**结果：** 当 OpenClaw 在此聊天中回复时，将运行所有三个智能体。
+**结果：** 当 FreeClaw 在此聊天中回复时，将运行所有三个智能体。
 
 ### 处理策略
 
@@ -324,7 +324,7 @@ Result: Agent A and C respond, Agent B logs error
 **调试：**
 
 ```bash
-tail -f ~/.openclaw/logs/gateway.log | grep broadcast
+tail -f ~/.freeclaw/logs/gateway.log | grep broadcast
 ```
 
 ### 只有一个智能体响应

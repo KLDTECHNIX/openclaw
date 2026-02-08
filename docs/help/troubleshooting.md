@@ -1,7 +1,7 @@
 ---
-summary: "Symptom first troubleshooting hub for OpenClaw"
+summary: "Symptom first troubleshooting hub for FreeClaw"
 read_when:
-  - OpenClaw is not working and you need the fastest path to a fix
+  - FreeClaw is not working and you need the fastest path to a fix
   - You want a triage flow before diving into deep runbooks
 title: "Troubleshooting"
 ---
@@ -15,13 +15,13 @@ If you only have 2 minutes, use this page as a triage front door.
 Run this exact ladder in order:
 
 ```bash
-openclaw status
-openclaw status --all
-openclaw gateway probe
-openclaw gateway status
-openclaw doctor
-openclaw channels status --probe
-openclaw logs --follow
+freeclaw status
+freeclaw status --all
+freeclaw gateway probe
+freeclaw gateway status
+freeclaw doctor
+freeclaw channels status --probe
+freeclaw logs --follow
 ```
 
 Good output in one line:
@@ -59,11 +59,11 @@ flowchart TD
 <AccordionGroup>
   <Accordion title="No replies">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw channels status --probe
-    openclaw pairing list <channel>
-    openclaw logs --follow
+    freeclaw status
+    freeclaw gateway status
+    freeclaw channels status --probe
+    freeclaw pairing list <channel>
+    freeclaw logs --follow
     ```
 
     Good output looks like:
@@ -89,11 +89,11 @@ flowchart TD
 
   <Accordion title="Dashboard or Control UI will not connect">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw logs --follow
-    openclaw doctor
-    openclaw channels status --probe
+    freeclaw status
+    freeclaw gateway status
+    freeclaw logs --follow
+    freeclaw doctor
+    freeclaw channels status --probe
     ```
 
     Good output looks like:
@@ -118,11 +118,11 @@ flowchart TD
 
   <Accordion title="Gateway will not start or service installed but not running">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw logs --follow
-    openclaw doctor
-    openclaw channels status --probe
+    freeclaw status
+    freeclaw gateway status
+    freeclaw logs --follow
+    freeclaw doctor
+    freeclaw channels status --probe
     ```
 
     Good output looks like:
@@ -147,11 +147,11 @@ flowchart TD
 
   <Accordion title="Channel connects but messages do not flow">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw logs --follow
-    openclaw doctor
-    openclaw channels status --probe
+    freeclaw status
+    freeclaw gateway status
+    freeclaw logs --follow
+    freeclaw doctor
+    freeclaw channels status --probe
     ```
 
     Good output looks like:
@@ -175,12 +175,12 @@ flowchart TD
 
   <Accordion title="Cron or heartbeat did not fire or did not deliver">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw cron status
-    openclaw cron list
-    openclaw cron runs --id <jobId> --limit 20
-    openclaw logs --follow
+    freeclaw status
+    freeclaw gateway status
+    freeclaw cron status
+    freeclaw cron list
+    freeclaw cron runs --id <jobId> --limit 20
+    freeclaw logs --follow
     ```
 
     Good output looks like:
@@ -206,11 +206,11 @@ flowchart TD
 
   <Accordion title="Node is paired but tool fails camera canvas screen exec">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw nodes status
-    openclaw nodes describe --node <idOrNameOrIp>
-    openclaw logs --follow
+    freeclaw status
+    freeclaw gateway status
+    freeclaw nodes status
+    freeclaw nodes describe --node <idOrNameOrIp>
+    freeclaw logs --follow
     ```
 
     Good output looks like:
@@ -236,11 +236,11 @@ flowchart TD
 
   <Accordion title="Browser tool fails">
     ```bash
-    openclaw status
-    openclaw gateway status
-    openclaw browser status
-    openclaw logs --follow
-    openclaw doctor
+    freeclaw status
+    freeclaw gateway status
+    freeclaw browser status
+    freeclaw logs --follow
+    freeclaw doctor
     ```
 
     Good output looks like:

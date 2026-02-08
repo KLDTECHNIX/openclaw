@@ -1,7 +1,7 @@
 ---
 read_when:
   - 你想要一份完整的文档地图
-summary: 链接到每篇 OpenClaw 文档的导航中心
+summary: 链接到每篇 FreeClaw 文档的导航中心
 title: 文档导航中心
 x-i18n:
   generated_at: "2026-02-04T17:55:29Z"

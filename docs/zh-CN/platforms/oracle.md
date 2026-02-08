@@ -1,7 +1,7 @@
 ---
 read_when:
   - 在 Oracle Cloud 上设置 OpenClaw
-  - 寻找 OpenClaw 的低成本 VPS 托管
+  - 寻找 FreeClaw 的低成本 VPS 托管
   - 想要在小型服务器上 24/7 运行 OpenClaw
 summary: 在 Oracle Cloud 上运行 OpenClaw（Always Free ARM）
 title: Oracle Cloud
@@ -18,7 +18,7 @@ x-i18n:
 
 ## 目标
 
-在 Oracle Cloud 的 **Always Free** ARM 层上运行持久化的 OpenClaw Gateway 网关。
+在 Oracle Cloud 的 **Always Free** ARM 层上运行持久化的 FreeClaw Gateway 网关。
 
 Oracle 的免费层非常适合 OpenClaw（特别是如果你已经有 OCI 账户），但有一些权衡：
 
@@ -77,7 +77,7 @@ sudo apt install -y build-essential
 
 ```bash
 # 设置主机名
-sudo hostnamectl set-hostname openclaw
+sudo hostnamectl set-hostname freeclaw
 
 # 为 ubuntu 用户设置密码
 sudo passwd ubuntu
@@ -106,7 +106,7 @@ tailscale status
 ## 5) 安装 OpenClaw
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 source ~/.bashrc
 ```
 
@@ -120,15 +120,15 @@ source ~/.bashrc
 
 ```bash
 # 在 VM 上保持 Gateway 网关私有
-openclaw config set gateway.bind loopback
+freeclaw config set gateway.bind loopback
 
 # 要求 Gateway 网关 + 控制 UI 的认证
-openclaw config set gateway.auth.mode token
-openclaw doctor --generate-gateway-token
+freeclaw config set gateway.auth.mode token
+freeclaw doctor --generate-gateway-token
 
 # 通过 Tailscale Serve 暴露（HTTPS + tailnet 访问）
-openclaw config set gateway.tailscale.mode serve
-openclaw config set gateway.trustedProxies '["127.0.0.1"]'
+freeclaw config set gateway.tailscale.mode serve
+freeclaw config set gateway.trustedProxies '["127.0.0.1"]'
 
 systemctl --user restart openclaw-gateway
 ```
@@ -137,7 +137,7 @@ systemctl --user restart openclaw-gateway
 
 ```bash
 # 检查版本
-openclaw --version
+freeclaw --version
 
 # 检查守护进程状态
 systemctl --user status openclaw-gateway
@@ -200,7 +200,7 @@ https://openclaw.<tailnet-name>.ts.net/
 
 ### 仍然推荐
 
-- **凭证权限：** `chmod 700 ~/.openclaw`
+- **凭证权限：** `chmod 700 ~/.freeclaw`
 - **安全审计：** `openclaw security audit`
 - **系统更新：** 定期 `sudo apt update && sudo apt upgrade`
 - **监控 Tailscale：** 在 [Tailscale 管理控制台](https://login.tailscale.com/admin) 中查看设备
@@ -256,8 +256,8 @@ sudo tailscale up --ssh --hostname=openclaw --reset
 ### Gateway 网关无法启动
 
 ```bash
-openclaw gateway status
-openclaw doctor --non-interactive
+freeclaw gateway status
+freeclaw doctor --non-interactive
 journalctl --user -u openclaw-gateway -n 50
 ```
 
@@ -290,13 +290,13 @@ uname -m  # 应该显示 aarch64
 
 所有状态存储在：
 
-- `~/.openclaw/` — 配置、凭证、会话数据
-- `~/.openclaw/workspace/` — 工作区（SOUL.md、记忆、产物）
+- `~/.freeclaw/` — 配置、凭证、会话数据
+- `~/.freeclaw/workspace/` — 工作区（SOUL.md、记忆、产物）
 
 定期备份：
 
 ```bash
-tar -czvf openclaw-backup.tar.gz ~/.openclaw ~/.openclaw/workspace
+tar -czvf openclaw-backup.tar.gz ~/.freeclaw ~/.freeclaw/workspace
 ```
 
 ---

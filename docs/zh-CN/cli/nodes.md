@@ -30,14 +30,14 @@ x-i18n:
 ## 常用命令
 
 ```bash
-openclaw nodes list
-openclaw nodes list --connected
-openclaw nodes list --last-connected 24h
-openclaw nodes pending
-openclaw nodes approve <requestId>
-openclaw nodes status
-openclaw nodes status --connected
-openclaw nodes status --last-connected 24h
+freeclaw nodes list
+freeclaw nodes list --connected
+freeclaw nodes list --last-connected 24h
+freeclaw nodes pending
+freeclaw nodes approve <requestId>
+freeclaw nodes status
+freeclaw nodes status --connected
+freeclaw nodes status --last-connected 24h
 ```
 
 `nodes list` 打印待处理/已配对表格。已配对行包含最近连接时长（Last Connect）。
@@ -47,10 +47,10 @@ openclaw nodes status --last-connected 24h
 ## 调用 / 运行
 
 ```bash
-openclaw nodes invoke --node <id|name|ip> --command <command> --params <json>
-openclaw nodes run --node <id|name|ip> <command...>
-openclaw nodes run --raw "git status"
-openclaw nodes run --agent main --node <id|name|ip> --raw "git status"
+freeclaw nodes invoke --node <id|name|ip> --command <command> --params <json>
+freeclaw nodes run --node <id|name|ip> <command...>
+freeclaw nodes run --raw "git status"
+freeclaw nodes run --agent main --node <id|name|ip> --raw "git status"
 ```
 
 调用标志：

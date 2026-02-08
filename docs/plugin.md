@@ -1,5 +1,5 @@
 ---
-summary: "OpenClaw plugins/extensions: discovery, config, and safety"
+summary: "FreeClaw plugins/extensions: discovery, config, and safety"
 read_when:
   - Adding or modifying plugins/extensions
   - Documenting plugin install or load rules
@@ -10,11 +10,11 @@ title: "Plugins"
 
 ## Quick start (new to plugins?)
 
-A plugin is just a **small code module** that extends OpenClaw with extra
+A plugin is just a **small code module** that extends FreeClaw with extra
 features (commands, tools, and Gateway RPC).
 
 Most of the time, you’ll use plugins when you want a feature that’s not built
-into core OpenClaw yet (or you want to keep optional features out of your main
+into core FreeClaw yet (or you want to keep optional features out of your main
 install).
 
 Fast path:
@@ -22,13 +22,13 @@ Fast path:
 1. See what’s already loaded:
 
 ```bash
-openclaw plugins list
+freeclaw plugins list
 ```
 
 2. Install an official plugin (example: Voice Call):
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+freeclaw plugins install @openclaw/voice-call
 ```
 
 3. Restart the Gateway, then configure under `plugins.entries.<id>.config`.
@@ -75,7 +75,7 @@ Plugins can access selected core helpers via `api.runtime`. For telephony TTS:
 
 ```ts
 const result = await api.runtime.tts.textToSpeechTelephony({
-  text: "Hello from OpenClaw",
+  text: "Hello from FreeClaw",
   cfg: api.config,
 });
 ```
@@ -101,10 +101,10 @@ OpenClaw scans, in order:
 
 3. Global extensions
 
-- `~/.openclaw/extensions/*.ts`
-- `~/.openclaw/extensions/*/index.ts`
+- `~/.freeclaw/extensions/*.ts`
+- `~/.freeclaw/extensions/*/index.ts`
 
-4. Bundled extensions (shipped with OpenClaw, **disabled by default**)
+4. Bundled extensions (shipped with FreeClaw, **disabled by default**)
 
 - `<openclaw>/extensions/*`
 
@@ -172,11 +172,11 @@ Example:
 OpenClaw can also merge **external channel catalogs** (for example, an MPM
 registry export). Drop a JSON file at one of:
 
-- `~/.openclaw/mpm/plugins.json`
-- `~/.openclaw/mpm/catalog.json`
-- `~/.openclaw/plugins/catalog.json`
+- `~/.freeclaw/mpm/plugins.json`
+- `~/.freeclaw/mpm/catalog.json`
+- `~/.freeclaw/plugins/catalog.json`
 
-Or point `OPENCLAW_PLUGIN_CATALOG_PATHS` (or `OPENCLAW_MPM_CATALOG_PATHS`) at
+Or point `FREECLAW_PLUGIN_CATALOG_PATHS` (or `FREECLAW_MPM_CATALOG_PATHS`) at
 one or more JSON files (comma/semicolon/`PATH`-delimited). Each file should
 contain `{ "entries": [ { "name": "@scope/pkg", "openclaw": { "channel": {...}, "install": {...} } } ] }`.
 
@@ -187,7 +187,7 @@ Default plugin ids:
 - Package packs: `package.json` `name`
 - Standalone file: file base name (`~/.../voice-call.ts` → `voice-call`)
 
-If a plugin exports `id`, OpenClaw uses it but warns when it doesn’t match the
+If a plugin exports `id`, FreeClaw uses it but warns when it doesn’t match the
 configured id.
 
 ## Config
@@ -279,19 +279,19 @@ Example:
 ## CLI
 
 ```bash
-openclaw plugins list
-openclaw plugins info <id>
-openclaw plugins install <path>                 # copy a local file/dir into ~/.openclaw/extensions/<id>
-openclaw plugins install ./extensions/voice-call # relative path ok
-openclaw plugins install ./plugin.tgz           # install from a local tarball
-openclaw plugins install ./plugin.zip           # install from a local zip
-openclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
-openclaw plugins install @openclaw/voice-call # install from npm
-openclaw plugins update <id>
-openclaw plugins update --all
-openclaw plugins enable <id>
-openclaw plugins disable <id>
-openclaw plugins doctor
+freeclaw plugins list
+freeclaw plugins info <id>
+freeclaw plugins install <path>                 # copy a local file/dir into ~/.freeclaw/extensions/<id>
+freeclaw plugins install ./extensions/voice-call # relative path ok
+freeclaw plugins install ./plugin.tgz           # install from a local tarball
+freeclaw plugins install ./plugin.zip           # install from a local zip
+freeclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
+freeclaw plugins install @openclaw/voice-call # install from npm
+freeclaw plugins update <id>
+freeclaw plugins update --all
+freeclaw plugins enable <id>
+freeclaw plugins disable <id>
+freeclaw plugins doctor
 ```
 
 `plugins update` only works for npm installs tracked under `plugins.installs`.
@@ -330,7 +330,7 @@ Notes:
 ## Provider plugins (model auth)
 
 Plugins can register **model provider auth** flows so users can run OAuth or
-API-key setup inside OpenClaw (no external scripts needed).
+API-key setup inside FreeClaw (no external scripts needed).
 
 Register a provider via `api.registerProvider(...)`. Each provider exposes one
 or more auth methods (OAuth, API key, device code, etc.). These methods power:
@@ -561,7 +561,7 @@ Command handler context:
 - `isAuthorizedSender`: Whether the sender is an authorized user
 - `args`: Arguments passed after the command (if `acceptsArgs: true`)
 - `commandBody`: The full command text
-- `config`: The current OpenClaw config
+- `config`: The current FreeClaw config
 
 Command options:
 
@@ -631,7 +631,7 @@ Publishing contract:
 
 - Plugin `package.json` must include `openclaw.extensions` with one or more entry files.
 - Entry files can be `.js` or `.ts` (jiti loads TS at runtime).
-- `openclaw plugins install <npm-spec>` uses `npm pack`, extracts into `~/.openclaw/extensions/<id>/`, and enables it in config.
+- `openclaw plugins install <npm-spec>` uses `npm pack`, extracts into `~/.freeclaw/extensions/<id>/`, and enables it in config.
 - Config key stability: scoped packages are normalized to the **unscoped** id for `plugins.entries.*`.
 
 ## Example plugin: Voice Call

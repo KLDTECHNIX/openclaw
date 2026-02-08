@@ -252,7 +252,7 @@ channels:
 你可以排队一个系统事件并触发即时心跳：
 
 ```bash
-openclaw system event --text "Check for urgent follow-ups" --mode now
+freeclaw system event --text "Check for urgent follow-ups" --mode now
 ```
 
 如果多个智能体配置了 `heartbeat`，手动唤醒会立即运行每个智能体的心跳。

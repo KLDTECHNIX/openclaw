@@ -18,19 +18,19 @@ title: "Polls"
 
 ```bash
 # WhatsApp
-openclaw message poll --target +15555550123 \
+freeclaw message poll --target +15555550123 \
   --poll-question "Lunch today?" --poll-option "Yes" --poll-option "No" --poll-option "Maybe"
-openclaw message poll --target 123456789@g.us \
+freeclaw message poll --target 123456789@g.us \
   --poll-question "Meeting time?" --poll-option "10am" --poll-option "2pm" --poll-option "4pm" --poll-multi
 
 # Discord
-openclaw message poll --channel discord --target channel:123456789 \
+freeclaw message poll --channel discord --target channel:123456789 \
   --poll-question "Snack?" --poll-option "Pizza" --poll-option "Sushi"
-openclaw message poll --channel discord --target channel:123456789 \
+freeclaw message poll --channel discord --target channel:123456789 \
   --poll-question "Plan?" --poll-option "A" --poll-option "B" --poll-duration-hours 48
 
 # MS Teams
-openclaw message poll --channel msteams --target conversation:19:abc@thread.tacv2 \
+freeclaw message poll --channel msteams --target conversation:19:abc@thread.tacv2 \
   --poll-question "Lunch?" --poll-option "Pizza" --poll-option "Sushi"
 ```
 
@@ -66,4 +66,4 @@ Use the `message` tool with `poll` action (`to`, `pollQuestion`, `pollOption`, o
 
 Note: Discord has no “pick exactly N” mode; `pollMulti` maps to multi-select.
 Teams polls are rendered as Adaptive Cards and require the gateway to stay online
-to record votes in `~/.openclaw/msteams-polls.json`.
+to record votes in `~/.freeclaw/msteams-polls.json`.

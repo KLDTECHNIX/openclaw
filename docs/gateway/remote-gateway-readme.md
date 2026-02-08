@@ -1,10 +1,10 @@
 ---
-summary: "SSH tunnel setup for OpenClaw.app connecting to a remote gateway"
+summary: "SSH tunnel setup for FreeClaw.app connecting to a remote gateway"
 read_when: "Connecting the macOS app to a remote gateway over SSH"
 title: "Remote Gateway Setup"
 ---
 
-# Running OpenClaw.app with a Remote Gateway
+# Running FreeClaw.app with a Remote Gateway
 
 OpenClaw.app uses SSH tunneling to connect to a remote gateway. This guide shows you how to set it up.
 
@@ -14,7 +14,7 @@ OpenClaw.app uses SSH tunneling to connect to a remote gateway. This guide shows
 ┌─────────────────────────────────────────────────────────────┐
 │                        Client Machine                          │
 │                                                              │
-│  OpenClaw.app ──► ws://127.0.0.1:18789 (local port)           │
+│  FreeClaw.app ──► ws://127.0.0.1:18789 (local port)           │
 │                     │                                        │
 │                     ▼                                        │
 │  SSH Tunnel ────────────────────────────────────────────────│
@@ -57,7 +57,7 @@ ssh-copy-id -i ~/.ssh/id_rsa <REMOTE_USER>@<REMOTE_IP>
 ### Step 3: Set Gateway Token
 
 ```bash
-launchctl setenv OPENCLAW_GATEWAY_TOKEN "<your-token>"
+launchctl setenv FREECLAW_GATEWAY_TOKEN "<your-token>"
 ```
 
 ### Step 4: Start SSH Tunnel
@@ -66,10 +66,10 @@ launchctl setenv OPENCLAW_GATEWAY_TOKEN "<your-token>"
 ssh -N remote-gateway &
 ```
 
-### Step 5: Restart OpenClaw.app
+### Step 5: Restart FreeClaw.app
 
 ```bash
-# Quit OpenClaw.app (⌘Q), then reopen:
+# Quit FreeClaw.app (⌘Q), then reopen:
 open /path/to/OpenClaw.app
 ```
 

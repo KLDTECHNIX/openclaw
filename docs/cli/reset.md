@@ -11,7 +11,7 @@ title: "reset"
 Reset local config/state (keeps the CLI installed).
 
 ```bash
-openclaw reset
-openclaw reset --dry-run
-openclaw reset --scope config+creds+sessions --yes --non-interactive
+freeclaw reset
+freeclaw reset --dry-run
+freeclaw reset --scope config+creds+sessions --yes --non-interactive
 ```

@@ -8,7 +8,7 @@ title: "acp"
 
 # acp
 
-Run the ACP (Agent Client Protocol) bridge that talks to a OpenClaw Gateway.
+Run the ACP (Agent Client Protocol) bridge that talks to a FreeClaw Gateway.
 
 This command speaks ACP over stdio for IDEs and forwards prompts to the Gateway
 over WebSocket. It keeps ACP sessions mapped to Gateway session keys.
@@ -16,19 +16,19 @@ over WebSocket. It keeps ACP sessions mapped to Gateway session keys.
 ## Usage
 
 ```bash
-openclaw acp
+freeclaw acp
 
 # Remote Gateway
-openclaw acp --url wss://gateway-host:18789 --token <token>
+freeclaw acp --url wss://gateway-host:18789 --token <token>
 
 # Attach to an existing session key
-openclaw acp --session agent:main:main
+freeclaw acp --session agent:main:main
 
 # Attach by label (must already exist)
-openclaw acp --session-label "support inbox"
+freeclaw acp --session-label "support inbox"
 
 # Reset the session key before the first prompt
-openclaw acp --session agent:main:main --reset-session
+freeclaw acp --session agent:main:main --reset-session
 ```
 
 ## ACP client (debug)
@@ -37,19 +37,19 @@ Use the built-in ACP client to sanity-check the bridge without an IDE.
 It spawns the ACP bridge and lets you type prompts interactively.
 
 ```bash
-openclaw acp client
+freeclaw acp client
 
 # Point the spawned bridge at a remote Gateway
-openclaw acp client --server-args --url wss://gateway-host:18789 --token <token>
+freeclaw acp client --server-args --url wss://gateway-host:18789 --token <token>
 
 # Override the server command (default: openclaw)
-openclaw acp client --server "node" --server-args openclaw.mjs acp --url ws://127.0.0.1:19001
+freeclaw acp client --server "node" --server-args openclaw.mjs acp --url ws://127.0.0.1:19001
 ```
 
 ## How to use this
 
 Use ACP when an IDE (or other client) speaks Agent Client Protocol and you want
-it to drive a OpenClaw Gateway session.
+it to drive a FreeClaw Gateway session.
 
 1. Ensure the Gateway is running (local or remote).
 2. Configure the Gateway target (config or flags).
@@ -58,14 +58,14 @@ it to drive a OpenClaw Gateway session.
 Example config (persisted):
 
 ```bash
-openclaw config set gateway.remote.url wss://gateway-host:18789
-openclaw config set gateway.remote.token <token>
+freeclaw config set gateway.remote.url wss://gateway-host:18789
+freeclaw config set gateway.remote.token <token>
 ```
 
 Example direct run (no config write):
 
 ```bash
-openclaw acp --url wss://gateway-host:18789 --token <token>
+freeclaw acp --url wss://gateway-host:18789 --token <token>
 ```
 
 ## Selecting agents
@@ -75,9 +75,9 @@ ACP does not pick agents directly. It routes by the Gateway session key.
 Use agent-scoped session keys to target a specific agent:
 
 ```bash
-openclaw acp --session agent:main:main
-openclaw acp --session agent:design:main
-openclaw acp --session agent:qa:bug-123
+freeclaw acp --session agent:main:main
+freeclaw acp --session agent:design:main
+freeclaw acp --session agent:qa:bug-123
 ```
 
 Each ACP session maps to a single Gateway session key. One agent can have many
@@ -91,7 +91,7 @@ Add a custom ACP agent in `~/.config/zed/settings.json` (or use Zed’s Settings
 ```json
 {
   "agent_servers": {
-    "OpenClaw ACP": {
+    "FreeClaw ACP": {
       "type": "custom",
       "command": "openclaw",
       "args": ["acp"],
@@ -106,7 +106,7 @@ To target a specific Gateway or agent:
 ```json
 {
   "agent_servers": {
-    "OpenClaw ACP": {
+    "FreeClaw ACP": {
       "type": "custom",
       "command": "openclaw",
       "args": [

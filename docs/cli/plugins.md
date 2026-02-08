@@ -19,16 +19,16 @@ Related:
 ## Commands
 
 ```bash
-openclaw plugins list
-openclaw plugins info <id>
-openclaw plugins enable <id>
-openclaw plugins disable <id>
-openclaw plugins doctor
-openclaw plugins update <id>
-openclaw plugins update --all
+freeclaw plugins list
+freeclaw plugins info <id>
+freeclaw plugins enable <id>
+freeclaw plugins disable <id>
+freeclaw plugins doctor
+freeclaw plugins update <id>
+freeclaw plugins update --all
 ```
 
-Bundled plugins ship with OpenClaw but start disabled. Use `plugins enable` to
+Bundled plugins ship with FreeClaw but start disabled. Use `plugins enable` to
 activate them.
 
 All plugins must ship a `openclaw.plugin.json` file with an inline JSON Schema
@@ -38,7 +38,7 @@ the plugin from loading and fail config validation.
 ### Install
 
 ```bash
-openclaw plugins install <path-or-spec>
+freeclaw plugins install <path-or-spec>
 ```
 
 Security note: treat plugin installs like running code. Prefer pinned versions.
@@ -48,15 +48,15 @@ Supported archives: `.zip`, `.tgz`, `.tar.gz`, `.tar`.
 Use `--link` to avoid copying a local directory (adds to `plugins.load.paths`):
 
 ```bash
-openclaw plugins install -l ./my-plugin
+freeclaw plugins install -l ./my-plugin
 ```
 
 ### Update
 
 ```bash
-openclaw plugins update <id>
-openclaw plugins update --all
-openclaw plugins update <id> --dry-run
+freeclaw plugins update <id>
+freeclaw plugins update --all
+freeclaw plugins update <id> --dry-run
 ```
 
 Updates only apply to plugins installed from npm (tracked in `plugins.installs`).

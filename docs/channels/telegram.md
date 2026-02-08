@@ -127,7 +127,7 @@ Draft streaming is DM-only; Telegram does not support it in groups or channels.
 - Outbound Telegram text uses `parse_mode: "HTML"` (Telegram’s supported tag subset).
 - Markdown-ish input is rendered into **Telegram-safe HTML** (bold/italic/strike/code/links); block elements are flattened to text with newlines/bullets.
 - Raw HTML from models is escaped to avoid Telegram parse errors.
-- If Telegram rejects the HTML payload, OpenClaw retries the same message as plain text.
+- If Telegram rejects the HTML payload, FreeClaw retries the same message as plain text.
 
 ## Commands (native + custom)
 
@@ -156,7 +156,7 @@ More help: [Channel troubleshooting](/channels/troubleshooting).
 
 Notes:
 
-- Custom commands are **menu entries only**; OpenClaw does not implement them unless you handle them elsewhere.
+- Custom commands are **menu entries only**; FreeClaw does not implement them unless you handle them elsewhere.
 - Command names are normalized (leading `/` stripped, lowercased) and must match `a-z`, `0-9`, `_` (1–32 chars).
 - Custom commands **cannot override native commands**. Conflicts are ignored and logged.
 - If `commands.native` is disabled, only custom commands are registered (or cleared if none).
@@ -242,7 +242,7 @@ By default, Telegram is allowed to write config updates triggered by channel eve
 
 This happens when:
 
-- A group is upgraded to a supergroup and Telegram emits `migrate_to_chat_id` (chat ID changes). OpenClaw can migrate `channels.telegram.groups` automatically.
+- A group is upgraded to a supergroup and Telegram emits `migrate_to_chat_id` (chat ID changes). FreeClaw can migrate `channels.telegram.groups` automatically.
 - You run `/config set` or `/config unset` in a Telegram chat (requires `commands.config: true`).
 
 Disable with:
@@ -255,7 +255,7 @@ Disable with:
 
 ## Topics (forum supergroups)
 
-Telegram forum topics include a `message_thread_id` per message. OpenClaw:
+Telegram forum topics include a `message_thread_id` per message. FreeClaw:
 
 - Appends `:topic:<threadId>` to the Telegram group session key so each topic is isolated.
 - Sends typing indicators and replies with `message_thread_id` so responses stay in the topic.
@@ -264,7 +264,7 @@ Telegram forum topics include a `message_thread_id` per message. OpenClaw:
 - Topic-specific configuration is available under `channels.telegram.groups.<chatId>.topics.<threadId>` (skills, allowlists, auto-reply, system prompts, disable).
 - Topic configs inherit group settings (requireMention, allowlists, skills, prompts, enabled) unless overridden per topic.
 
-Private chats can include `message_thread_id` in some edge cases. OpenClaw keeps the DM session key unchanged, but still uses the thread id for replies/draft streaming when it is present.
+Private chats can include `message_thread_id` in some edge cases. FreeClaw keeps the DM session key unchanged, but still uses the thread id for replies/draft streaming when it is present.
 
 ## Inline Buttons
 
@@ -458,7 +458,7 @@ OpenClaw supports receiving and sending Telegram stickers with intelligent cachi
 
 ### Receiving stickers
 
-When a user sends a sticker, OpenClaw handles it based on the sticker type:
+When a user sends a sticker, FreeClaw handles it based on the sticker type:
 
 - **Static stickers (WEBP):** Downloaded and processed through vision. The sticker appears as a `<media:sticker>` placeholder in the message content.
 - **Animated stickers (TGS):** Skipped (Lottie format not supported for processing).
@@ -475,7 +475,7 @@ Template context field available when receiving stickers:
 
 ### Sticker cache
 
-Stickers are processed through the AI's vision capabilities to generate descriptions. Since the same stickers are often sent repeatedly, OpenClaw caches these descriptions to avoid redundant API calls.
+Stickers are processed through the AI's vision capabilities to generate descriptions. Since the same stickers are often sent repeatedly, FreeClaw caches these descriptions to avoid redundant API calls.
 
 **How it works:**
 
@@ -483,7 +483,7 @@ Stickers are processed through the AI's vision capabilities to generate descript
 2. **Cache storage:** The description is saved along with the sticker's file ID, emoji, and set name.
 3. **Subsequent encounters:** When the same sticker is seen again, the cached description is used directly. The image is not sent to the AI.
 
-**Cache location:** `~/.openclaw/telegram/sticker-cache.json`
+**Cache location:** `~/.freeclaw/telegram/sticker-cache.json`
 
 **Cache entry format:**
 
@@ -632,7 +632,7 @@ Outbound Telegram API calls retry on transient network/429 errors with exponenti
 ## Reaction notifications
 
 **How reactions work:**
-Telegram reactions arrive as **separate `message_reaction` events**, not as properties in message payloads. When a user adds a reaction, OpenClaw:
+Telegram reactions arrive as **separate `message_reaction` events**, not as properties in message payloads. When a user adds a reaction, FreeClaw:
 
 1. Receives the `message_reaction` update from Telegram API
 2. Converts it to a **system event** with format: `"Telegram reaction added: {emoji} by {user} on msg {id}"`
@@ -671,7 +671,7 @@ The agent sees reactions as **system notifications** in the conversation history
 
 **Requirements:**
 
-- Telegram bots must explicitly request `message_reaction` in `allowed_updates` (configured automatically by OpenClaw)
+- Telegram bots must explicitly request `message_reaction` in `allowed_updates` (configured automatically by FreeClaw)
 - For webhook mode, reactions are included in the webhook `allowed_updates`
 - For polling mode, reactions are included in the `getUpdates` `allowed_updates`
 
@@ -710,7 +710,7 @@ The agent sees reactions as **system notifications** in the conversation history
 **Long-polling aborts immediately on Node 22+ (often with proxies/custom fetch):**
 
 - Node 22+ is stricter about `AbortSignal` instances; foreign signals can abort `fetch` calls right away.
-- Upgrade to a OpenClaw build that normalizes abort signals, or run the gateway on Node 20 until you can upgrade.
+- Upgrade to a FreeClaw build that normalizes abort signals, or run the gateway on Node 20 until you can upgrade.
 
 **Bot starts, then silently stops responding (or logs `HttpError: Network request ... failed`):**
 

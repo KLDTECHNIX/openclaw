@@ -4,11 +4,11 @@ title: "Pi Integration Architecture"
 
 # Pi Integration Architecture
 
-This document describes how OpenClaw integrates with [pi-coding-agent](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent) and its sibling packages (`pi-ai`, `pi-agent-core`, `pi-tui`) to power its AI agent capabilities.
+This document describes how FreeClaw integrates with [pi-coding-agent](https://github.com/badlogic/pi-mono/tree/main/packages/coding-agent) and its sibling packages (`pi-ai`, `pi-agent-core`, `pi-tui`) to power its AI agent capabilities.
 
 ## Overview
 
-OpenClaw uses the pi SDK to embed an AI coding agent into its messaging gateway architecture. Instead of spawning pi as a subprocess or using RPC mode, OpenClaw directly imports and instantiates pi's `AgentSession` via `createAgentSession()`. This embedded approach provides:
+OpenClaw uses the pi SDK to embed an AI coding agent into its messaging gateway architecture. Instead of spawning pi as a subprocess or using RPC mode, FreeClaw directly imports and instantiates pi's `AgentSession` via `createAgentSession()`. This embedded approach provides:
 
 - Full control over session lifecycle and event handling
 - Custom tool injection (messaging, sandbox, channel-specific actions)
@@ -33,7 +33,7 @@ OpenClaw uses the pi SDK to embed an AI coding agent into its messaging gateway 
 | `pi-ai`           | Core LLM abstractions: `Model`, `streamSimple`, message types, provider APIs                           |
 | `pi-agent-core`   | Agent loop, tool execution, `AgentMessage` types                                                       |
 | `pi-coding-agent` | High-level SDK: `createAgentSession`, `SessionManager`, `AuthStorage`, `ModelRegistry`, built-in tools |
-| `pi-tui`          | Terminal UI components (used in OpenClaw's local TUI mode)                                             |
+| `pi-tui`          | Terminal UI components (used in FreeClaw's local TUI mode)                                             |
 
 ## File Structure
 
@@ -233,7 +233,7 @@ The SDK handles the full agent loop: sending to LLM, executing tool calls, strea
 ### Tool Pipeline
 
 1. **Base Tools**: pi's `codingTools` (read, bash, edit, write)
-2. **Custom Replacements**: OpenClaw replaces bash with `exec`/`process`, customizes read/edit/write for sandbox
+2. **Custom Replacements**: FreeClaw replaces bash with `exec`/`process`, customizes read/edit/write for sandbox
 3. **OpenClaw Tools**: messaging, browser, canvas, sessions, cron, gateway, etc.
 4. **Channel Tools**: Discord/Telegram/Slack/WhatsApp-specific action tools
 5. **Policy Filtering**: Tools filtered by profile, provider, agent, group, sandbox policies
@@ -272,11 +272,11 @@ export function splitSdkTools(options: { tools: AnyAgentTool[]; sandboxEnabled: 
 }
 ```
 
-This ensures OpenClaw's policy filtering, sandbox integration, and extended toolset remain consistent across providers.
+This ensures FreeClaw's policy filtering, sandbox integration, and extended toolset remain consistent across providers.
 
 ## System Prompt Construction
 
-The system prompt is built in `buildAgentSystemPrompt()` (`system-prompt.ts`). It assembles a full prompt with sections including Tooling, Tool Call Style, Safety guardrails, OpenClaw CLI reference, Skills, Docs, Workspace, Sandbox, Messaging, Reply Tags, Voice, Silent Replies, Heartbeats, Runtime metadata, plus Memory and Reactions when enabled, and optional context files and extra system prompt content. Sections are trimmed for minimal prompt mode used by subagents.
+The system prompt is built in `buildAgentSystemPrompt()` (`system-prompt.ts`). It assembles a full prompt with sections including Tooling, Tool Call Style, Safety guardrails, FreeClaw CLI reference, Skills, Docs, Workspace, Sandbox, Messaging, Reply Tags, Voice, Silent Replies, Heartbeats, Runtime metadata, plus Memory and Reactions when enabled, and optional context files and extra system prompt content. Sections are trimmed for minimal prompt mode used by subagents.
 
 The prompt is applied after session creation via `applySystemPromptOverrideToSession()`:
 
@@ -511,12 +511,12 @@ This provides the interactive terminal experience similar to pi's native mode.
 
 ## Key Differences from Pi CLI
 
-| Aspect          | Pi CLI                  | OpenClaw Embedded                                                                              |
+| Aspect          | Pi CLI                  | FreeClaw Embedded                                                                              |
 | --------------- | ----------------------- | ---------------------------------------------------------------------------------------------- |
 | Invocation      | `pi` command / RPC      | SDK via `createAgentSession()`                                                                 |
-| Tools           | Default coding tools    | Custom OpenClaw tool suite                                                                     |
+| Tools           | Default coding tools    | Custom FreeClaw tool suite                                                                     |
 | System prompt   | AGENTS.md + prompts     | Dynamic per-channel/context                                                                    |
-| Session storage | `~/.pi/agent/sessions/` | `~/.openclaw/agents/<agentId>/sessions/` (or `$OPENCLAW_STATE_DIR/agents/<agentId>/sessions/`) |
+| Session storage | `~/.pi/agent/sessions/` | `~/.freeclaw/agents/<agentId>/sessions/` (or `$FREECLAW_STATE_DIR/agents/<agentId>/sessions/`) |
 | Auth            | Single credential       | Multi-profile with rotation                                                                    |
 | Extensions      | Loaded from disk        | Programmatic + disk paths                                                                      |
 | Event handling  | TUI rendering           | Callback-based (onBlockReply, etc.)                                                            |

@@ -155,7 +155,7 @@ ${theme.muted("Docs:")} ${formatDocsLink("/cli/agent", "docs.freeclaw.ai/cli/age
         `
 ${theme.heading("Examples:")}
 ${formatHelpExamples([
-  ['freeclaw agents set-identity --agent main --name "OpenClaw" --emoji "🦞"', "Set name + emoji."],
+  ['freeclaw agents set-identity --agent main --name "FreeClaw" --emoji "🦞"', "Set name + emoji."],
   ["freeclaw agents set-identity --agent main --avatar avatars/freeclaw.png", "Set avatar path."],
   [
     "freeclaw agents set-identity --workspace ~/.freeclaw/workspace --from-identity",

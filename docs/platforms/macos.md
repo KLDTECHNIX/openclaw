@@ -1,14 +1,14 @@
 ---
-summary: "OpenClaw macOS companion app (menu bar + gateway broker)"
+summary: "FreeClaw macOS companion app (menu bar + gateway broker)"
 read_when:
   - Implementing macOS app features
   - Changing gateway lifecycle or node bridging on macOS
 title: "macOS App"
 ---
 
-# OpenClaw macOS Companion (menu bar + gateway broker)
+# FreeClaw macOS Companion (menu bar + gateway broker)
 
-The macOS app is the **menu‑bar companion** for OpenClaw. It owns permissions,
+The macOS app is the **menu‑bar companion** for FreeClaw. It owns permissions,
 manages/attaches to the Gateway locally (launchd or manual), and exposes macOS
 capabilities to the agent as a node.
 
@@ -35,7 +35,7 @@ capabilities to the agent as a node.
 ## Launchd control
 
 The app manages a per‑user LaunchAgent labeled `bot.molt.gateway`
-(or `bot.molt.<profile>` when using `--profile`/`OPENCLAW_PROFILE`; legacy `com.openclaw.*` still unloads).
+(or `bot.molt.<profile>` when using `--profile`/`FREECLAW_PROFILE`; legacy `com.openclaw.*` still unloads).
 
 ```bash
 launchctl kickstart -k gui/$UID/bot.molt.gateway
@@ -78,7 +78,7 @@ Gateway -> Node Service (WS)
 Security + ask + allowlist are stored locally on the Mac in:
 
 ```
-~/.openclaw/exec-approvals.json
+~/.freeclaw/exec-approvals.json
 ```
 
 Example:
@@ -142,7 +142,7 @@ Safety:
 ## Build & dev workflow (native)
 
 - `cd apps/macos && swift build`
-- `swift run OpenClaw` (or Xcode)
+- `swift run FreeClaw` (or Xcode)
 - Package app: `scripts/package-mac-app.sh`
 
 ## Debug gateway connectivity (macOS CLI)

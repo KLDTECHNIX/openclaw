@@ -18,6 +18,6 @@ Related:
 ## Setup
 
 ```bash
-openclaw dns setup
-openclaw dns setup --apply
+freeclaw dns setup
+freeclaw dns setup --apply
 ```

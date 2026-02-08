@@ -75,10 +75,10 @@ OpenClaw 支持用于智能体工作流的**相机捕获**：
 示例：
 
 ```bash
-openclaw nodes camera snap --node <id>               # default: both front + back (2 MEDIA lines)
-openclaw nodes camera snap --node <id> --facing front
-openclaw nodes camera clip --node <id> --duration 3000
-openclaw nodes camera clip --node <id> --no-audio
+freeclaw nodes camera snap --node <id>               # default: both front + back (2 MEDIA lines)
+freeclaw nodes camera snap --node <id> --facing front
+freeclaw nodes camera clip --node <id> --duration 3000
+freeclaw nodes camera clip --node <id> --no-audio
 ```
 
 注意事项：
@@ -127,15 +127,15 @@ macOS 配套应用暴露一个复选框：
 示例：
 
 ```bash
-openclaw nodes camera list --node <id>            # list camera ids
-openclaw nodes camera snap --node <id>            # prints MEDIA:<path>
-openclaw nodes camera snap --node <id> --max-width 1280
-openclaw nodes camera snap --node <id> --delay-ms 2000
-openclaw nodes camera snap --node <id> --device-id <id>
-openclaw nodes camera clip --node <id> --duration 10s          # prints MEDIA:<path>
-openclaw nodes camera clip --node <id> --duration-ms 3000      # prints MEDIA:<path> (legacy flag)
-openclaw nodes camera clip --node <id> --device-id <id>
-openclaw nodes camera clip --node <id> --no-audio
+freeclaw nodes camera list --node <id>            # list camera ids
+freeclaw nodes camera snap --node <id>            # prints MEDIA:<path>
+freeclaw nodes camera snap --node <id> --max-width 1280
+freeclaw nodes camera snap --node <id> --delay-ms 2000
+freeclaw nodes camera snap --node <id> --device-id <id>
+freeclaw nodes camera clip --node <id> --duration 10s          # prints MEDIA:<path>
+freeclaw nodes camera clip --node <id> --duration-ms 3000      # prints MEDIA:<path> (legacy flag)
+freeclaw nodes camera clip --node <id> --device-id <id>
+freeclaw nodes camera clip --node <id> --no-audio
 ```
 
 注意事项：
@@ -154,7 +154,7 @@ openclaw nodes camera clip --node <id> --no-audio
 对于*屏幕*视频（非相机），使用 macOS 配套应用：
 
 ```bash
-openclaw nodes screen record --node <id> --duration 10s --fps 15   # prints MEDIA:<path>
+freeclaw nodes screen record --node <id> --duration 10s --fps 15   # prints MEDIA:<path>
 ```
 
 注意事项：

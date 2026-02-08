@@ -31,8 +31,8 @@ OpenClaw 的 Gateway 网关可以提供一个小型的 OpenAI 兼容 Chat Comple
 
 注意事项：
 
-- 当 `gateway.auth.mode="token"` 时，使用 `gateway.auth.token`（或 `OPENCLAW_GATEWAY_TOKEN`）。
-- 当 `gateway.auth.mode="password"` 时，使用 `gateway.auth.password`（或 `OPENCLAW_GATEWAY_PASSWORD`）。
+- 当 `gateway.auth.mode="token"` 时，使用 `gateway.auth.token`（或 `FREECLAW_GATEWAY_TOKEN`）。
+- 当 `gateway.auth.mode="password"` 时，使用 `gateway.auth.password`（或 `FREECLAW_GATEWAY_PASSWORD`）。
 
 ## 选择智能体
 
@@ -41,7 +41,7 @@ OpenClaw 的 Gateway 网关可以提供一个小型的 OpenAI 兼容 Chat Comple
 - `model: "openclaw:<agentId>"`（例如：`"openclaw:main"`、`"openclaw:beta"`）
 - `model: "agent:<agentId>"`（别名）
 
-或通过头指定特定的 OpenClaw 智能体：
+或通过头指定特定的 FreeClaw 智能体：
 
 - `x-openclaw-agent-id: <agentId>`（默认：`main`）
 

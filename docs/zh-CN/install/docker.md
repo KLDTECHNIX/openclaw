@@ -2,7 +2,7 @@
 read_when:
   - 你想要容器化的 Gateway 网关而不是本地安装
   - 你正在验证 Docker 流程
-summary: OpenClaw 的可选 Docker 设置和新手引导
+summary: FreeClaw 的可选 Docker 设置和新手引导
 title: Docker
 x-i18n:
   generated_at: "2026-02-03T07:51:20Z"
@@ -25,7 +25,7 @@ Docker 是**可选的**。仅当你想要容器化的 Gateway 网关或验证 Do
 
 本指南涵盖：
 
-- 容器化 Gateway 网关（完整的 OpenClaw 在 Docker 中）
+- 容器化 Gateway 网关（完整的 FreeClaw 在 Docker 中）
 - 每会话智能体沙箱（主机 Gateway 网关 + Docker 隔离的智能体工具）
 
 沙箱隔离详情：[沙箱隔离](/gateway/sandboxing)
@@ -55,9 +55,9 @@ Docker 是**可选的**。仅当你想要容器化的 Gateway 网关或验证 Do
 
 可选环境变量：
 
-- `OPENCLAW_DOCKER_APT_PACKAGES` — 在构建期间安装额外的 apt 包
-- `OPENCLAW_EXTRA_MOUNTS` — 添加额外的主机绑定挂载
-- `OPENCLAW_HOME_VOLUME` — 在命名卷中持久化 `/home/node`
+- `FREECLAW_DOCKER_APT_PACKAGES` — 在构建期间安装额外的 apt 包
+- `FREECLAW_EXTRA_MOUNTS` — 添加额外的主机绑定挂载
+- `FREECLAW_HOME_VOLUME` — 在命名卷中持久化 `/home/node`
 
 完成后：
 
@@ -67,8 +67,8 @@ Docker 是**可选的**。仅当你想要容器化的 Gateway 网关或验证 Do
 
 它在主机上写入配置/工作区：
 
-- `~/.openclaw/`
-- `~/.openclaw/workspace`
+- `~/.freeclaw/`
+- `~/.freeclaw/workspace`
 
 在 VPS 上运行？参阅 [Hetzner（Docker VPS）](/install/hetzner)。
 
@@ -80,7 +80,7 @@ docker compose run --rm openclaw-cli onboard
 docker compose up -d openclaw-gateway
 ```
 
-注意：从仓库根目录运行 `docker compose ...`。如果你启用了 `OPENCLAW_EXTRA_MOUNTS` 或 `OPENCLAW_HOME_VOLUME`，设置脚本会写入 `docker-compose.extra.yml`；在其他地方运行 Compose 时包含它：
+注意：从仓库根目录运行 `docker compose ...`。如果你启用了 `FREECLAW_EXTRA_MOUNTS` 或 `FREECLAW_HOME_VOLUME`，设置脚本会写入 `docker-compose.extra.yml`；在其他地方运行 Compose 时包含它：
 
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.extra.yml <command>
@@ -100,60 +100,60 @@ docker compose run --rm openclaw-cli devices approve <requestId>
 
 ### 额外挂载（可选）
 
-如果你想将额外的主机目录挂载到容器中，在运行 `docker-setup.sh` 之前设置 `OPENCLAW_EXTRA_MOUNTS`。这接受逗号分隔的 Docker 绑定挂载列表，并通过生成 `docker-compose.extra.yml` 将它们应用到 `openclaw-gateway` 和 `openclaw-cli`。
+如果你想将额外的主机目录挂载到容器中，在运行 `docker-setup.sh` 之前设置 `FREECLAW_EXTRA_MOUNTS`。这接受逗号分隔的 Docker 绑定挂载列表，并通过生成 `docker-compose.extra.yml` 将它们应用到 `openclaw-gateway` 和 `openclaw-cli`。
 
 示例：
 
 ```bash
-export OPENCLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
+export FREECLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
 ./docker-setup.sh
 ```
 
 注意：
 
 - 路径必须在 macOS/Windows 上与 Docker Desktop 共享。
-- 如果你编辑 `OPENCLAW_EXTRA_MOUNTS`，重新运行 `docker-setup.sh` 以重新生成额外的 compose 文件。
+- 如果你编辑 `FREECLAW_EXTRA_MOUNTS`，重新运行 `docker-setup.sh` 以重新生成额外的 compose 文件。
 - `docker-compose.extra.yml` 是生成的。不要手动编辑它。
 
 ### 持久化整个容器 home（可选）
 
-如果你想让 `/home/node` 在容器重建后持久化，通过 `OPENCLAW_HOME_VOLUME` 设置一个命名卷。这会创建一个 Docker 卷并将其挂载到 `/home/node`，同时保持标准的配置/工作区绑定挂载。这里使用命名卷（不是绑定路径）；对于绑定挂载，使用 `OPENCLAW_EXTRA_MOUNTS`。
+如果你想让 `/home/node` 在容器重建后持久化，通过 `FREECLAW_HOME_VOLUME` 设置一个命名卷。这会创建一个 Docker 卷并将其挂载到 `/home/node`，同时保持标准的配置/工作区绑定挂载。这里使用命名卷（不是绑定路径）；对于绑定挂载，使用 `FREECLAW_EXTRA_MOUNTS`。
 
 示例：
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_HOME_VOLUME="openclaw_home"
 ./docker-setup.sh
 ```
 
 你可以将其与额外挂载结合使用：
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
-export OPENCLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
+export FREECLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_EXTRA_MOUNTS="$HOME/.codex:/home/node/.codex:ro,$HOME/github:/home/node/github:rw"
 ./docker-setup.sh
 ```
 
 注意：
 
-- 如果你更改 `OPENCLAW_HOME_VOLUME`，重新运行 `docker-setup.sh` 以重新生成额外的 compose 文件。
+- 如果你更改 `FREECLAW_HOME_VOLUME`，重新运行 `docker-setup.sh` 以重新生成额外的 compose 文件。
 - 命名卷会持久化直到使用 `docker volume rm <name>` 删除。
 
 ### 安装额外的 apt 包（可选）
 
-如果你需要镜像内的系统包（例如构建工具或媒体库），在运行 `docker-setup.sh` 之前设置 `OPENCLAW_DOCKER_APT_PACKAGES`。这会在镜像构建期间安装包，因此即使容器被删除它们也会持久化。
+如果你需要镜像内的系统包（例如构建工具或媒体库），在运行 `docker-setup.sh` 之前设置 `FREECLAW_DOCKER_APT_PACKAGES`。这会在镜像构建期间安装包，因此即使容器被删除它们也会持久化。
 
 示例：
 
 ```bash
-export OPENCLAW_DOCKER_APT_PACKAGES="ffmpeg build-essential"
+export FREECLAW_DOCKER_APT_PACKAGES="ffmpeg build-essential"
 ./docker-setup.sh
 ```
 
 注意：
 
 - 这接受空格分隔的 apt 包名称列表。
-- 如果你更改 `OPENCLAW_DOCKER_APT_PACKAGES`，重新运行 `docker-setup.sh` 以重建镜像。
+- 如果你更改 `FREECLAW_DOCKER_APT_PACKAGES`，重新运行 `docker-setup.sh` 以重建镜像。
 
 ### 高级用户/功能完整的容器（选择加入）
 
@@ -168,14 +168,14 @@ export OPENCLAW_DOCKER_APT_PACKAGES="ffmpeg build-essential"
 1. **持久化 `/home/node`** 以便浏览器下载和工具缓存能够保留：
 
 ```bash
-export OPENCLAW_HOME_VOLUME="openclaw_home"
+export FREECLAW_HOME_VOLUME="openclaw_home"
 ./docker-setup.sh
 ```
 
 2. **将系统依赖烘焙到镜像中**（可重复 + 持久化）：
 
 ```bash
-export OPENCLAW_DOCKER_APT_PACKAGES="git curl jq"
+export FREECLAW_DOCKER_APT_PACKAGES="git curl jq"
 ./docker-setup.sh
 ```
 
@@ -186,12 +186,12 @@ docker compose run --rm openclaw-cli \
   node /app/node_modules/playwright-core/cli.js install chromium
 ```
 
-如果你需要 Playwright 安装系统依赖，使用 `OPENCLAW_DOCKER_APT_PACKAGES` 重建镜像，而不是在运行时使用 `--with-deps`。
+如果你需要 Playwright 安装系统依赖，使用 `FREECLAW_DOCKER_APT_PACKAGES` 重建镜像，而不是在运行时使用 `--with-deps`。
 
 4. **持久化 Playwright 浏览器下载**：
 
 - 在 `docker-compose.yml` 中设置 `PLAYWRIGHT_BROWSERS_PATH=/home/node/.cache/ms-playwright`。
-- 确保 `/home/node` 通过 `OPENCLAW_HOME_VOLUME` 持久化，或通过 `OPENCLAW_EXTRA_MOUNTS` 挂载 `/home/node/.cache/ms-playwright`。
+- 确保 `/home/node` 通过 `FREECLAW_HOME_VOLUME` 持久化，或通过 `FREECLAW_EXTRA_MOUNTS` 挂载 `/home/node/.cache/ms-playwright`。
 
 ### 权限 + EACCES
 
@@ -268,7 +268,7 @@ docker compose run --rm openclaw-cli channels add --channel discord --token "<to
 ### 健康检查
 
 ```bash
-docker compose exec openclaw-gateway node dist/index.js health --token "$OPENCLAW_GATEWAY_TOKEN"
+docker compose exec openclaw-gateway node dist/index.js health --token "$FREECLAW_GATEWAY_TOKEN"
 ```
 
 ### E2E 冒烟测试（Docker）
@@ -287,7 +287,7 @@ pnpm test:docker:qr
 
 - Gateway 网关绑定默认为 `lan` 用于容器使用。
 - Dockerfile CMD 使用 `--allow-unconfigured`；挂载的配置如果 `gateway.mode` 不是 `local` 仍会启动。覆盖 CMD 以强制执行检查。
-- Gateway 网关容器是会话的真实来源（`~/.openclaw/agents/<agentId>/sessions/`）。
+- Gateway 网关容器是会话的真实来源（`~/.freeclaw/agents/<agentId>/sessions/`）。
 
 ## 智能体沙箱（主机 Gateway 网关 + Docker 工具）
 
@@ -320,7 +320,7 @@ pnpm test:docker:qr
 
 - 镜像：`openclaw-sandbox:bookworm-slim`
 - 每个智能体一个容器
-- 智能体工作区访问：`workspaceAccess: "none"`（默认）使用 `~/.openclaw/sandboxes`
+- 智能体工作区访问：`workspaceAccess: "none"`（默认）使用 `~/.freeclaw/sandboxes`
   - `"ro"` 保持沙箱工作区在 `/workspace` 并将智能体工作区只读挂载在 `/agent`（禁用 `write`/`edit`/`apply_patch`）
   - `"rw"` 将智能体工作区读写挂载在 `/workspace`
 - 自动清理：空闲 > 24h 或 年龄 > 7d
@@ -345,7 +345,7 @@ pnpm test:docker:qr
         mode: "non-main", // off | non-main | all
         scope: "agent", // session | agent | shared（默认为 agent）
         workspaceAccess: "none", // none | ro | rw
-        workspaceRoot: "~/.openclaw/sandboxes",
+        workspaceRoot: "~/.freeclaw/sandboxes",
         docker: {
           image: "openclaw-sandbox:bookworm-slim",
           workdir: "/workspace",
@@ -526,7 +526,7 @@ docker build -t my-openclaw-sbx -f Dockerfile.sandbox .
 
 ## 故障排除
 
-- 镜像缺失：使用 [`scripts/sandbox-setup.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/sandbox-setup.sh) 构建或设置 `agents.defaults.sandbox.docker.image`。
+- 镜像缺失：使用 [`scripts/sandbox-setup.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/sandbox-setup.sh) 构建或设置 `agents.defaults.sandbox.docker.image`。
 - 容器未运行：它会按需为每个会话自动创建。
 - 沙箱中的权限错误：将 `docker.user` 设置为与你挂载的工作区所有权匹配的 UID:GID（或 chown 工作区文件夹）。
 - 找不到自定义工具：OpenClaw 使用 `sh -lc`（登录 shell）运行命令，这会 source `/etc/profile` 并可能重置 PATH。设置 `docker.env.PATH` 以在前面添加你的自定义工具路径（例如 `/custom/bin:/usr/local/share/npm-global/bin`），或在你的 Dockerfile 中在 `/etc/profile.d/` 下添加脚本。

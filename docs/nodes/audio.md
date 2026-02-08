@@ -9,7 +9,7 @@ title: "Audio and Voice Notes"
 
 ## What works
 
-- **Media understanding (audio)**: If audio understanding is enabled (or auto‑detected), OpenClaw:
+- **Media understanding (audio)**: If audio understanding is enabled (or auto‑detected), FreeClaw:
   1. Locates the first audio attachment (local path or URL) and downloads it if needed.
   2. Enforces `maxBytes` before sending to each model entry.
   3. Runs the first eligible model entry in order (provider or CLI).

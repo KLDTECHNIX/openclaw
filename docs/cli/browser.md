@@ -27,10 +27,10 @@ Related:
 ## Quick start (local)
 
 ```bash
-openclaw browser --browser-profile chrome tabs
-openclaw browser --browser-profile openclaw start
-openclaw browser --browser-profile openclaw open https://example.com
-openclaw browser --browser-profile openclaw snapshot
+freeclaw browser --browser-profile chrome tabs
+freeclaw browser --browser-profile freeclaw start
+freeclaw browser --browser-profile freeclaw open https://example.com
+freeclaw browser --browser-profile freeclaw snapshot
 ```
 
 ## Profiles
@@ -41,24 +41,24 @@ Profiles are named browser routing configs. In practice:
 - `chrome`: controls your existing Chrome tab(s) via the Chrome extension relay.
 
 ```bash
-openclaw browser profiles
-openclaw browser create-profile --name work --color "#FF5A36"
-openclaw browser delete-profile --name work
+freeclaw browser profiles
+freeclaw browser create-profile --name work --color "#FF5A36"
+freeclaw browser delete-profile --name work
 ```
 
 Use a specific profile:
 
 ```bash
-openclaw browser --browser-profile work tabs
+freeclaw browser --browser-profile work tabs
 ```
 
 ## Tabs
 
 ```bash
-openclaw browser tabs
-openclaw browser open https://docs.openclaw.ai
-openclaw browser focus <targetId>
-openclaw browser close <targetId>
+freeclaw browser tabs
+freeclaw browser open https://docs.freeclaw.ai
+freeclaw browser focus <targetId>
+freeclaw browser close <targetId>
 ```
 
 ## Snapshot / screenshot / actions
@@ -66,21 +66,21 @@ openclaw browser close <targetId>
 Snapshot:
 
 ```bash
-openclaw browser snapshot
+freeclaw browser snapshot
 ```
 
 Screenshot:
 
 ```bash
-openclaw browser screenshot
+freeclaw browser screenshot
 ```
 
 Navigate/click/type (ref-based UI automation):
 
 ```bash
-openclaw browser navigate https://example.com
-openclaw browser click <ref>
-openclaw browser type <ref> "hello"
+freeclaw browser navigate https://example.com
+freeclaw browser click <ref>
+freeclaw browser type <ref> "hello"
 ```
 
 ## Chrome extension relay (attach via toolbar button)
@@ -90,8 +90,8 @@ This mode lets the agent control an existing Chrome tab that you attach manually
 Install the unpacked extension to a stable path:
 
 ```bash
-openclaw browser extension install
-openclaw browser extension path
+freeclaw browser extension install
+freeclaw browser extension path
 ```
 
 Then Chrome → `chrome://extensions` → enable “Developer mode” → “Load unpacked” → select the printed folder.

@@ -9,15 +9,15 @@ Providers:
 - **Plivo** (Voice API + XML transfer + GetInput speech)
 - **Mock** (dev/no network)
 
-Docs: `https://docs.openclaw.ai/plugins/voice-call`
-Plugin system: `https://docs.openclaw.ai/plugin`
+Docs: `https://docs.freeclaw.ai/plugins/voice-call`
+Plugin system: `https://docs.freeclaw.ai/plugin`
 
 ## Install (local dev)
 
-### Option A: install via OpenClaw (recommended)
+### Option A: install via FreeClaw (recommended)
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+freeclaw plugins install @openclaw/voice-call
 ```
 
 Restart the Gateway afterwards.
@@ -25,9 +25,9 @@ Restart the Gateway afterwards.
 ### Option B: copy into your global extensions folder (dev)
 
 ```bash
-mkdir -p ~/.openclaw/extensions
-cp -R extensions/voice-call ~/.openclaw/extensions/voice-call
-cd ~/.openclaw/extensions/voice-call && pnpm install
+mkdir -p ~/.freeclaw/extensions
+cp -R extensions/voice-call ~/.freeclaw/extensions/voice-call
+cd ~/.freeclaw/extensions/voice-call && pnpm install
 ```
 
 ## Config
@@ -103,13 +103,13 @@ Notes:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall speak --call-id <id> --message "One moment"
-openclaw voicecall end --call-id <id>
-openclaw voicecall status --call-id <id>
-openclaw voicecall tail
-openclaw voicecall expose --mode funnel
+freeclaw voicecall call --to "+15555550123" --message "Hello from FreeClaw"
+freeclaw voicecall continue --call-id <id> --message "Any questions?"
+freeclaw voicecall speak --call-id <id> --message "One moment"
+freeclaw voicecall end --call-id <id>
+freeclaw voicecall status --call-id <id>
+freeclaw voicecall tail
+freeclaw voicecall expose --mode funnel
 ```
 
 ## Tool

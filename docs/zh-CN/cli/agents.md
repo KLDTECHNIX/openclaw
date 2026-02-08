@@ -24,18 +24,18 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw agents list
-openclaw agents add work --workspace ~/.openclaw/workspace-work
-openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
-openclaw agents set-identity --agent main --avatar avatars/openclaw.png
-openclaw agents delete work
+freeclaw agents list
+freeclaw agents add work --workspace ~/.freeclaw/workspace-work
+freeclaw agents set-identity --workspace ~/.freeclaw/workspace --from-identity
+freeclaw agents set-identity --agent main --avatar avatars/openclaw.png
+freeclaw agents delete work
 ```
 
 ## 身份文件
 
 每个智能体工作区可以在工作区根目录包含一个 `IDENTITY.md`：
 
-- 示例路径：`~/.openclaw/workspace/IDENTITY.md`
+- 示例路径：`~/.freeclaw/workspace/IDENTITY.md`
 - `set-identity --from-identity` 从工作区根目录读取（或从显式指定的 `--identity-file` 读取）
 
 头像路径相对于工作区根目录解析。
@@ -52,13 +52,13 @@ openclaw agents delete work
 从 `IDENTITY.md` 加载：
 
 ```bash
-openclaw agents set-identity --workspace ~/.openclaw/workspace --from-identity
+freeclaw agents set-identity --workspace ~/.freeclaw/workspace --from-identity
 ```
 
 显式覆盖字段：
 
 ```bash
-openclaw agents set-identity --agent main --name "OpenClaw" --emoji "🦞" --avatar avatars/openclaw.png
+freeclaw agents set-identity --agent main --name "FreeClaw" --emoji "🦞" --avatar avatars/openclaw.png
 ```
 
 配置示例：
@@ -70,7 +70,7 @@ openclaw agents set-identity --agent main --name "OpenClaw" --emoji "🦞" --ava
       {
         id: "main",
         identity: {
-          name: "OpenClaw",
+          name: "FreeClaw",
           theme: "space lobster",
           emoji: "🦞",
           avatar: "avatars/openclaw.png",

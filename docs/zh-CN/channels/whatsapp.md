@@ -19,7 +19,7 @@ x-i18n:
 ## 快速设置（新手）
 
 1. 如果可能，使用**单独的手机号码**（推荐）。
-2. 在 `~/.openclaw/openclaw.json` 中配置 WhatsApp。
+2. 在 `~/.freeclaw/freeclaw.json` 中配置 WhatsApp。
 3. 运行 `openclaw channels login` 扫描二维码（关联设备）。
 4. 启动 Gateway 网关。
 
@@ -62,13 +62,13 @@ x-i18n:
 
 ## 获取手机号码（两种模式）
 
-WhatsApp 需要真实手机号码进行验证。VoIP 和虚拟号码通常会被封锁。在 WhatsApp 上运行 OpenClaw 有两种支持的方式：
+WhatsApp 需要真实手机号码进行验证。VoIP 和虚拟号码通常会被封锁。在 WhatsApp 上运行 FreeClaw 有两种支持的方式：
 
 ### 专用号码（推荐）
 
-为 OpenClaw 使用**单独的手机号码**。最佳用户体验，清晰的路由，无自聊天怪异问题。理想设置：**备用/旧 Android 手机 + eSIM**。保持 Wi-Fi 和电源连接，通过二维码关联。
+为 FreeClaw 使用**单独的手机号码**。最佳用户体验，清晰的路由，无自聊天怪异问题。理想设置：**备用/旧 Android 手机 + eSIM**。保持 Wi-Fi 和电源连接，通过二维码关联。
 
-**WhatsApp Business：** 你可以在同一设备上使用不同号码的 WhatsApp Business。非常适合将个人 WhatsApp 分开——安装 WhatsApp Business 并在那里注册 OpenClaw 号码。
+**WhatsApp Business：** 你可以在同一设备上使用不同号码的 WhatsApp Business。非常适合将个人 WhatsApp 分开——安装 WhatsApp Business 并在那里注册 FreeClaw 号码。
 
 **示例配置（专用号码，单用户允许列表）：**
 
@@ -121,7 +121,7 @@ WhatsApp 需要真实手机号码进行验证。VoIP 和虚拟号码通常会被
 
 ## 为什么不用 Twilio？
 
-- 早期 OpenClaw 版本支持 Twilio 的 WhatsApp Business 集成。
+- 早期 FreeClaw 版本支持 Twilio 的 WhatsApp Business 集成。
 - WhatsApp Business 号码不适合个人助手。
 - Meta 强制执行 24 小时回复窗口；如果你在过去 24 小时内没有回复，商业号码无法发起新消息。
 - 高频或"频繁"使用会触发激进的封锁，因为商业账户不适合发送大量个人助手消息。
@@ -132,9 +132,9 @@ WhatsApp 需要真实手机号码进行验证。VoIP 和虚拟号码通常会被
 - 登录命令：`openclaw channels login`（通过关联设备扫描二维码）。
 - 多账户登录：`openclaw channels login --account <id>`（`<id>` = `accountId`）。
 - 默认账户（省略 `--account` 时）：如果存在则为 `default`，否则为第一个配置的账户 id（排序后）。
-- 凭证存储在 `~/.openclaw/credentials/whatsapp/<accountId>/creds.json`。
+- 凭证存储在 `~/.freeclaw/credentials/whatsapp/<accountId>/creds.json`。
 - 备份副本在 `creds.json.bak`（损坏时恢复）。
-- 旧版兼容性：较旧的安装将 Baileys 文件直接存储在 `~/.openclaw/credentials/` 中。
+- 旧版兼容性：较旧的安装将 Baileys 文件直接存储在 `~/.freeclaw/credentials/` 中。
 - 登出：`openclaw channels logout`（或 `--account <id>`）删除 WhatsApp 认证状态（但保留共享的 `oauth.json`）。
 - 已登出的 socket => 错误提示重新关联。
 
@@ -202,7 +202,7 @@ WhatsApp 需要真实手机号码进行验证。VoIP 和虚拟号码通常会被
 - 使用以下命令批准：`openclaw pairing approve whatsapp <code>`（使用 `openclaw pairing list whatsapp` 列出）。
 - 码在 1 小时后过期；每个渠道的待处理请求上限为 3 个。
 
-**多个人可以在一个 WhatsApp 号码上使用不同的 OpenClaw 实例吗？**
+**多个人可以在一个 WhatsApp 号码上使用不同的 FreeClaw 实例吗？**
 可以，通过 `bindings` 将每个发送者路由到不同的智能体（peer `kind: "dm"`，发送者 E.164 如 `+15551234567`）。回复仍然来自**同一个 WhatsApp 账户**，直接聊天会折叠到每个智能体的主会话，因此**每人使用一个智能体**。私信访问控制（`dmPolicy`/`allowFrom`）是每个 WhatsApp 账户全局的。参见[多智能体路由](/concepts/multi-agent)。
 
 **为什么向导会询问我的手机号码？**

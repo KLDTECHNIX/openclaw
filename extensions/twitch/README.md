@@ -1,17 +1,17 @@
 # @openclaw/twitch
 
-Twitch channel plugin for OpenClaw.
+Twitch channel plugin for FreeClaw.
 
 ## Install (local checkout)
 
 ```bash
-openclaw plugins install ./extensions/twitch
+freeclaw plugins install ./extensions/twitch
 ```
 
 ## Install (npm)
 
 ```bash
-openclaw plugins install @openclaw/twitch
+freeclaw plugins install @openclaw/twitch
 ```
 
 Onboarding: select Twitch and confirm the install prompt to fetch the plugin automatically.
@@ -80,7 +80,7 @@ Multi-account config (advanced):
 
 ## Full documentation
 
-See https://docs.openclaw.ai/channels/twitch for:
+See https://docs.freeclaw.ai/channels/twitch for:
 
 - Token refresh setup
 - Access control patterns

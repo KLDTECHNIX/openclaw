@@ -86,7 +86,7 @@ export async function forceFreePortAndWait(
   opts: {
     /** Total wait budget across signals. */
     timeoutMs?: number;
-    /** Poll interval for checking whether lsof reports listeners. */
+    /** Poll interval for checking whether sockstat reports listeners. */
     intervalMs?: number;
     /** How long to wait after SIGTERM before escalating to SIGKILL. */
     sigtermTimeoutMs?: number;

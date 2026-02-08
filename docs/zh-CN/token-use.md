@@ -2,7 +2,7 @@
 read_when:
   - 解释 token 使用量、成本或上下文窗口时
   - 调试上下文增长或压缩行为时
-summary: OpenClaw 如何构建提示上下文并报告 token 使用量 + 成本
+summary: FreeClaw 如何构建提示上下文并报告 token 使用量 + 成本
 title: Token 使用与成本
 x-i18n:
   generated_at: "2026-02-03T07:54:57Z"
@@ -54,7 +54,7 @@ OpenClaw 在每次运行时组装自己的系统提示词。它包括：
 - `/usage off|tokens|full` → 在每个回复后附加**每响应使用量页脚**。
   - 每会话持久化（存储为 `responseUsage`）。
   - OAuth 认证**隐藏成本**（仅 token）。
-- `/usage cost` → 从 OpenClaw 会话日志显示本地成本摘要。
+- `/usage cost` → 从 FreeClaw 会话日志显示本地成本摘要。
 
 其他界面：
 

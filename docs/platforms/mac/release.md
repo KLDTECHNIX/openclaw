@@ -1,12 +1,12 @@
 ---
-summary: "OpenClaw macOS release checklist (Sparkle feed, packaging, signing)"
+summary: "FreeClaw macOS release checklist (Sparkle feed, packaging, signing)"
 read_when:
-  - Cutting or validating a OpenClaw macOS release
+  - Cutting or validating a FreeClaw macOS release
   - Updating the Sparkle appcast or feed assets
 title: "macOS Release"
 ---
 
-# OpenClaw macOS release (Sparkle)
+# FreeClaw macOS release (Sparkle)
 
 This app now ships Sparkle auto-updates. Release builds must be Developer ID–signed, zipped, and published with a signed appcast entry.
 
@@ -70,7 +70,7 @@ Use the release note generator so Sparkle renders formatted HTML notes:
 SPARKLE_PRIVATE_KEY_FILE=/path/to/ed25519-private-key scripts/make_appcast.sh dist/OpenClaw-2026.2.6.zip https://raw.githubusercontent.com/openclaw/openclaw/main/appcast.xml
 ```
 
-Generates HTML release notes from `CHANGELOG.md` (via [`scripts/changelog-to-html.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/changelog-to-html.sh)) and embeds them in the appcast entry.
+Generates HTML release notes from `CHANGELOG.md` (via [`scripts/changelog-to-html.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/changelog-to-html.sh)) and embeds them in the appcast entry.
 Commit the updated `appcast.xml` alongside the release assets (zip + dSYM) when publishing.
 
 ## Publish & verify

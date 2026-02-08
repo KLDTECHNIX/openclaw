@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 你正在构建一个 OpenClaw 插件
+  - 你正在构建一个 FreeClaw 插件
   - 你需要提供插件配置 Schema 或调试插件验证错误
 summary: 插件清单及 JSON Schema 要求（严格配置验证）
 title: 插件清单

@@ -39,19 +39,19 @@ Step-by-step VPS guide: [exe.dev](/install/exe-dev)
 Use one of these:
 
 ```
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
 Or:
 
 ```
-openclaw gateway install
+freeclaw gateway install
 ```
 
 Or:
 
 ```
-openclaw configure
+freeclaw configure
 ```
 
 Select **Gateway service** when prompted.
@@ -59,7 +59,7 @@ Select **Gateway service** when prompted.
 Repair/migrate:
 
 ```
-openclaw doctor
+freeclaw doctor
 ```
 
 ## System control (systemd user unit)

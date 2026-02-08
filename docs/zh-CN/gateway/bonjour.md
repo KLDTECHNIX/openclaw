@@ -48,13 +48,13 @@ iOS/Android 节点同时浏览 `local.` 和你配置的广域域名。
 ### 一次性 DNS 服务器设置（Gateway 网关主机）
 
 ```bash
-openclaw dns setup --apply
+freeclaw dns setup --apply
 ```
 
 这会安装 CoreDNS 并配置它：
 
 - 仅在 Gateway 网关的 Tailscale 接口上监听 53 端口
-- 从 `~/.openclaw/dns/<domain>.db` 提供你选择的域名服务（示例：`openclaw.internal.`）
+- 从 `~/.freeclaw/dns/<domain>.db` 提供你选择的域名服务（示例：`openclaw.internal.`）
 
 从 Tailnet 连接的机器上验证：
 
@@ -80,7 +80,7 @@ Gateway 网关 WS 端口（默认 `18789`）默认绑定到 loopback。对于局
 
 对于仅 Tailnet 的设置：
 
-- 在 `~/.openclaw/openclaw.json` 中设置 `gateway.bind: "tailnet"`。
+- 在 `~/.freeclaw/freeclaw.json` 中设置 `gateway.bind: "tailnet"`。
 - 重启 Gateway 网关（或重启 macOS 菜单栏应用）。
 
 ## 什么在广播
@@ -162,11 +162,11 @@ Bonjour/DNS‑SD 经常将服务实例名称中的字节转义为十进制 `\DDD
 
 ## 禁用 / 配置
 
-- `OPENCLAW_DISABLE_BONJOUR=1` 禁用广播（旧版：`OPENCLAW_DISABLE_BONJOUR`）。
-- `~/.openclaw/openclaw.json` 中的 `gateway.bind` 控制 Gateway 网关绑定模式。
-- `OPENCLAW_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（旧版：`OPENCLAW_SSH_PORT`）。
-- `OPENCLAW_TAILNET_DNS` 在 TXT 中发布 MagicDNS 提示（旧版：`OPENCLAW_TAILNET_DNS`）。
-- `OPENCLAW_CLI_PATH` 覆盖广播的 CLI 路径（旧版：`OPENCLAW_CLI_PATH`）。
+- `FREECLAW_DISABLE_BONJOUR=1` 禁用广播（旧版：`FREECLAW_DISABLE_BONJOUR`）。
+- `~/.freeclaw/freeclaw.json` 中的 `gateway.bind` 控制 Gateway 网关绑定模式。
+- `FREECLAW_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（旧版：`FREECLAW_SSH_PORT`）。
+- `FREECLAW_TAILNET_DNS` 在 TXT 中发布 MagicDNS 提示（旧版：`FREECLAW_TAILNET_DNS`）。
+- `FREECLAW_CLI_PATH` 覆盖广播的 CLI 路径（旧版：`FREECLAW_CLI_PATH`）。
 
 ## 相关文档
 

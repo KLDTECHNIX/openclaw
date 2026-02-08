@@ -1,10 +1,10 @@
 ---
 read_when:
-  - 你想让 OpenClaw 在云 VPS 上 24/7 运行（而不是你的笔记本电脑）
+  - 你想让 FreeClaw 在云 VPS 上 24/7 运行（而不是你的笔记本电脑）
   - 你想在自己的 VPS 上运行生产级、永久在线的 Gateway 网关
   - 你想完全控制持久化、二进制文件和重启行为
   - 你在 Hetzner 或类似提供商上用 Docker 运行 OpenClaw
-summary: 在廉价的 Hetzner VPS（Docker）上 24/7 运行 OpenClaw Gateway 网关，带持久状态和内置二进制文件
+summary: 在廉价的 Hetzner VPS（Docker）上 24/7 运行 FreeClaw Gateway 网关，带持久状态和内置二进制文件
 title: Hetzner
 x-i18n:
   generated_at: "2026-02-03T07:52:17Z"
@@ -19,17 +19,17 @@ x-i18n:
 
 ## 目标
 
-使用 Docker 在 Hetzner VPS 上运行持久的 OpenClaw Gateway 网关，带持久状态、内置二进制文件和安全的重启行为。
+使用 Docker 在 Hetzner VPS 上运行持久的 FreeClaw Gateway 网关，带持久状态、内置二进制文件和安全的重启行为。
 
-如果你想要"约 $5 实现 OpenClaw 24/7"，这是最简单可靠的设置。
+如果你想要"约 $5 实现 FreeClaw 24/7"，这是最简单可靠的设置。
 Hetzner 定价会变化；选择最小的 Debian/Ubuntu VPS，如果遇到 OOM 再扩容。
 
 ## 我们在做什么（简单说明）？
 
 - 租用一台小型 Linux 服务器（Hetzner VPS）
 - 安装 Docker（隔离的应用运行时）
-- 在 Docker 中启动 OpenClaw Gateway 网关
-- 在主机上持久化 `~/.openclaw` + `~/.openclaw/workspace`（重启/重建后保留）
+- 在 Docker 中启动 FreeClaw Gateway 网关
+- 在主机上持久化 `~/.freeclaw` + `~/.freeclaw/workspace`（重启/重建后保留）
 - 通过 SSH 隧道从你的笔记本电脑访问控制 UI
 
 Gateway 网关可以通过以下方式访问：
@@ -47,7 +47,7 @@ Gateway 网关可以通过以下方式访问：
 
 1. 配置 Hetzner VPS
 2. 安装 Docker
-3. 克隆 OpenClaw 仓库
+3. 克隆 FreeClaw 仓库
 4. 创建持久化主机目录
 5. 配置 `.env` 和 `docker-compose.yml`
 6. 将所需二进制文件烘焙到镜像中
@@ -103,11 +103,11 @@ docker compose version
 
 ---
 
-## 3) 克隆 OpenClaw 仓库
+## 3) 克隆 FreeClaw 仓库
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 ```
 
 本指南假设你将构建自定义镜像以保证二进制文件持久化。
@@ -135,13 +135,13 @@ chown -R 1000:1000 /root/.openclaw/workspace
 在仓库根目录创建 `.env`。
 
 ```bash
-OPENCLAW_IMAGE=openclaw:latest
-OPENCLAW_GATEWAY_TOKEN=change-me-now
-OPENCLAW_GATEWAY_BIND=lan
-OPENCLAW_GATEWAY_PORT=18789
+FREECLAW_IMAGE=openclaw:latest
+FREECLAW_GATEWAY_TOKEN=change-me-now
+FREECLAW_GATEWAY_BIND=lan
+FREECLAW_GATEWAY_PORT=18789
 
-OPENCLAW_CONFIG_DIR=/root/.openclaw
-OPENCLAW_WORKSPACE_DIR=/root/.openclaw/workspace
+FREECLAW_CONFIG_DIR=/root/.openclaw
+FREECLAW_WORKSPACE_DIR=/root/.openclaw/workspace
 
 GOG_KEYRING_PASSWORD=change-me-now
 XDG_CONFIG_HOME=/home/node/.openclaw
@@ -164,7 +164,7 @@ openssl rand -hex 32
 ```yaml
 services:
   openclaw-gateway:
-    image: ${OPENCLAW_IMAGE}
+    image: ${FREECLAW_IMAGE}
     build: .
     restart: unless-stopped
     env_file:
@@ -173,19 +173,19 @@ services:
       - HOME=/home/node
       - NODE_ENV=production
       - TERM=xterm-256color
-      - OPENCLAW_GATEWAY_BIND=${OPENCLAW_GATEWAY_BIND}
-      - OPENCLAW_GATEWAY_PORT=${OPENCLAW_GATEWAY_PORT}
-      - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
+      - FREECLAW_GATEWAY_BIND=${FREECLAW_GATEWAY_BIND}
+      - FREECLAW_GATEWAY_PORT=${FREECLAW_GATEWAY_PORT}
+      - FREECLAW_GATEWAY_TOKEN=${FREECLAW_GATEWAY_TOKEN}
       - GOG_KEYRING_PASSWORD=${GOG_KEYRING_PASSWORD}
       - XDG_CONFIG_HOME=${XDG_CONFIG_HOME}
       - PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     volumes:
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${FREECLAW_CONFIG_DIR}:/home/node/.openclaw
+      - ${FREECLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
     ports:
       # 推荐：在 VPS 上保持 Gateway 网关仅限 loopback；通过 SSH 隧道访问。
       # 要公开暴露，移除 `127.0.0.1:` 前缀并相应配置防火墙。
-      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:18789"
+      - "127.0.0.1:${FREECLAW_GATEWAY_PORT}:18789"
 
       # 可选：仅当你对此 VPS 运行 iOS/Android 节点并需要 Canvas 主机时。
       # 如果你公开暴露此端口，请阅读 /gateway/security 并相应配置防火墙。
@@ -196,9 +196,9 @@ services:
         "dist/index.js",
         "gateway",
         "--bind",
-        "${OPENCLAW_GATEWAY_BIND}",
+        "${FREECLAW_GATEWAY_BIND}",
         "--port",
-        "${OPENCLAW_GATEWAY_PORT}",
+        "${FREECLAW_GATEWAY_PORT}",
       ]
 ```
 
@@ -325,7 +325,7 @@ OpenClaw 在 Docker 中运行，但 Docker 不是事实来源。
 
 | 组件             | 位置                              | 持久化机制    | 说明                        |
 | ---------------- | --------------------------------- | ------------- | --------------------------- |
-| Gateway 网关配置 | `/home/node/.openclaw/`           | 主机卷挂载    | 包括 `openclaw.json`、令牌  |
+| Gateway 网关配置 | `/home/node/.openclaw/`           | 主机卷挂载    | 包括 `freeclaw.json`、令牌  |
 | 模型认证配置文件 | `/home/node/.openclaw/`           | 主机卷挂载    | OAuth 令牌、API 密钥        |
 | Skill 配置       | `/home/node/.openclaw/skills/`    | 主机卷挂载    | Skill 级别状态              |
 | 智能体工作区     | `/home/node/.openclaw/workspace/` | 主机卷挂载    | 代码和智能体产物            |

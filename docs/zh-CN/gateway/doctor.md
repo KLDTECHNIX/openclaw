@@ -15,43 +15,43 @@ x-i18n:
 
 # Doctor
 
-`openclaw doctor` 是 OpenClaw 的修复 + 迁移工具。它修复过时的配置/状态，检查健康状况，并提供可操作的修复步骤。
+`openclaw doctor` 是 FreeClaw 的修复 + 迁移工具。它修复过时的配置/状态，检查健康状况，并提供可操作的修复步骤。
 
 ## 快速开始
 
 ```bash
-openclaw doctor
+freeclaw doctor
 ```
 
 ### 无头/自动化
 
 ```bash
-openclaw doctor --yes
+freeclaw doctor --yes
 ```
 
 无需提示接受默认值（包括适用时的重启/服务/沙箱修复步骤）。
 
 ```bash
-openclaw doctor --repair
+freeclaw doctor --repair
 ```
 
 无需提示应用推荐的修复（安全时进行修复 + 重启）。
 
 ```bash
-openclaw doctor --repair --force
+freeclaw doctor --repair --force
 ```
 
 也应用激进的修复（覆盖自定义 supervisor 配置）。
 
 ```bash
-openclaw doctor --non-interactive
+freeclaw doctor --non-interactive
 ```
 
 无需提示运行，仅应用安全迁移（配置规范化 + 磁盘状态移动）。跳过需要人工确认的重启/服务/沙箱操作。
 检测到时自动运行遗留状态迁移。
 
 ```bash
-openclaw doctor --deep
+freeclaw doctor --deep
 ```
 
 扫描系统服务以查找额外的 Gateway 网关安装（launchd/systemd/schtasks）。
@@ -59,7 +59,7 @@ openclaw doctor --deep
 如果你想在写入前查看更改，请先打开配置文件：
 
 ```bash
-cat ~/.openclaw/openclaw.json
+cat ~/.freeclaw/freeclaw.json
 ```
 
 ## 功能概述
@@ -106,7 +106,7 @@ Doctor 将：
 
 - 解释找到了哪些遗留键。
 - 显示它应用的迁移。
-- 使用更新后的 schema 重写 `~/.openclaw/openclaw.json`。
+- 使用更新后的 schema 重写 `~/.freeclaw/freeclaw.json`。
 
 Gateway 网关在检测到遗留配置格式时也会在启动时自动运行 doctor 迁移，因此过时的配置无需手动干预即可修复。
 
@@ -136,12 +136,12 @@ Gateway 网关在检测到遗留配置格式时也会在启动时自动运行 do
 Doctor 可以将旧的磁盘布局迁移到当前结构：
 
 - 会话存储 + 记录：
-  - 从 `~/.openclaw/sessions/` 到 `~/.openclaw/agents/<agentId>/sessions/`
+  - 从 `~/.freeclaw/sessions/` 到 `~/.freeclaw/agents/<agentId>/sessions/`
 - 智能体目录：
-  - 从 `~/.openclaw/agent/` 到 `~/.openclaw/agents/<agentId>/agent/`
+  - 从 `~/.freeclaw/agent/` 到 `~/.freeclaw/agents/<agentId>/agent/`
 - WhatsApp 认证状态（Baileys）：
-  - 从遗留的 `~/.openclaw/credentials/*.json`（除 `oauth.json` 外）
-  - 到 `~/.openclaw/credentials/whatsapp/<accountId>/...`（默认账户 id：`default`）
+  - 从遗留的 `~/.freeclaw/credentials/*.json`（除 `oauth.json` 外）
+  - 到 `~/.freeclaw/credentials/whatsapp/<accountId>/...`（默认账户 id：`default`）
 
 这些迁移是尽力而为且幂等的；当 doctor 将任何遗留文件夹作为备份保留时会发出警告。Gateway 网关/CLI 也会在启动时自动迁移遗留会话 + 智能体目录，因此历史/认证/模型会落在每智能体路径中，无需手动运行 doctor。WhatsApp 认证有意仅通过 `openclaw doctor` 迁移。
 
@@ -156,9 +156,9 @@ Doctor 检查：
 - **会话目录缺失**：`sessions/` 和会话存储目录是持久化历史和避免 `ENOENT` 崩溃所必需的。
 - **记录不匹配**：当最近的会话条目缺少记录文件时发出警告。
 - **主会话"1 行 JSONL"**：当主记录只有一行时标记（历史未累积）。
-- **多个状态目录**：当多个 `~/.openclaw` 文件夹存在于不同 home 目录或当 `OPENCLAW_STATE_DIR` 指向别处时发出警告（历史可能在安装之间分裂）。
+- **多个状态目录**：当多个 `~/.freeclaw` 文件夹存在于不同 home 目录或当 `FREECLAW_STATE_DIR` 指向别处时发出警告（历史可能在安装之间分裂）。
 - **远程模式提醒**：如果 `gateway.mode=remote`，doctor 会提醒你在远程主机上运行它（状态在那里）。
-- **配置文件权限**：当 `~/.openclaw/openclaw.json` 对组/其他用户可读时发出警告，并提供收紧到 `600` 的选项。
+- **配置文件权限**：当 `~/.freeclaw/freeclaw.json` 对组/其他用户可读时发出警告，并提供收紧到 `600` 的选项。
 
 ### 5）模型认证健康（OAuth 过期）
 
@@ -180,8 +180,8 @@ Doctor 还会报告由于以下原因暂时不可用的认证配置文件：
 
 ### 8）Gateway 网关服务迁移和清理提示
 
-Doctor 检测遗留的 Gateway 网关服务（launchd/systemd/schtasks），并提供删除它们并使用当前 Gateway 网关端口安装 OpenClaw 服务的选项。它还可以扫描额外的类 Gateway 网关服务并打印清理提示。
-配置文件命名的 OpenClaw Gateway 网关服务被视为一等公民，不会被标记为"额外的"。
+Doctor 检测遗留的 Gateway 网关服务（launchd/systemd/schtasks），并提供删除它们并使用当前 Gateway 网关端口安装 FreeClaw 服务的选项。它还可以扫描额外的类 Gateway 网关服务并打印清理提示。
+配置文件命名的 FreeClaw Gateway 网关服务被视为一等公民，不会被标记为"额外的"。
 
 ### 9）安全警告
 

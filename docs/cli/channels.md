@@ -18,19 +18,19 @@ Related docs:
 ## Common commands
 
 ```bash
-openclaw channels list
-openclaw channels status
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels logs --channel all
+freeclaw channels list
+freeclaw channels status
+freeclaw channels capabilities
+freeclaw channels capabilities --channel discord --target channel:123
+freeclaw channels resolve --channel slack "#general" "@jane"
+freeclaw channels logs --channel all
 ```
 
 ## Add / remove accounts
 
 ```bash
-openclaw channels add --channel telegram --token <bot-token>
-openclaw channels remove --channel telegram --delete
+freeclaw channels add --channel telegram --token <bot-token>
+freeclaw channels remove --channel telegram --delete
 ```
 
 Tip: `openclaw channels add --help` shows per-channel flags (token, app token, signal-cli paths, etc).
@@ -38,8 +38,8 @@ Tip: `openclaw channels add --help` shows per-channel flags (token, app token, s
 ## Login / logout (interactive)
 
 ```bash
-openclaw channels login --channel whatsapp
-openclaw channels logout --channel whatsapp
+freeclaw channels login --channel whatsapp
+freeclaw channels logout --channel whatsapp
 ```
 
 ## Troubleshooting
@@ -53,8 +53,8 @@ openclaw channels logout --channel whatsapp
 Fetch provider capability hints (intents/scopes where available) plus static feature support:
 
 ```bash
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
+freeclaw channels capabilities
+freeclaw channels capabilities --channel discord --target channel:123
 ```
 
 Notes:
@@ -68,9 +68,9 @@ Notes:
 Resolve channel/user names to IDs using the provider directory:
 
 ```bash
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels resolve --channel discord "My Server/#support" "@someone"
-openclaw channels resolve --channel matrix "Project Room"
+freeclaw channels resolve --channel slack "#general" "@jane"
+freeclaw channels resolve --channel discord "My Server/#support" "@someone"
+freeclaw channels resolve --channel matrix "Project Room"
 ```
 
 Notes:

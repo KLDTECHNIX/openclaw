@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 你想在 OpenClaw 中使用 Xiaomi MiMo 模型
+  - 你想在 FreeClaw 中使用 Xiaomi MiMo 模型
   - 你需要设置 XIAOMI_API_KEY
-summary: 在 OpenClaw 中使用 Xiaomi MiMo (mimo-v2-flash)
+summary: 在 FreeClaw 中使用 Xiaomi MiMo (mimo-v2-flash)
 title: Xiaomi MiMo
 x-i18n:
   generated_at: "2026-02-01T21:36:15Z"
@@ -26,9 +26,9 @@ Xiaomi MiMo 是 **MiMo** 模型的 API 平台。它提供与 OpenAI 和 Anthropi
 ## CLI 设置
 
 ```bash
-openclaw onboard --auth-choice xiaomi-api-key
+freeclaw onboard --auth-choice xiaomi-api-key
 # 或非交互式
-openclaw onboard --auth-choice xiaomi-api-key --xiaomi-api-key "$XIAOMI_API_KEY"
+freeclaw onboard --auth-choice xiaomi-api-key --xiaomi-api-key "$XIAOMI_API_KEY"
 ```
 
 ## 配置片段

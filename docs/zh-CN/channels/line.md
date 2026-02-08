@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 你想将 OpenClaw 连接到 LINE
+  - 你想将 FreeClaw 连接到 LINE
   - 你需要配置 LINE webhook + 凭证
   - 你想了解 LINE 特有的消息选项
 summary: LINE Messaging API 插件的配置、设置和使用方法
@@ -25,13 +25,13 @@ LINE 通过 LINE Messaging API 连接到 OpenClaw。该插件作为 webhook 接�
 安装 LINE 插件：
 
 ```bash
-openclaw plugins install @openclaw/line
+freeclaw plugins install @openclaw/line
 ```
 
 本地检出（从 git 仓库运行时）：
 
 ```bash
-openclaw plugins install ./extensions/line
+freeclaw plugins install ./extensions/line
 ```
 
 ## 配置步骤
@@ -107,8 +107,8 @@ Token/secret 文件：
 私信默认使用配对模式。未知发送者会收到配对码，其消息在获得批准前会被忽略。
 
 ```bash
-openclaw pairing list line
-openclaw pairing approve line <CODE>
+freeclaw pairing list line
+freeclaw pairing approve line <CODE>
 ```
 
 允许列表和策略：

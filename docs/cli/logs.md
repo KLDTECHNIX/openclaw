@@ -17,8 +17,8 @@ Related:
 ## Examples
 
 ```bash
-openclaw logs
-openclaw logs --follow
-openclaw logs --json
-openclaw logs --limit 500
+freeclaw logs
+freeclaw logs --follow
+freeclaw logs --json
+freeclaw logs --limit 500
 ```

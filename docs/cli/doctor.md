@@ -18,24 +18,24 @@ Related:
 ## Examples
 
 ```bash
-openclaw doctor
-openclaw doctor --repair
-openclaw doctor --deep
+freeclaw doctor
+freeclaw doctor --repair
+freeclaw doctor --deep
 ```
 
 Notes:
 
 - Interactive prompts (like keychain/OAuth fixes) only run when stdin is a TTY and `--non-interactive` is **not** set. Headless runs (cron, Telegram, no terminal) will skip prompts.
-- `--fix` (alias for `--repair`) writes a backup to `~/.openclaw/openclaw.json.bak` and drops unknown config keys, listing each removal.
+- `--fix` (alias for `--repair`) writes a backup to `~/.freeclaw/freeclaw.json.bak` and drops unknown config keys, listing each removal.
 
 ## macOS: `launchctl` env overrides
 
-If you previously ran `launchctl setenv OPENCLAW_GATEWAY_TOKEN ...` (or `...PASSWORD`), that value overrides your config file and can cause persistent “unauthorized” errors.
+If you previously ran `launchctl setenv FREECLAW_GATEWAY_TOKEN ...` (or `...PASSWORD`), that value overrides your config file and can cause persistent “unauthorized” errors.
 
 ```bash
-launchctl getenv OPENCLAW_GATEWAY_TOKEN
-launchctl getenv OPENCLAW_GATEWAY_PASSWORD
+launchctl getenv FREECLAW_GATEWAY_TOKEN
+launchctl getenv FREECLAW_GATEWAY_PASSWORD
 
-launchctl unsetenv OPENCLAW_GATEWAY_TOKEN
-launchctl unsetenv OPENCLAW_GATEWAY_PASSWORD
+launchctl unsetenv FREECLAW_GATEWAY_TOKEN
+launchctl unsetenv FREECLAW_GATEWAY_PASSWORD
 ```

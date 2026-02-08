@@ -152,7 +152,7 @@ describe("gateway-cli coverage", () => {
     discoverGatewayBeacons.mockReset();
     discoverGatewayBeacons.mockResolvedValueOnce([
       {
-        instanceName: "Studio (OpenClaw)",
+        instanceName: "Studio (FreeClaw)",
         displayName: "Studio",
         domain: "local.",
         host: "studio.local",
@@ -184,7 +184,7 @@ describe("gateway-cli coverage", () => {
     discoverGatewayBeacons.mockReset();
     discoverGatewayBeacons.mockResolvedValueOnce([
       {
-        instanceName: "Studio (OpenClaw)",
+        instanceName: "Studio (FreeClaw)",
         displayName: "Studio",
         domain: "freeclaw.internal.",
         host: "studio.freeclaw.internal",

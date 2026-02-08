@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 你想在 OpenClaw 中使用注重隐私的推理服务
+  - 你想在 FreeClaw 中使用注重隐私的推理服务
   - 你需要 Venice AI 设置指导
-summary: 在 OpenClaw 中使用 Venice AI 注重隐私的模型
+summary: 在 FreeClaw 中使用 Venice AI 注重隐私的模型
 title: Venice AI
 x-i18n:
   generated_at: "2026-02-01T21:36:03Z"
@@ -19,7 +19,7 @@ x-i18n:
 
 Venice AI 提供注重隐私的 AI 推理服务，支持无审查模型，并可通过其匿名代理访问主流专有模型。所有推理默认私密——不会用你的数据训练，不会记录日志。
 
-## 为什么在 OpenClaw 中使用 Venice
+## 为什么在 FreeClaw 中使用 Venice
 
 - **私密推理**，适用于开源模型（无日志记录）。
 - 需要时可使用**无审查模型**。
@@ -65,7 +65,7 @@ export VENICE_API_KEY="vapi_xxxxxxxxxxxx"
 **方案 B：交互式设置（推荐）**
 
 ```bash
-openclaw onboard --auth-choice venice-api-key
+freeclaw onboard --auth-choice venice-api-key
 ```
 
 这将：
@@ -78,7 +78,7 @@ openclaw onboard --auth-choice venice-api-key
 **方案 C：非交互式**
 
 ```bash
-openclaw onboard --non-interactive \
+freeclaw onboard --non-interactive \
   --auth-choice venice-api-key \
   --venice-api-key "vapi_xxxxxxxxxxxx"
 ```
@@ -86,7 +86,7 @@ openclaw onboard --non-interactive \
 ### 3. 验证设置
 
 ```bash
-openclaw chat --model venice/llama-3.3-70b "Hello, are you working?"
+freeclaw chat --model venice/llama-3.3-70b "Hello, are you working?"
 ```
 
 ## 模型选择
@@ -101,14 +101,14 @@ openclaw chat --model venice/llama-3.3-70b "Hello, are you working?"
 随时更改默认模型：
 
 ```bash
-openclaw models set venice/claude-opus-45
-openclaw models set venice/llama-3.3-70b
+freeclaw models set venice/claude-opus-45
+freeclaw models set venice/llama-3.3-70b
 ```
 
 列出所有可用模型：
 
 ```bash
-openclaw models list | grep venice
+freeclaw models list | grep venice
 ```
 
 ## 通过 `openclaw configure` 配置
@@ -202,19 +202,19 @@ Venice 使用积分制。请查看 [venice.ai/pricing](https://venice.ai/pricing
 
 ```bash
 # 使用默认私密模型
-openclaw chat --model venice/llama-3.3-70b
+freeclaw chat --model venice/llama-3.3-70b
 
 # 通过 Venice 使用 Claude（匿名化）
-openclaw chat --model venice/claude-opus-45
+freeclaw chat --model venice/claude-opus-45
 
 # 使用无审查模型
-openclaw chat --model venice/venice-uncensored
+freeclaw chat --model venice/venice-uncensored
 
 # 使用视觉模型处理图像
-openclaw chat --model venice/qwen3-vl-235b-a22b
+freeclaw chat --model venice/qwen3-vl-235b-a22b
 
 # 使用编程模型
-openclaw chat --model venice/qwen3-coder-480b-a35b-instruct
+freeclaw chat --model venice/qwen3-coder-480b-a35b-instruct
 ```
 
 ## 故障排除
@@ -223,7 +223,7 @@ openclaw chat --model venice/qwen3-coder-480b-a35b-instruct
 
 ```bash
 echo $VENICE_API_KEY
-openclaw models list | grep venice
+freeclaw models list | grep venice
 ```
 
 确保密钥以 `vapi_` 开头。

@@ -13,11 +13,11 @@ the configure wizard (same as `openclaw configure`).
 ## Examples
 
 ```bash
-openclaw config get browser.executablePath
-openclaw config set browser.executablePath "/usr/bin/google-chrome"
-openclaw config set agents.defaults.heartbeat.every "2h"
-openclaw config set agents.list[0].tools.exec.node "node-id-or-name"
-openclaw config unset tools.web.search.apiKey
+freeclaw config get browser.executablePath
+freeclaw config set browser.executablePath "/usr/bin/google-chrome"
+freeclaw config set agents.defaults.heartbeat.every "2h"
+freeclaw config set agents.list[0].tools.exec.node "node-id-or-name"
+freeclaw config unset tools.web.search.apiKey
 ```
 
 ## Paths
@@ -25,15 +25,15 @@ openclaw config unset tools.web.search.apiKey
 Paths use dot or bracket notation:
 
 ```bash
-openclaw config get agents.defaults.workspace
-openclaw config get agents.list[0].id
+freeclaw config get agents.defaults.workspace
+freeclaw config get agents.list[0].id
 ```
 
 Use the agent list index to target a specific agent:
 
 ```bash
-openclaw config get agents.list
-openclaw config set agents.list[1].tools.exec.node "node-id-or-name"
+freeclaw config get agents.list
+freeclaw config set agents.list[1].tools.exec.node "node-id-or-name"
 ```
 
 ## Values
@@ -42,9 +42,9 @@ Values are parsed as JSON5 when possible; otherwise they are treated as strings.
 Use `--json` to require JSON5 parsing.
 
 ```bash
-openclaw config set agents.defaults.heartbeat.every "0m"
-openclaw config set gateway.port 19001 --json
-openclaw config set channels.whatsapp.groups '["*"]' --json
+freeclaw config set agents.defaults.heartbeat.every "0m"
+freeclaw config set gateway.port 19001 --json
+freeclaw config set channels.whatsapp.groups '["*"]' --json
 ```
 
 Restart the gateway after edits.

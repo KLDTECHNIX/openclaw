@@ -24,7 +24,7 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw tui
-openclaw tui --url ws://127.0.0.1:18789 --token <token>
-openclaw tui --session main --deliver
+freeclaw tui
+freeclaw tui --url ws://127.0.0.1:18789 --token <token>
+freeclaw tui --session main --deliver
 ```

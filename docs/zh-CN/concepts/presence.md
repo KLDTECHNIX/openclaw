@@ -3,7 +3,7 @@ read_when:
   - 调试实例标签页
   - 排查重复或过期的实例行
   - 更改 Gateway 网关 WS 连接或系统事件信标
-summary: OpenClaw 在线状态条目如何生成、合并和显示
+summary: FreeClaw 在线状态条目如何生成、合并和显示
 title: 在线状态
 x-i18n:
   generated_at: "2026-02-03T07:46:37Z"

@@ -9,7 +9,7 @@ title: "Session Management Deep Dive"
 
 # Session Management & Compaction (Deep Dive)
 
-This document explains how OpenClaw manages sessions end-to-end:
+This document explains how FreeClaw manages sessions end-to-end:
 
 - **Session routing** (how inbound messages map to a `sessionKey`)
 - **Session store** (`sessions.json`) and what it tracks
@@ -57,8 +57,8 @@ OpenClaw persists sessions in two layers:
 
 Per agent, on the Gateway host:
 
-- Store: `~/.openclaw/agents/<agentId>/sessions/sessions.json`
-- Transcripts: `~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl`
+- Store: `~/.freeclaw/agents/<agentId>/sessions/sessions.json`
+- Transcripts: `~/.freeclaw/agents/<agentId>/sessions/<sessionId>.jsonl`
   - Telegram topic sessions: `.../<sessionId>-topic-<threadId>.jsonl`
 
 OpenClaw resolves these via `src/config/sessions.ts`.
@@ -185,7 +185,7 @@ Where:
 - `contextWindow` is the model’s context window
 - `reserveTokens` is headroom reserved for prompts + the next model output
 
-These are Pi runtime semantics (OpenClaw consumes the events, but Pi decides when to compact).
+These are Pi runtime semantics (FreeClaw consumes the events, but Pi decides when to compact).
 
 ---
 
@@ -205,10 +205,10 @@ Pi’s compaction settings live in Pi settings:
 
 OpenClaw also enforces a safety floor for embedded runs:
 
-- If `compaction.reserveTokens < reserveTokensFloor`, OpenClaw bumps it.
+- If `compaction.reserveTokens < reserveTokensFloor`, FreeClaw bumps it.
 - Default floor is `20000` tokens.
 - Set `agents.defaults.compaction.reserveTokensFloor: 0` to disable the floor.
-- If it’s already higher, OpenClaw leaves it alone.
+- If it’s already higher, FreeClaw leaves it alone.
 
 Why: leave enough headroom for multi-turn “housekeeping” (like memory writes) before compaction becomes unavoidable.
 
@@ -235,9 +235,9 @@ OpenClaw supports “silent” turns for background tasks where the user should 
 Convention:
 
 - The assistant starts its output with `NO_REPLY` to indicate “do not deliver a reply to the user”.
-- OpenClaw strips/suppresses this in the delivery layer.
+- FreeClaw strips/suppresses this in the delivery layer.
 
-As of `2026.1.10`, OpenClaw also suppresses **draft/typing streaming** when a partial chunk begins with `NO_REPLY`, so silent operations don’t leak partial output mid-turn.
+As of `2026.1.10`, FreeClaw also suppresses **draft/typing streaming** when a partial chunk begins with `NO_REPLY`, so silent operations don’t leak partial output mid-turn.
 
 ---
 

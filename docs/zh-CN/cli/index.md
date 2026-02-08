@@ -2,7 +2,7 @@
 read_when:
   - 添加或修改 CLI 命令或选项
   - 为新命令界面编写文档
-summary: OpenClaw `openclaw` 命令、子命令和选项的 CLI 参考
+summary: FreeClaw `openclaw` 命令、子命令和选项的 CLI 参考
 title: CLI 参考
 x-i18n:
   generated_at: "2026-02-03T07:47:54Z"
@@ -61,8 +61,8 @@ x-i18n:
 
 ## 全局标志
 
-- `--dev`：将状态隔离到 `~/.openclaw-dev` 下并调整默认端口。
-- `--profile <name>`：将状态隔离到 `~/.openclaw-<name>` 下。
+- `--dev`：将状态隔离到 `~/.freeclaw-dev` 下并调整默认端口。
+- `--profile <name>`：将状态隔离到 `~/.freeclaw-<name>` 下。
 - `--no-color`：禁用 ANSI 颜色。
 - `--update`：`openclaw update` 的简写（仅限源码安装）。
 - `-V`、`--version`、`-v`：打印版本并退出。
@@ -93,7 +93,7 @@ OpenClaw 在 CLI 输出中使用龙虾调色板。
 ## 命令树
 
 ```
-openclaw [--dev] [--profile <name>] <command>
+freeclaw [--dev] [--profile <name>] <command>
   setup
   onboard
   configure
@@ -290,7 +290,7 @@ openclaw [--dev] [--profile <name>] <command>
 
 选项：
 
-- `--workspace <dir>`：智能体工作区路径（默认 `~/.openclaw/workspace`）。
+- `--workspace <dir>`：智能体工作区路径（默认 `~/.freeclaw/workspace`）。
 - `--wizard`：运行新手引导向导。
 - `--non-interactive`：无提示运行向导。
 - `--mode <local|remote>`：向导模式。
@@ -419,11 +419,11 @@ openclaw [--dev] [--profile <name>] <command>
 示例：
 
 ```bash
-openclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
-openclaw channels add --channel discord --account work --name "Work Bot" --token $DISCORD_BOT_TOKEN
-openclaw channels remove --channel discord --account work --delete
-openclaw channels status --probe
-openclaw status --deep
+freeclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
+freeclaw channels add --channel discord --account work --name "Work Bot" --token $DISCORD_BOT_TOKEN
+freeclaw channels remove --channel discord --account work --delete
+freeclaw channels status --probe
+freeclaw status --deep
 ```
 
 ### `skills`
@@ -693,7 +693,7 @@ Gmail Pub/Sub 钩子设置 + 运行器。参见 [/automation/gmail-pubsub](/auto
 
 - `gateway status` 默认使用服务解析的端口/配置探测 Gateway 网关 RPC（使用 `--url/--token/--password` 覆盖）。
 - `gateway status` 支持 `--no-probe`、`--deep` 和 `--json` 用于脚本化。
-- `gateway status` 在检测到旧版或额外的 Gateway 网关服务时也会显示（`--deep` 添加系统级扫描）。配置文件命名的 OpenClaw 服务被视为一等公民，不会被标记为"额外"。
+- `gateway status` 在检测到旧版或额外的 Gateway 网关服务时也会显示（`--deep` 添加系统级扫描）。配置文件命名的 FreeClaw 服务被视为一等公民，不会被标记为"额外"。
 - `gateway status` 打印 CLI 使用的配置路径与服务可能使用的配置（服务环境），以及解析的探测目标 URL。
 - `gateway install|uninstall|start|stop|restart` 支持 `--json` 用于脚本化（默认输出保持人类友好）。
 - `gateway install` 默认使用 Node 运行时；**不建议**使用 bun（WhatsApp/Telegram bug）。
@@ -711,11 +711,11 @@ Gmail Pub/Sub 钩子设置 + 运行器。参见 [/automation/gmail-pubsub](/auto
 示例：
 
 ```bash
-openclaw logs --follow
-openclaw logs --limit 200
-openclaw logs --plain
-openclaw logs --json
-openclaw logs --no-color
+freeclaw logs --follow
+freeclaw logs --limit 200
+freeclaw logs --plain
+freeclaw logs --json
+freeclaw logs --no-color
 ```
 
 ### `gateway <subcommand>`
@@ -748,8 +748,8 @@ Gateway 网关 CLI 辅助工具（RPC 子命令使用 `--url`、`--token`、`--p
 
 ```bash
 claude setup-token
-openclaw models auth setup-token --provider anthropic
-openclaw models status
+freeclaw models auth setup-token --provider anthropic
+freeclaw models status
 ```
 
 ### `models`（根命令）

@@ -19,27 +19,27 @@ Related:
 ## Common commands
 
 ```bash
-openclaw approvals get
-openclaw approvals get --node <id|name|ip>
-openclaw approvals get --gateway
+freeclaw approvals get
+freeclaw approvals get --node <id|name|ip>
+freeclaw approvals get --gateway
 ```
 
 ## Replace approvals from a file
 
 ```bash
-openclaw approvals set --file ./exec-approvals.json
-openclaw approvals set --node <id|name|ip> --file ./exec-approvals.json
-openclaw approvals set --gateway --file ./exec-approvals.json
+freeclaw approvals set --file ./exec-approvals.json
+freeclaw approvals set --node <id|name|ip> --file ./exec-approvals.json
+freeclaw approvals set --gateway --file ./exec-approvals.json
 ```
 
 ## Allowlist helpers
 
 ```bash
-openclaw approvals allowlist add "~/Projects/**/bin/rg"
-openclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
-openclaw approvals allowlist add --agent "*" "/usr/bin/uname"
+freeclaw approvals allowlist add "~/Projects/**/bin/rg"
+freeclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
+freeclaw approvals allowlist add --agent "*" "/usr/bin/uname"
 
-openclaw approvals allowlist remove "~/Projects/**/bin/rg"
+freeclaw approvals allowlist remove "~/Projects/**/bin/rg"
 ```
 
 ## Notes
@@ -47,4 +47,4 @@ openclaw approvals allowlist remove "~/Projects/**/bin/rg"
 - `--node` uses the same resolver as `openclaw nodes` (id, name, ip, or id prefix).
 - `--agent` defaults to `"*"`, which applies to all agents.
 - The node host must advertise `system.execApprovals.get/set` (macOS app or headless node host).
-- Approvals files are stored per host at `~/.openclaw/exec-approvals.json`.
+- Approvals files are stored per host at `~/.freeclaw/exec-approvals.json`.

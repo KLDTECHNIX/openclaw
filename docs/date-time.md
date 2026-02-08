@@ -102,7 +102,7 @@ System: [2026-01-12 12:19:17 PST] Model switched.
 
 ## Time format detection (auto)
 
-When `timeFormat: "auto"`, OpenClaw inspects the OS preference (macOS/Windows)
+When `timeFormat: "auto"`, FreeClaw inspects the OS preference (macOS/Windows)
 and falls back to locale formatting. The detected value is **cached per process**
 to avoid repeated system calls.
 

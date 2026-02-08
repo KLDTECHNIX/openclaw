@@ -22,7 +22,7 @@ OpenClaw 发展迅速（尚未到"1.0"）。将更新视为发布基础设施：
 **首选**的更新路径是重新运行网站上的安装程序。它会检测现有安装、原地升级，并在需要时运行 `openclaw doctor`。
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 ```
 
 说明：
@@ -30,10 +30,10 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 - 如果你不想再次运行新手引导向导，添加 `--no-onboard`。
 - 对于**源码安装**，使用：
   ```bash
-  curl -fsSL https://openclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
+  curl -fsSL https://freeclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
   ```
   安装程序**仅**在仓库干净时才会执行 `git pull --rebase`。
-- 对于**全局安装**，脚本底层使用 `npm install -g openclaw@latest`。
+- 对于**全局安装**，脚本底层使用 `npm install -g freeclaw@latest`。
 - 旧版说明：`clawdbot` 仍可作为兼容性垫片使用。
 
 ## 更新之前
@@ -41,9 +41,9 @@ curl -fsSL https://openclaw.ai/install.sh | bash
 - 了解你的安装方式：**全局**（npm/pnpm）还是**源码**（git clone）。
 - 了解你的 Gateway 网关运行方式：**前台终端**还是**受管理服务**（launchd/systemd）。
 - 快照你的定制内容：
-  - 配置：`~/.openclaw/openclaw.json`
-  - 凭证：`~/.openclaw/credentials/`
-  - 工作区：`~/.openclaw/workspace`
+  - 配置：`~/.freeclaw/freeclaw.json`
+  - 凭证：`~/.freeclaw/credentials/`
+  - 工作区：`~/.freeclaw/workspace`
 
 ## 更新（全局安装）
 
@@ -62,9 +62,9 @@ pnpm add -g openclaw@latest
 切换更新渠道（git + npm 安装）：
 
 ```bash
-openclaw update --channel beta
-openclaw update --channel dev
-openclaw update --channel stable
+freeclaw update --channel beta
+freeclaw update --channel dev
+freeclaw update --channel stable
 ```
 
 使用 `--tag <dist-tag|version>` 进行一次性安装指定标签/版本。
@@ -76,9 +76,9 @@ openclaw update --channel stable
 然后：
 
 ```bash
-openclaw doctor
-openclaw gateway restart
-openclaw health
+freeclaw doctor
+freeclaw gateway restart
+freeclaw health
 ```
 
 说明：
@@ -91,7 +91,7 @@ openclaw health
 对于**源码安装**（git checkout），首选：
 
 ```bash
-openclaw update
+freeclaw update
 ```
 
 它运行一个相对安全的更新流程：
@@ -121,7 +121,7 @@ openclaw update
 首选：
 
 ```bash
-openclaw update
+freeclaw update
 ```
 
 手动（大致等效）：
@@ -131,15 +131,15 @@ git pull
 pnpm install
 pnpm build
 pnpm ui:build # 首次运行时自动安装 UI 依赖
-openclaw doctor
-openclaw health
+freeclaw doctor
+freeclaw health
 ```
 
 说明：
 
-- 当你运行打包的 `openclaw` 二进制文件（[`openclaw.mjs`](https://github.com/openclaw/openclaw/blob/main/openclaw.mjs)）或使用 Node 运行 `dist/` 时，`pnpm build` 很重要。
-- 如果你从仓库 checkout 运行而没有全局安装，CLI 命令使用 `pnpm openclaw ...`。
-- 如果你直接从 TypeScript 运行（`pnpm openclaw ...`），通常不需要重新构建，但**配置迁移仍然适用** → 运行 doctor。
+- 当你运行打包的 `openclaw` 二进制文件（[`openclaw.mjs`](https://github.com/freeclaw/freeclaw/blob/main/openclaw.mjs)）或使用 Node 运行 `dist/` 时，`pnpm build` 很重要。
+- 如果你从仓库 checkout 运行而没有全局安装，CLI 命令使用 `pnpm freeclaw ...`。
+- 如果你直接从 TypeScript 运行（`pnpm freeclaw ...`），通常不需要重新构建，但**配置迁移仍然适用** → 运行 doctor。
 - 在全局和 git 安装之间切换很容易：安装另一种方式，然后运行 `openclaw doctor` 以便将 Gateway 网关服务入口点重写为当前安装。
 
 ## 始终运行：`openclaw doctor`
@@ -153,7 +153,7 @@ Doctor 是"安全更新"命令。它故意很无聊：修复 + 迁移 + 警告�
 - 迁移已弃用的配置键/旧版配置文件位置。
 - 审计私信策略并对有风险的"开放"设置发出警告。
 - 检查 Gateway 网关健康状况，可以提供重启。
-- 检测并将旧版 Gateway 网关服务（launchd/systemd；旧版 schtasks）迁移到当前 OpenClaw 服务。
+- 检测并将旧版 Gateway 网关服务（launchd/systemd；旧版 schtasks）迁移到当前 FreeClaw 服务。
 - 在 Linux 上，确保 systemd 用户 lingering（这样 Gateway 网关在登出后仍能存活）。
 
 详情：[Doctor](/gateway/doctor)
@@ -163,11 +163,11 @@ Doctor 是"安全更新"命令。它故意很无聊：修复 + 迁移 + 警告�
 CLI（无论操作系统都适用）：
 
 ```bash
-openclaw gateway status
-openclaw gateway stop
-openclaw gateway restart
-openclaw gateway --port 18789
-openclaw logs --follow
+freeclaw gateway status
+freeclaw gateway stop
+freeclaw gateway restart
+freeclaw gateway --port 18789
+freeclaw logs --follow
 ```
 
 如果你使用受管理服务：
@@ -193,13 +193,13 @@ npm i -g openclaw@<version>
 pnpm add -g openclaw@<version>
 ```
 
-提示：要查看当前发布的版本，运行 `npm view openclaw version`。
+提示：要查看当前发布的版本，运行 `npm view freeclaw version`。
 
 然后重启 + 重新运行 doctor：
 
 ```bash
-openclaw doctor
-openclaw gateway restart
+freeclaw doctor
+freeclaw gateway restart
 ```
 
 ### 按日期固定（源码）
@@ -216,7 +216,7 @@ git checkout "$(git rev-list -n 1 --before=\"2026-01-01\" origin/main)"
 ```bash
 pnpm install
 pnpm build
-openclaw gateway restart
+freeclaw gateway restart
 ```
 
 如果你之后想回到最新版本：

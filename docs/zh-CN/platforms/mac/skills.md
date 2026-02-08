@@ -15,7 +15,7 @@ x-i18n:
 
 # Skills（macOS）
 
-macOS 应用通过 Gateway 网关展示 OpenClaw Skills；它不会在本地解析 Skills。
+macOS 应用通过 Gateway 网关展示 FreeClaw Skills；它不会在本地解析 Skills。
 
 ## 数据来源
 
@@ -32,7 +32,7 @@ macOS 应用通过 Gateway 网关展示 OpenClaw Skills；它不会在本地解�
 
 ## 环境变量/API 密钥
 
-- 应用将密钥存储在 `~/.openclaw/openclaw.json` 的 `skills.entries.<skillKey>` 下。
+- 应用将密钥存储在 `~/.freeclaw/freeclaw.json` 的 `skills.entries.<skillKey>` 下。
 - `skills.update` 更新 `enabled`、`apiKey` 和 `env`。
 
 ## 远程模式

@@ -10,7 +10,7 @@ title: "Node + tsx Crash"
 
 ## Summary
 
-Running OpenClaw via Node with `tsx` fails at startup with:
+Running FreeClaw via Node with `tsx` fails at startup with:
 
 ```
 [openclaw] Failed to start CLI: TypeError: __name is not a function

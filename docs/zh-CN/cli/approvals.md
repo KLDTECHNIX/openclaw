@@ -26,27 +26,27 @@ x-i18n:
 ## 常用命令
 
 ```bash
-openclaw approvals get
-openclaw approvals get --node <id|name|ip>
-openclaw approvals get --gateway
+freeclaw approvals get
+freeclaw approvals get --node <id|name|ip>
+freeclaw approvals get --gateway
 ```
 
 ## 从文件替换审批
 
 ```bash
-openclaw approvals set --file ./exec-approvals.json
-openclaw approvals set --node <id|name|ip> --file ./exec-approvals.json
-openclaw approvals set --gateway --file ./exec-approvals.json
+freeclaw approvals set --file ./exec-approvals.json
+freeclaw approvals set --node <id|name|ip> --file ./exec-approvals.json
+freeclaw approvals set --gateway --file ./exec-approvals.json
 ```
 
 ## 允许列表辅助命令
 
 ```bash
-openclaw approvals allowlist add "~/Projects/**/bin/rg"
-openclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
-openclaw approvals allowlist add --agent "*" "/usr/bin/uname"
+freeclaw approvals allowlist add "~/Projects/**/bin/rg"
+freeclaw approvals allowlist add --agent main --node <id|name|ip> "/usr/bin/uptime"
+freeclaw approvals allowlist add --agent "*" "/usr/bin/uname"
 
-openclaw approvals allowlist remove "~/Projects/**/bin/rg"
+freeclaw approvals allowlist remove "~/Projects/**/bin/rg"
 ```
 
 ## 注意事项
@@ -54,4 +54,4 @@ openclaw approvals allowlist remove "~/Projects/**/bin/rg"
 - `--node` 使用与 `openclaw nodes` 相同的解析器（id、name、ip 或 id 前缀）。
 - `--agent` 默认为 `"*"`，表示适用于所有智能体。
 - 节点主机必须公开 `system.execApprovals.get/set`（macOS 应用或无头节点主机）。
-- 审批文件按主机存储在 `~/.openclaw/exec-approvals.json`。
+- 审批文件按主机存储在 `~/.freeclaw/exec-approvals.json`。

@@ -8,7 +8,7 @@ title: "Voice Call Plugin"
 
 # Voice Call (plugin)
 
-Voice calls for OpenClaw via a plugin. Supports outbound notifications and
+Voice calls for FreeClaw via a plugin. Supports outbound notifications and
 multi-turn conversations with inbound policies.
 
 Current providers:
@@ -36,7 +36,7 @@ If you use a remote Gateway, install/configure the plugin on the **machine runni
 ### Option A: install from npm (recommended)
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+freeclaw plugins install @openclaw/voice-call
 ```
 
 Restart the Gateway afterwards.
@@ -44,7 +44,7 @@ Restart the Gateway afterwards.
 ### Option B: install from a local folder (dev, no copying)
 
 ```bash
-openclaw plugins install ./extensions/voice-call
+freeclaw plugins install ./extensions/voice-call
 cd ./extensions/voice-call && pnpm install
 ```
 
@@ -252,13 +252,13 @@ Auto-responses use the agent system. Tune with:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall speak --call-id <id> --message "One moment"
-openclaw voicecall end --call-id <id>
-openclaw voicecall status --call-id <id>
-openclaw voicecall tail
-openclaw voicecall expose --mode funnel
+freeclaw voicecall call --to "+15555550123" --message "Hello from FreeClaw"
+freeclaw voicecall continue --call-id <id> --message "Any questions?"
+freeclaw voicecall speak --call-id <id> --message "One moment"
+freeclaw voicecall end --call-id <id>
+freeclaw voicecall status --call-id <id>
+freeclaw voicecall tail
+freeclaw voicecall expose --mode funnel
 ```
 
 ## Agent tool

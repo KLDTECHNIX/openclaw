@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 制作或验证 OpenClaw macOS 发布版本
+  - 制作或验证 FreeClaw macOS 发布版本
   - 更新 Sparkle appcast 或订阅源资源
-summary: OpenClaw macOS 发布清单（Sparkle 订阅源、打包、签名）
+summary: FreeClaw macOS 发布清单（Sparkle 订阅源、打包、签名）
 title: macOS 发布
 x-i18n:
   generated_at: "2026-02-01T21:33:17Z"
@@ -13,7 +13,7 @@ x-i18n:
   workflow: 15
 ---
 
-# OpenClaw macOS 发布（Sparkle）
+# FreeClaw macOS 发布（Sparkle）
 
 本应用现已支持 Sparkle 自动更新。发布构建必须经过 Developer ID 签名、压缩，并发布包含签名的 appcast 条目。
 
@@ -77,7 +77,7 @@ ditto -c -k --keepParent apps/macos/.build/release/OpenClaw.app.dSYM dist/OpenCl
 SPARKLE_PRIVATE_KEY_FILE=/path/to/ed25519-private-key scripts/make_appcast.sh dist/OpenClaw-2026.1.27-beta.1.zip https://raw.githubusercontent.com/openclaw/openclaw/main/appcast.xml
 ```
 
-从 `CHANGELOG.md`（通过 [`scripts/changelog-to-html.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/changelog-to-html.sh)）生成 HTML 发布说明，并将其嵌入 appcast 条目。
+从 `CHANGELOG.md`（通过 [`scripts/changelog-to-html.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/changelog-to-html.sh)）生成 HTML 发布说明，并将其嵌入 appcast 条目。
 发布时，将更新后的 `appcast.xml` 与发布资源（zip + dSYM）一起提交。
 
 ## 发布与验证

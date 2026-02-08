@@ -1,5 +1,5 @@
 ---
-summary: "Install OpenClaw — installer script, npm/pnpm, from source, Docker, and more"
+summary: "Install FreeClaw — installer script, npm/pnpm, from source, Docker, and more"
 read_when:
   - You need an install method other than the Getting Started quickstart
   - You want to deploy to a cloud platform
@@ -18,13 +18,13 @@ Already followed [Getting Started](/start/getting-started)? You're all set — t
 - `pnpm` only if you build from source
 
 <Note>
-On Windows, we strongly recommend running OpenClaw under [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
+On Windows, we strongly recommend running FreeClaw under [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install).
 </Note>
 
 ## Install methods
 
 <Tip>
-The **installer script** is the recommended way to install OpenClaw. It handles Node detection, installation, and onboarding in one step.
+The **installer script** is the recommended way to install FreeClaw. It handles Node detection, installation, and onboarding in one step.
 </Tip>
 
 <AccordionGroup>
@@ -34,12 +34,12 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
     <Tabs>
       <Tab title="macOS / Linux / WSL2">
         ```bash
-        curl -fsSL https://openclaw.ai/install.sh | bash
+        curl -fsSL https://freeclaw.ai/install.sh | bash
         ```
       </Tab>
       <Tab title="Windows (PowerShell)">
         ```powershell
-        iwr -useb https://openclaw.ai/install.ps1 | iex
+        iwr -useb https://freeclaw.ai/install.ps1 | iex
         ```
       </Tab>
     </Tabs>
@@ -51,12 +51,12 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
     <Tabs>
       <Tab title="macOS / Linux / WSL2">
         ```bash
-        curl -fsSL https://openclaw.ai/install.sh | bash -s -- --no-onboard
+        curl -fsSL https://freeclaw.ai/install.sh | bash -s -- --no-onboard
         ```
       </Tab>
       <Tab title="Windows (PowerShell)">
         ```powershell
-        & ([scriptblock]::Create((iwr -useb https://openclaw.ai/install.ps1))) -NoOnboard
+        & ([scriptblock]::Create((iwr -useb https://freeclaw.ai/install.ps1))) -NoOnboard
         ```
       </Tab>
     </Tabs>
@@ -71,15 +71,15 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
     <Tabs>
       <Tab title="npm">
         ```bash
-        npm install -g openclaw@latest
-        openclaw onboard --install-daemon
+        npm install -g freeclaw@latest
+        freeclaw onboard --install-daemon
         ```
 
         <Accordion title="sharp build errors?">
           If you have libvips installed globally (common on macOS via Homebrew) and `sharp` fails, force prebuilt binaries:
 
           ```bash
-          SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install -g openclaw@latest
+          SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm install -g freeclaw@latest
           ```
 
           If you see `sharp: Please add node-gyp to your dependencies`, either install build tooling (macOS: Xcode CLT + `npm install -g node-gyp`) or use the env var above.
@@ -89,7 +89,7 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
         ```bash
         pnpm add -g openclaw@latest
         pnpm approve-builds -g        # approve openclaw, node-llama-cpp, sharp, etc.
-        openclaw onboard --install-daemon
+        freeclaw onboard --install-daemon
         ```
 
         <Note>
@@ -105,11 +105,11 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
 
     <Steps>
       <Step title="Clone and build">
-        Clone the [OpenClaw repo](https://github.com/openclaw/openclaw) and build:
+        Clone the [OpenClaw repo](https://github.com/freeclaw/freeclaw) and build:
 
         ```bash
-        git clone https://github.com/openclaw/openclaw.git
-        cd openclaw
+        git clone https://github.com/freeclaw/freeclaw.git
+        cd freeclaw
         pnpm install
         pnpm ui:build
         pnpm build
@@ -122,11 +122,11 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
         pnpm link --global
         ```
 
-        Alternatively, skip the link and run commands via `pnpm openclaw ...` from inside the repo.
+        Alternatively, skip the link and run commands via `pnpm freeclaw ...` from inside the repo.
       </Step>
       <Step title="Run onboarding">
         ```bash
-        openclaw onboard --install-daemon
+        freeclaw onboard --install-daemon
         ```
       </Step>
     </Steps>
@@ -158,9 +158,9 @@ The **installer script** is the recommended way to install OpenClaw. It handles 
 Verify everything is working:
 
 ```bash
-openclaw doctor         # check for config issues
-openclaw status         # gateway status
-openclaw dashboard      # open the browser UI
+freeclaw doctor         # check for config issues
+freeclaw status         # gateway status
+freeclaw dashboard      # open the browser UI
 ```
 
 ## Troubleshooting: `openclaw` not found
@@ -192,12 +192,12 @@ Then open a new terminal (or `rehash` in zsh / `hash -r` in bash).
 
 <CardGroup cols={3}>
   <Card title="Updating" href="/install/updating" icon="refresh-cw">
-    Keep OpenClaw up to date.
+    Keep FreeClaw up to date.
   </Card>
   <Card title="Migrating" href="/install/migrating" icon="arrow-right">
     Move to a new machine.
   </Card>
   <Card title="Uninstall" href="/install/uninstall" icon="trash-2">
-    Remove OpenClaw completely.
+    Remove FreeClaw completely.
   </Card>
 </CardGroup>

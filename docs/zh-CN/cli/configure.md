@@ -33,6 +33,6 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw configure
-openclaw configure --section models --section channels
+freeclaw configure
+freeclaw configure --section models --section channels
 ```

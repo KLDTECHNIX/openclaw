@@ -8,7 +8,7 @@ title: "setup"
 
 # `openclaw setup`
 
-Initialize `~/.openclaw/openclaw.json` and the agent workspace.
+Initialize `~/.freeclaw/freeclaw.json` and the agent workspace.
 
 Related:
 
@@ -18,12 +18,12 @@ Related:
 ## Examples
 
 ```bash
-openclaw setup
-openclaw setup --workspace ~/.openclaw/workspace
+freeclaw setup
+freeclaw setup --workspace ~/.freeclaw/workspace
 ```
 
 To run the wizard via setup:
 
 ```bash
-openclaw setup --wizard
+freeclaw setup --wizard
 ```

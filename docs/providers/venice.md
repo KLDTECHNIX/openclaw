@@ -1,5 +1,5 @@
 ---
-summary: "Use Venice AI privacy-focused models in OpenClaw"
+summary: "Use Venice AI privacy-focused models in FreeClaw"
 read_when:
   - You want privacy-focused inference in OpenClaw
   - You want Venice AI setup guidance
@@ -58,7 +58,7 @@ export VENICE_API_KEY="vapi_xxxxxxxxxxxx"
 **Option B: Interactive Setup (Recommended)**
 
 ```bash
-openclaw onboard --auth-choice venice-api-key
+freeclaw onboard --auth-choice venice-api-key
 ```
 
 This will:
@@ -71,7 +71,7 @@ This will:
 **Option C: Non-interactive**
 
 ```bash
-openclaw onboard --non-interactive \
+freeclaw onboard --non-interactive \
   --auth-choice venice-api-key \
   --venice-api-key "vapi_xxxxxxxxxxxx"
 ```
@@ -79,12 +79,12 @@ openclaw onboard --non-interactive \
 ### 3. Verify Setup
 
 ```bash
-openclaw chat --model venice/llama-3.3-70b "Hello, are you working?"
+freeclaw chat --model venice/llama-3.3-70b "Hello, are you working?"
 ```
 
 ## Model Selection
 
-After setup, OpenClaw shows all available Venice models. Pick based on your needs:
+After setup, FreeClaw shows all available Venice models. Pick based on your needs:
 
 - **Default (our pick)**: `venice/llama-3.3-70b` for private, balanced performance.
 - **Best overall quality**: `venice/claude-opus-45` for hard jobs (Opus remains the strongest).
@@ -94,14 +94,14 @@ After setup, OpenClaw shows all available Venice models. Pick based on your need
 Change your default model anytime:
 
 ```bash
-openclaw models set venice/claude-opus-45
-openclaw models set venice/llama-3.3-70b
+freeclaw models set venice/claude-opus-45
+freeclaw models set venice/llama-3.3-70b
 ```
 
 List all available models:
 
 ```bash
-openclaw models list | grep venice
+freeclaw models list | grep venice
 ```
 
 ## Configure via `openclaw configure`
@@ -195,19 +195,19 @@ Venice uses a credit-based system. Check [venice.ai/pricing](https://venice.ai/p
 
 ```bash
 # Use default private model
-openclaw chat --model venice/llama-3.3-70b
+freeclaw chat --model venice/llama-3.3-70b
 
 # Use Claude via Venice (anonymized)
-openclaw chat --model venice/claude-opus-45
+freeclaw chat --model venice/claude-opus-45
 
 # Use uncensored model
-openclaw chat --model venice/venice-uncensored
+freeclaw chat --model venice/venice-uncensored
 
 # Use vision model with image
-openclaw chat --model venice/qwen3-vl-235b-a22b
+freeclaw chat --model venice/qwen3-vl-235b-a22b
 
 # Use coding model
-openclaw chat --model venice/qwen3-coder-480b-a35b-instruct
+freeclaw chat --model venice/qwen3-coder-480b-a35b-instruct
 ```
 
 ## Troubleshooting
@@ -216,7 +216,7 @@ openclaw chat --model venice/qwen3-coder-480b-a35b-instruct
 
 ```bash
 echo $VENICE_API_KEY
-openclaw models list | grep venice
+freeclaw models list | grep venice
 ```
 
 Ensure the key starts with `vapi_`.

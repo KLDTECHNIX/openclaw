@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 你想了解 OpenClaw 中"上下文"的含义
+  - 你想了解 FreeClaw 中"上下文"的含义
   - 你在调试为什么模型"知道"某些内容（或忘记了）
   - 你想减少上下文开销（/context、/status、/compact）
 summary: 上下文：模型看到的内容、如何构建以及如何检查
@@ -94,7 +94,7 @@ Top tools (schema size):
 - 压缩摘要和修剪产物。
 - 提供商"包装器"或隐藏头部（不可见，仍然计数）。
 
-## OpenClaw 如何构建系统提示词
+## FreeClaw 如何构建系统提示词
 
 系统提示词由 **OpenClaw 拥有**，每次运行时重建。它包括：
 

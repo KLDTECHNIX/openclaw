@@ -1,7 +1,7 @@
 ---
 read_when: You want a dedicated explanation of sandboxing or need to tune agents.defaults.sandbox.
 status: active
-summary: OpenClaw 沙箱隔离的工作原理：模式、作用域、工作区访问和镜像
+summary: FreeClaw 沙箱隔离的工作原理：模式、作用域、工作区访问和镜像
 title: 沙箱隔离
 x-i18n:
   generated_at: "2026-02-03T07:49:29Z"
@@ -58,7 +58,7 @@ Gateway 网关保留在主机上；启用时工具执行在隔离的沙箱中运
 
 `agents.defaults.sandbox.workspaceAccess` 控制**沙箱可以看到什么**：
 
-- `"none"`（默认）：工具看到 `~/.openclaw/sandboxes` 下的沙箱工作区。
+- `"none"`（默认）：工具看到 `~/.freeclaw/sandboxes` 下的沙箱工作区。
 - `"ro"`：以只读方式在 `/agent` 挂载智能体工作区（禁用 `write`/`edit`/`apply_patch`）。
 - `"rw"`：以读写方式在 `/workspace` 挂载智能体工作区。
 

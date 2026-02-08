@@ -8,22 +8,22 @@ title: "update"
 
 # `openclaw update`
 
-Safely update OpenClaw and switch between stable/beta/dev channels.
+Safely update FreeClaw and switch between stable/beta/dev channels.
 
 If you installed via **npm/pnpm** (global install, no git metadata), updates happen via the package manager flow in [Updating](/install/updating).
 
 ## Usage
 
 ```bash
-openclaw update
-openclaw update status
-openclaw update wizard
-openclaw update --channel beta
-openclaw update --channel dev
-openclaw update --tag beta
-openclaw update --no-restart
-openclaw update --json
-openclaw --update
+freeclaw update
+freeclaw update status
+freeclaw update wizard
+freeclaw update --channel beta
+freeclaw update --channel dev
+freeclaw update --tag beta
+freeclaw update --no-restart
+freeclaw update --json
+freeclaw --update
 ```
 
 ## Options
@@ -41,9 +41,9 @@ Note: downgrades require confirmation because older versions can break configura
 Show the active update channel + git tag/branch/SHA (for source checkouts), plus update availability.
 
 ```bash
-openclaw update status
-openclaw update status --json
-openclaw update status --timeout 10
+freeclaw update status
+freeclaw update status --json
+freeclaw update status --timeout 10
 ```
 
 Options:
@@ -59,10 +59,10 @@ offers to create one.
 
 ## What it does
 
-When you switch channels explicitly (`--channel ...`), OpenClaw also keeps the
+When you switch channels explicitly (`--channel ...`), FreeClaw also keeps the
 install method aligned:
 
-- `dev` → ensures a git checkout (default: `~/openclaw`, override with `OPENCLAW_GIT_DIR`),
+- `dev` → ensures a git checkout (default: `~/openclaw`, override with `FREECLAW_GIT_DIR`),
   updates it, and installs the global CLI from that checkout.
 - `stable`/`beta` → installs from npm using the matching dist-tag.
 

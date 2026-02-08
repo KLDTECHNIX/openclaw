@@ -2,7 +2,7 @@
 summary: "Integrated browser control service + action commands"
 read_when:
   - Adding agent-controlled browser automation
-  - Debugging why openclaw is interfering with your own Chrome
+  - Debugging why freeclaw is interfering with your own Chrome
   - Implementing browser settings + lifecycle in the macOS app
 title: "Browser (OpenClaw-managed)"
 ---
@@ -34,10 +34,10 @@ agent automation and verification.
 ## Quick start
 
 ```bash
-openclaw browser --browser-profile openclaw status
-openclaw browser --browser-profile openclaw start
-openclaw browser --browser-profile openclaw open https://example.com
-openclaw browser --browser-profile openclaw snapshot
+freeclaw browser --browser-profile freeclaw status
+freeclaw browser --browser-profile freeclaw start
+freeclaw browser --browser-profile freeclaw open https://example.com
+freeclaw browser --browser-profile freeclaw snapshot
 ```
 
 If you get “Browser disabled”, enable it in config (see below) and restart the
@@ -53,7 +53,7 @@ Set `browser.defaultProfile: "openclaw"` if you want managed mode by default.
 
 ## Configuration
 
-Browser settings live in `~/.openclaw/openclaw.json`.
+Browser settings live in `~/.freeclaw/freeclaw.json`.
 
 ```json5
 {
@@ -81,7 +81,7 @@ Notes:
 
 - The browser control service binds to loopback on a port derived from `gateway.port`
   (default: `18791`, which is gateway + 2). The relay uses the next port (`18792`).
-- If you override the Gateway port (`gateway.port` or `OPENCLAW_GATEWAY_PORT`),
+- If you override the Gateway port (`gateway.port` or `FREECLAW_GATEWAY_PORT`),
   the derived browser ports shift to stay in the same “family”.
 - `cdpUrl` defaults to the relay port when unset.
 - `remoteCdpTimeoutMs` applies to remote (non-loopback) CDP reachability checks.
@@ -101,7 +101,7 @@ auto-detection:
 CLI example:
 
 ```bash
-openclaw config set browser.executablePath "/usr/bin/google-chrome"
+freeclaw config set browser.executablePath "/usr/bin/google-chrome"
 ```
 
 ```json5
@@ -132,7 +132,7 @@ openclaw config set browser.executablePath "/usr/bin/google-chrome"
 - **Local control (default):** the Gateway starts the loopback control service and can launch a local browser.
 - **Remote control (node host):** run a node host on the machine that has the browser; the Gateway proxies browser actions to it.
 - **Remote CDP:** set `browser.profiles.<name>.cdpUrl` (or `browser.cdpUrl`) to
-  attach to a remote Chromium-based browser. In this case, OpenClaw will not launch a local browser.
+  attach to a remote Chromium-based browser. In this case, FreeClaw will not launch a local browser.
 
 Remote CDP URLs can include auth:
 
@@ -145,7 +145,7 @@ tokens instead of committing them to config files.
 
 ## Node browser proxy (zero-config default)
 
-If you run a **node host** on the machine that has your browser, OpenClaw can
+If you run a **node host** on the machine that has your browser, FreeClaw can
 auto-route browser tool calls to that node without any extra browser config.
 This is the default path for remote gateways.
 
@@ -160,7 +160,7 @@ Notes:
 ## Browserless (hosted remote CDP)
 
 [Browserless](https://browserless.io) is a hosted Chromium service that exposes
-CDP endpoints over HTTPS. You can point a OpenClaw browser profile at a
+CDP endpoints over HTTPS. You can point a FreeClaw browser profile at a
 Browserless region endpoint and authenticate with your API key.
 
 Example:
@@ -245,7 +245,7 @@ Chrome extension relay takeover requires host browser control, so either:
 1. Load the extension (dev/unpacked):
 
 ```bash
-openclaw browser extension install
+freeclaw browser extension install
 ```
 
 - Chrome → `chrome://extensions` → enable “Developer mode”
@@ -260,7 +260,7 @@ openclaw browser extension install
 Optional: if you want a different name or relay port, create your own profile:
 
 ```bash
-openclaw browser create-profile \
+freeclaw browser create-profile \
   --name my-chrome \
   --driver extension \
   --cdp-url http://127.0.0.1:18792 \
@@ -280,7 +280,7 @@ Notes:
 
 ## Browser selection
 
-When launching locally, OpenClaw picks the first available:
+When launching locally, FreeClaw picks the first available:
 
 1. Chrome
 2. Brave
@@ -338,7 +338,7 @@ docker compose run --rm openclaw-cli \
 
 To persist browser downloads, set `PLAYWRIGHT_BROWSERS_PATH` (for example,
 `/home/node/.cache/ms-playwright`) and make sure `/home/node` is persisted via
-`OPENCLAW_HOME_VOLUME` or a bind mount. See [Docker](/install/docker).
+`FREECLAW_HOME_VOLUME` or a bind mount. See [Docker](/install/docker).
 
 ## How it works (internal)
 
@@ -487,7 +487,7 @@ You can wait on more than just time/text:
 These can be combined:
 
 ```bash
-openclaw browser wait "#main" \
+freeclaw browser wait "#main" \
   --url "**/dash" \
   --load networkidle \
   --fn "window.ready===true" \
@@ -516,10 +516,10 @@ When an action fails (e.g. “not visible”, “strict mode violation”, “co
 Examples:
 
 ```bash
-openclaw browser status --json
-openclaw browser snapshot --interactive --json
-openclaw browser requests --filter api --json
-openclaw browser cookies --json
+freeclaw browser status --json
+freeclaw browser snapshot --interactive --json
+freeclaw browser requests --filter api --json
+freeclaw browser cookies --json
 ```
 
 Role snapshots in JSON include `refs` plus a small `stats` block (lines/chars/refs/interactive) so tools can reason about payload size and density.
@@ -542,7 +542,7 @@ These are useful for “make the site behave like X” workflows:
 
 ## Security & privacy
 
-- The openclaw browser profile may contain logged-in sessions; treat it as sensitive.
+- The freeclaw browser profile may contain logged-in sessions; treat it as sensitive.
 - `browser act kind=evaluate` / `openclaw browser evaluate` and `wait --fn`
   execute arbitrary JavaScript in the page context. Prompt injection can steer
   this. Disable it with `browser.evaluateEnabled=false` if you do not need it.

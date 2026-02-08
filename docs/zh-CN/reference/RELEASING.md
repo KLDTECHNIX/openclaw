@@ -29,13 +29,13 @@ x-i18n:
 
 - [ ] 更新 `package.json` 版本（例如 `2026.1.29`）。
 - [ ] 运行 `pnpm plugins:sync` 以对齐扩展包版本和变更日志。
-- [ ] 更新 CLI/版本字符串：[`src/cli/program.ts`](https://github.com/openclaw/openclaw/blob/main/src/cli/program.ts) 和 [`src/provider-web.ts`](https://github.com/openclaw/openclaw/blob/main/src/provider-web.ts) 中的 Baileys user agent。
-- [ ] 确认包元数据（name、description、repository、keywords、license）以及 `bin` 映射指向 [`openclaw.mjs`](https://github.com/openclaw/openclaw/blob/main/openclaw.mjs) 作为 `openclaw`。
+- [ ] 更新 CLI/版本字符串：[`src/cli/program.ts`](https://github.com/freeclaw/freeclaw/blob/main/src/cli/program.ts) 和 [`src/provider-web.ts`](https://github.com/freeclaw/freeclaw/blob/main/src/provider-web.ts) 中的 Baileys user agent。
+- [ ] 确认包元数据（name、description、repository、keywords、license）以及 `bin` 映射指向 [`openclaw.mjs`](https://github.com/freeclaw/freeclaw/blob/main/openclaw.mjs) 作为 `openclaw`。
 - [ ] 如果依赖项有变化，运行 `pnpm install` 确保 `pnpm-lock.yaml` 是最新的。
 
 2. **构建和产物**
 
-- [ ] 如果 A2UI 输入有变化，运行 `pnpm canvas:a2ui:bundle` 并提交更新后的 [`src/canvas-host/a2ui/a2ui.bundle.js`](https://github.com/openclaw/openclaw/blob/main/src/canvas-host/a2ui/a2ui.bundle.js)。
+- [ ] 如果 A2UI 输入有变化，运行 `pnpm canvas:a2ui:bundle` 并提交更新后的 [`src/canvas-host/a2ui/a2ui.bundle.js`](https://github.com/freeclaw/freeclaw/blob/main/src/canvas-host/a2ui/a2ui.bundle.js)。
 - [ ] `pnpm run build`（重新生成 `dist/`）。
 - [ ] 验证 npm 包的 `files` 包含所有必需的 `dist/*` 文件夹（特别是用于 headless node + ACP CLI 的 `dist/node-host/**` 和 `dist/acp/**`）。
 - [ ] 确认 `dist/build-info.json` 存在并包含预期的 `commit` 哈希（CLI 横幅在 npm 安装时使用此信息）。
@@ -52,10 +52,10 @@ x-i18n:
 - [ ] `pnpm check`
 - [ ] `pnpm test`（如需覆盖率输出则使用 `pnpm test:coverage`）
 - [ ] `pnpm release:check`（验证 npm pack 内容）
-- [ ] `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`（Docker 安装冒烟测试，快速路径；发布前必需）
-  - 如果已知上一个 npm 发布版本有问题，为预安装步骤设置 `OPENCLAW_INSTALL_SMOKE_PREVIOUS=<last-good-version>` 或 `OPENCLAW_INSTALL_SMOKE_SKIP_PREVIOUS=1`。
+- [ ] `FREECLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke`（Docker 安装冒烟测试，快速路径；发布前必需）
+  - 如果已知上一个 npm 发布版本有问题，为预安装步骤设置 `FREECLAW_INSTALL_SMOKE_PREVIOUS=<last-good-version>` 或 `FREECLAW_INSTALL_SMOKE_SKIP_PREVIOUS=1`。
 - [ ]（可选）完整安装程序冒烟测试（添加非 root + CLI 覆盖）：`pnpm test:install:smoke`
-- [ ]（可选）安装程序 E2E（Docker，运行 `curl -fsSL https://openclaw.ai/install.sh | bash`，新手引导，然后运行真实工具调用）：
+- [ ]（可选）安装程序 E2E（Docker，运行 `curl -fsSL https://freeclaw.ai/install.sh | bash`，新手引导，然后运行真实工具调用）：
   - `pnpm test:install:e2e:openai`（需要 `OPENAI_API_KEY`）
   - `pnpm test:install:e2e:anthropic`（需要 `ANTHROPIC_API_KEY`）
   - `pnpm test:install:e2e`（需要两个密钥；运行两个提供商）
@@ -64,7 +64,7 @@ x-i18n:
 5. **macOS 应用（Sparkle）**
 
 - [ ] 构建并签名 macOS 应用，然后压缩以供分发。
-- [ ] 生成 Sparkle appcast（通过 [`scripts/make_appcast.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/make_appcast.sh) 生成 HTML 注释）并更新 `appcast.xml`。
+- [ ] 生成 Sparkle appcast（通过 [`scripts/make_appcast.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/make_appcast.sh) 生成 HTML 注释）并更新 `appcast.xml`。
 - [ ] 保留应用 zip（和可选的 dSYM zip）以便附加到 GitHub 发布。
 - [ ] 按照 [macOS 发布](/platforms/mac/release) 获取确切命令和所需环境变量。
   - `APP_BUILD` 必须是数字且单调递增（不带 `-beta`），以便 Sparkle 正确比较版本。
@@ -75,7 +75,7 @@ x-i18n:
 - [ ] 确认 git 状态干净；根据需要提交并推送。
 - [ ] 如需要，`npm login`（验证 2FA）。
 - [ ] `npm publish --access public`（预发布版本使用 `--tag beta`）。
-- [ ] 验证注册表：`npm view openclaw version`、`npm view openclaw dist-tags` 和 `npx -y openclaw@X.Y.Z --version`（或 `--help`）。
+- [ ] 验证注册表：`npm view freeclaw version`、`npm view freeclaw dist-tags` 和 `npx -y openclaw@X.Y.Z --version`（或 `--help`）。
 
 ### 故障排除（来自 2.0.0-beta2 发布的笔记）
 

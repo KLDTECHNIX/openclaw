@@ -3,9 +3,9 @@ import { existsSync, readFileSync, readdirSync, realpathSync } from "node:fs";
 import { createServer } from "node:http";
 import { delimiter, dirname, join } from "node:path";
 
-const CLIENT_ID_KEYS = ["OPENCLAW_GEMINI_OAUTH_CLIENT_ID", "GEMINI_CLI_OAUTH_CLIENT_ID"];
+const CLIENT_ID_KEYS = ["FREECLAW_GEMINI_OAUTH_CLIENT_ID", "GEMINI_CLI_OAUTH_CLIENT_ID"];
 const CLIENT_SECRET_KEYS = [
-  "OPENCLAW_GEMINI_OAUTH_CLIENT_SECRET",
+  "FREECLAW_GEMINI_OAUTH_CLIENT_SECRET",
   "GEMINI_CLI_OAUTH_CLIENT_SECRET",
 ];
 const REDIRECT_URI = "http://localhost:8085/oauth2callback";
@@ -309,7 +309,7 @@ async function waitForLocalCallback(params: {
         res.end(
           "<!doctype html><html><head><meta charset='utf-8'/></head>" +
             "<body><h2>Gemini CLI OAuth complete</h2>" +
-            "<p>You can close this window and return to OpenClaw.</p></body></html>",
+            "<p>You can close this window and return to FreeClaw.</p></body></html>",
         );
 
         finish(undefined, { code, state });

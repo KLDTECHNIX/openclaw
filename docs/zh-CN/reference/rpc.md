@@ -28,7 +28,7 @@ OpenClaw 通过 JSON-RPC 集成外部 CLI。目前使用两种模式。
 
 ## 模式 B：stdio 子进程（imsg）
 
-- OpenClaw 将 `imsg rpc` 作为子进程生成。
+- FreeClaw 将 `imsg rpc` 作为子进程生成。
 - JSON-RPC 是通过 stdin/stdout 的行分隔格式（每行一个 JSON 对象）。
 - 无需 TCP 端口，无需守护进程。
 

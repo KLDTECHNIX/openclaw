@@ -13,13 +13,13 @@ title: "TUI"
 1. Start the Gateway.
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 2. Open the TUI.
 
 ```bash
-openclaw tui
+freeclaw tui
 ```
 
 3. Type a message and press Enter.
@@ -27,7 +27,7 @@ openclaw tui
 Remote Gateway:
 
 ```bash
-openclaw tui --url ws://<host>:<port> --token <gateway-token>
+freeclaw tui --url ws://<host>:<port> --token <gateway-token>
 ```
 
 Use `--password` if your Gateway uses password auth.

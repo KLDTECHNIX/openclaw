@@ -1,5 +1,5 @@
 ---
-summary: "Updating OpenClaw safely (global install or source), plus rollback strategy"
+summary: "Updating FreeClaw safely (global install or source), plus rollback strategy"
 read_when:
   - Updating OpenClaw
   - Something breaks after an update
@@ -17,7 +17,7 @@ detects existing installs, upgrades in place, and runs `openclaw doctor` when
 needed.
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 ```
 
 Notes:
@@ -26,12 +26,12 @@ Notes:
 - For **source installs**, use:
 
   ```bash
-  curl -fsSL https://openclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
+  curl -fsSL https://freeclaw.ai/install.sh | bash -s -- --install-method git --no-onboard
   ```
 
   The installer will `git pull --rebase` **only** if the repo is clean.
 
-- For **global installs**, the script uses `npm install -g openclaw@latest` under the hood.
+- For **global installs**, the script uses `npm install -g freeclaw@latest` under the hood.
 - Legacy note: `clawdbot` remains available as a compatibility shim.
 
 ## Before you update
@@ -39,9 +39,9 @@ Notes:
 - Know how you installed: **global** (npm/pnpm) vs **from source** (git clone).
 - Know how your Gateway is running: **foreground terminal** vs **supervised service** (launchd/systemd).
 - Snapshot your tailoring:
-  - Config: `~/.openclaw/openclaw.json`
-  - Credentials: `~/.openclaw/credentials/`
-  - Workspace: `~/.openclaw/workspace`
+  - Config: `~/.freeclaw/freeclaw.json`
+  - Credentials: `~/.freeclaw/credentials/`
+  - Workspace: `~/.freeclaw/workspace`
 
 ## Update (global install)
 
@@ -60,9 +60,9 @@ We do **not** recommend Bun for the Gateway runtime (WhatsApp/Telegram bugs).
 To switch update channels (git + npm installs):
 
 ```bash
-openclaw update --channel beta
-openclaw update --channel dev
-openclaw update --channel stable
+freeclaw update --channel beta
+freeclaw update --channel dev
+freeclaw update --channel stable
 ```
 
 Use `--tag <dist-tag|version>` for a one-off install tag/version.
@@ -74,9 +74,9 @@ Note: on npm installs, the gateway logs an update hint on startup (checks the cu
 Then:
 
 ```bash
-openclaw doctor
-openclaw gateway restart
-openclaw health
+freeclaw doctor
+freeclaw gateway restart
+freeclaw health
 ```
 
 Notes:
@@ -89,7 +89,7 @@ Notes:
 For **source installs** (git checkout), prefer:
 
 ```bash
-openclaw update
+freeclaw update
 ```
 
 It runs a safe-ish update flow:
@@ -119,7 +119,7 @@ From the repo checkout:
 Preferred:
 
 ```bash
-openclaw update
+freeclaw update
 ```
 
 Manual (equivalent-ish):
@@ -129,15 +129,15 @@ git pull
 pnpm install
 pnpm build
 pnpm ui:build # auto-installs UI deps on first run
-openclaw doctor
-openclaw health
+freeclaw doctor
+freeclaw health
 ```
 
 Notes:
 
-- `pnpm build` matters when you run the packaged `openclaw` binary ([`openclaw.mjs`](https://github.com/openclaw/openclaw/blob/main/openclaw.mjs)) or use Node to run `dist/`.
-- If you run from a repo checkout without a global install, use `pnpm openclaw ...` for CLI commands.
-- If you run directly from TypeScript (`pnpm openclaw ...`), a rebuild is usually unnecessary, but **config migrations still apply** → run doctor.
+- `pnpm build` matters when you run the packaged `openclaw` binary ([`openclaw.mjs`](https://github.com/freeclaw/freeclaw/blob/main/openclaw.mjs)) or use Node to run `dist/`.
+- If you run from a repo checkout without a global install, use `pnpm freeclaw ...` for CLI commands.
+- If you run directly from TypeScript (`pnpm freeclaw ...`), a rebuild is usually unnecessary, but **config migrations still apply** → run doctor.
 - Switching between global and git installs is easy: install the other flavor, then run `openclaw doctor` so the gateway service entrypoint is rewritten to the current install.
 
 ## Always Run: `openclaw doctor`
@@ -151,7 +151,7 @@ Typical things it does:
 - Migrate deprecated config keys / legacy config file locations.
 - Audit DM policies and warn on risky “open” settings.
 - Check Gateway health and can offer to restart.
-- Detect and migrate older gateway services (launchd/systemd; legacy schtasks) to current OpenClaw services.
+- Detect and migrate older gateway services (launchd/systemd; legacy schtasks) to current FreeClaw services.
 - On Linux, ensure systemd user lingering (so the Gateway survives logout).
 
 Details: [Doctor](/gateway/doctor)
@@ -161,11 +161,11 @@ Details: [Doctor](/gateway/doctor)
 CLI (works regardless of OS):
 
 ```bash
-openclaw gateway status
-openclaw gateway stop
-openclaw gateway restart
-openclaw gateway --port 18789
-openclaw logs --follow
+freeclaw gateway status
+freeclaw gateway stop
+freeclaw gateway restart
+freeclaw gateway --port 18789
+freeclaw logs --follow
 ```
 
 If you’re supervised:
@@ -191,13 +191,13 @@ npm i -g openclaw@<version>
 pnpm add -g openclaw@<version>
 ```
 
-Tip: to see the current published version, run `npm view openclaw version`.
+Tip: to see the current published version, run `npm view freeclaw version`.
 
 Then restart + re-run doctor:
 
 ```bash
-openclaw doctor
-openclaw gateway restart
+freeclaw doctor
+freeclaw gateway restart
 ```
 
 ### Pin (source) by date
@@ -214,7 +214,7 @@ Then reinstall deps + restart:
 ```bash
 pnpm install
 pnpm build
-openclaw gateway restart
+freeclaw gateway restart
 ```
 
 If you want to go back to latest later:
