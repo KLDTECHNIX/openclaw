@@ -16,14 +16,14 @@ describe("ensureFreeClawCliOnPath", () => {
 
       const originalPath = process.env.PATH;
       const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
-      process.env.PATH = "/usr/bin";
+      process.env.PATH = "/usr/local/bin:/usr/bin";
       delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       try {
         ensureFreeClawCliOnPath({
           execPath: cliPath,
           cwd: tmp,
           homeDir: tmp,
-          platform: "darwin",
+          platform: "freebsd" as NodeJS.Platform,
         });
         const updated = process.env.PATH ?? "";
         expect(updated.split(path.delimiter)[0]).toBe(appBinDir);
@@ -43,16 +43,16 @@ describe("ensureFreeClawCliOnPath", () => {
   it("is idempotent", () => {
     const originalPath = process.env.PATH;
     const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
-    process.env.PATH = "/bin";
+    process.env.PATH = "/usr/local/bin:/bin";
     process.env.FREECLAW_PATH_BOOTSTRAPPED = "1";
     try {
       ensureFreeClawCliOnPath({
         execPath: "/tmp/does-not-matter",
         cwd: "/tmp",
         homeDir: "/tmp",
-        platform: "darwin",
+        platform: "freebsd" as NodeJS.Platform,
       });
-      expect(process.env.PATH).toBe("/bin");
+      expect(process.env.PATH).toBe("/usr/local/bin:/bin");
     } finally {
       process.env.PATH = originalPath;
       if (originalFlag === undefined) {
@@ -85,14 +85,14 @@ describe("ensureFreeClawCliOnPath", () => {
       const shimsDir = path.join(miseDataDir, "shims");
       await fs.mkdir(shimsDir, { recursive: true });
       process.env.MISE_DATA_DIR = miseDataDir;
-      process.env.PATH = "/usr/bin";
+      process.env.PATH = "/usr/local/bin:/usr/bin";
       delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
 
       ensureFreeClawCliOnPath({
         execPath: appCli,
         cwd: tmp,
         homeDir: tmp,
-        platform: "darwin",
+        platform: "freebsd" as NodeJS.Platform,
       });
 
       const updated = process.env.PATH ?? "";
@@ -119,60 +119,37 @@ describe("ensureFreeClawCliOnPath", () => {
     }
   });
 
-  it("prepends Linuxbrew dirs when present", async () => {
+  it("includes /usr/local/bin in FreeBSD PATH candidates", async () => {
     const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-path-"));
     const originalPath = process.env.PATH;
     const originalFlag = process.env.FREECLAW_PATH_BOOTSTRAPPED;
-    const originalHomebrewPrefix = process.env.HOMEBREW_PREFIX;
-    const originalHomebrewBrewFile = process.env.HOMEBREW_BREW_FILE;
-    const originalXdgBinHome = process.env.XDG_BIN_HOME;
     try {
-      const execDir = path.join(tmp, "exec");
-      await fs.mkdir(execDir, { recursive: true });
+      const appBinDir = path.join(tmp, "AppBin");
+      await fs.mkdir(appBinDir, { recursive: true });
+      const appCli = path.join(appBinDir, "freeclaw");
+      await fs.writeFile(appCli, "#!/bin/sh\necho ok\n", "utf-8");
+      await fs.chmod(appCli, 0o755);
 
-      const linuxbrewBin = path.join(tmp, ".linuxbrew", "bin");
-      const linuxbrewSbin = path.join(tmp, ".linuxbrew", "sbin");
-      await fs.mkdir(linuxbrewBin, { recursive: true });
-      await fs.mkdir(linuxbrewSbin, { recursive: true });
-
-      process.env.PATH = "/usr/bin";
+      process.env.PATH = "/bin";
       delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
-      delete process.env.HOMEBREW_PREFIX;
-      delete process.env.HOMEBREW_BREW_FILE;
-      delete process.env.XDG_BIN_HOME;
 
       ensureFreeClawCliOnPath({
-        execPath: path.join(execDir, "node"),
+        execPath: appCli,
         cwd: tmp,
         homeDir: tmp,
-        platform: "linux",
+        platform: "freebsd" as NodeJS.Platform,
       });
 
       const updated = process.env.PATH ?? "";
       const parts = updated.split(path.delimiter);
-      expect(parts[0]).toBe(linuxbrewBin);
-      expect(parts[1]).toBe(linuxbrewSbin);
+      // /usr/local/bin should be included as a FreeBSD standard path
+      expect(parts).toContain("/usr/local/bin");
     } finally {
       process.env.PATH = originalPath;
       if (originalFlag === undefined) {
         delete process.env.FREECLAW_PATH_BOOTSTRAPPED;
       } else {
         process.env.FREECLAW_PATH_BOOTSTRAPPED = originalFlag;
-      }
-      if (originalHomebrewPrefix === undefined) {
-        delete process.env.HOMEBREW_PREFIX;
-      } else {
-        process.env.HOMEBREW_PREFIX = originalHomebrewPrefix;
-      }
-      if (originalHomebrewBrewFile === undefined) {
-        delete process.env.HOMEBREW_BREW_FILE;
-      } else {
-        process.env.HOMEBREW_BREW_FILE = originalHomebrewBrewFile;
-      }
-      if (originalXdgBinHome === undefined) {
-        delete process.env.XDG_BIN_HOME;
-      } else {
-        process.env.XDG_BIN_HOME = originalXdgBinHome;
       }
       await fs.rm(tmp, { recursive: true, force: true });
     }

@@ -34,23 +34,20 @@ afterEach(() => {
 
 describe("resolveGatewayDevMode", () => {
   it("detects dev mode for src ts entrypoints", () => {
-    expect(resolveGatewayDevMode(["node", "/Users/me/freeclaw/src/cli/index.ts"])).toBe(true);
-    expect(resolveGatewayDevMode(["node", "C:\\Users\\me\\freeclaw\\src\\cli\\index.ts"])).toBe(
-      true,
-    );
-    expect(resolveGatewayDevMode(["node", "/Users/me/freeclaw/dist/cli/index.js"])).toBe(false);
+    expect(resolveGatewayDevMode(["node", "/home/user/freeclaw/src/cli/index.ts"])).toBe(true);
+    expect(resolveGatewayDevMode(["node", "/home/user/freeclaw/dist/cli/index.js"])).toBe(false);
   });
 });
 
 describe("buildGatewayInstallPlan", () => {
   it("uses provided nodePath and returns plan", async () => {
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
-      workingDirectory: "/Users/me",
+      workingDirectory: "/home/user",
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "22.0.0",
       supported: true,
     });
@@ -61,24 +58,24 @@ describe("buildGatewayInstallPlan", () => {
       env: {},
       port: 3000,
       runtime: "node",
-      nodePath: "/custom/node",
+      nodePath: "/usr/local/bin/node",
     });
 
     expect(plan.programArguments).toEqual(["node", "gateway"]);
-    expect(plan.workingDirectory).toBe("/Users/me");
+    expect(plan.workingDirectory).toBe("/home/user");
     expect(plan.environment).toEqual({ FREECLAW_PORT: "3000" });
     expect(mocks.resolvePreferredNodePath).not.toHaveBeenCalled();
   });
 
   it("emits warnings when renderSystemNodeWarning returns one", async () => {
     const warn = vi.fn();
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
       workingDirectory: undefined,
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "18.0.0",
       supported: false,
     });
@@ -97,19 +94,19 @@ describe("buildGatewayInstallPlan", () => {
   });
 
   it("merges config env vars into the environment", async () => {
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
-      workingDirectory: "/Users/me",
+      workingDirectory: "/home/user",
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "22.0.0",
       supported: true,
     });
     mocks.buildServiceEnvironment.mockReturnValue({
       FREECLAW_PORT: "3000",
-      HOME: "/Users/me",
+      HOME: "/home/user",
     });
 
     const plan = await buildGatewayInstallPlan({
@@ -131,17 +128,17 @@ describe("buildGatewayInstallPlan", () => {
     expect(plan.environment.CUSTOM_VAR).toBe("custom-value");
     // Service environment vars should take precedence
     expect(plan.environment.FREECLAW_PORT).toBe("3000");
-    expect(plan.environment.HOME).toBe("/Users/me");
+    expect(plan.environment.HOME).toBe("/home/user");
   });
 
   it("does not include empty config env values", async () => {
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
-      workingDirectory: "/Users/me",
+      workingDirectory: "/home/user",
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "22.0.0",
       supported: true,
     });
@@ -166,13 +163,13 @@ describe("buildGatewayInstallPlan", () => {
   });
 
   it("drops whitespace-only config env values", async () => {
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
-      workingDirectory: "/Users/me",
+      workingDirectory: "/home/user",
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "22.0.0",
       supported: true,
     });
@@ -197,18 +194,18 @@ describe("buildGatewayInstallPlan", () => {
   });
 
   it("keeps service env values over config env vars", async () => {
-    mocks.resolvePreferredNodePath.mockResolvedValue("/opt/node");
+    mocks.resolvePreferredNodePath.mockResolvedValue("/usr/local/bin/node");
     mocks.resolveGatewayProgramArguments.mockResolvedValue({
       programArguments: ["node", "gateway"],
-      workingDirectory: "/Users/me",
+      workingDirectory: "/home/user",
     });
     mocks.resolveSystemNodeInfo.mockResolvedValue({
-      path: "/opt/node",
+      path: "/usr/local/bin/node",
       version: "22.0.0",
       supported: true,
     });
     mocks.buildServiceEnvironment.mockReturnValue({
-      HOME: "/Users/service",
+      HOME: "/home/service",
       FREECLAW_PORT: "3000",
     });
 
@@ -218,7 +215,7 @@ describe("buildGatewayInstallPlan", () => {
       runtime: "node",
       config: {
         env: {
-          HOME: "/Users/config",
+          HOME: "/home/config",
           vars: {
             FREECLAW_PORT: "9999",
           },
@@ -226,16 +223,14 @@ describe("buildGatewayInstallPlan", () => {
       },
     });
 
-    expect(plan.environment.HOME).toBe("/Users/service");
+    expect(plan.environment.HOME).toBe("/home/service");
     expect(plan.environment.FREECLAW_PORT).toBe("3000");
   });
 });
 
 describe("gatewayInstallErrorHint", () => {
-  it("returns platform-specific hints", () => {
-    expect(gatewayInstallErrorHint("win32")).toContain("Run as administrator");
-    expect(gatewayInstallErrorHint("linux")).toMatch(
-      /(?:freeclaw|freeclaw)( --profile isolated)? gateway install/,
-    );
+  it("returns rc.d install hint", () => {
+    const hint = gatewayInstallErrorHint();
+    expect(hint).toContain("freeclaw gateway install");
   });
 });

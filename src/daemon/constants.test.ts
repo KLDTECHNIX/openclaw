@@ -1,156 +1,61 @@
 import { describe, expect, it } from "vitest";
 import {
   formatGatewayServiceDescription,
-  GATEWAY_LAUNCH_AGENT_LABEL,
-  GATEWAY_SYSTEMD_SERVICE_NAME,
-  GATEWAY_WINDOWS_TASK_NAME,
-  resolveGatewayLaunchAgentLabel,
+  GATEWAY_RCD_SERVICE_NAME,
   resolveGatewayProfileSuffix,
-  resolveGatewaySystemdServiceName,
-  resolveGatewayWindowsTaskName,
+  resolveGatewayRcdServiceName,
 } from "./constants.js";
 
-describe("resolveGatewayLaunchAgentLabel", () => {
-  it("returns default label when no profile is set", () => {
-    const result = resolveGatewayLaunchAgentLabel();
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
-    expect(result).toBe("ai.freeclaw.gateway");
+describe("resolveGatewayRcdServiceName", () => {
+  it("returns default rc.d service name when no profile is set", () => {
+    const result = resolveGatewayRcdServiceName();
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
+    expect(result).toBe("freeclaw_gateway");
   });
 
-  it("returns default label when profile is undefined", () => {
-    const result = resolveGatewayLaunchAgentLabel(undefined);
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
+  it("returns default rc.d service name when profile is undefined", () => {
+    const result = resolveGatewayRcdServiceName(undefined);
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 
-  it("returns default label when profile is 'default'", () => {
-    const result = resolveGatewayLaunchAgentLabel("default");
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
+  it("returns default rc.d service name when profile is 'default'", () => {
+    const result = resolveGatewayRcdServiceName("default");
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 
-  it("returns default label when profile is 'Default' (case-insensitive)", () => {
-    const result = resolveGatewayLaunchAgentLabel("Default");
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
+  it("returns default rc.d service name when profile is 'Default' (case-insensitive)", () => {
+    const result = resolveGatewayRcdServiceName("Default");
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 
-  it("returns profile-specific label when profile is set", () => {
-    const result = resolveGatewayLaunchAgentLabel("dev");
-    expect(result).toBe("ai.freeclaw.dev");
+  it("returns default rc.d service name when profile is 'DEFAULT' (case-insensitive)", () => {
+    const result = resolveGatewayRcdServiceName("DEFAULT");
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 
-  it("returns profile-specific label for custom profile", () => {
-    const result = resolveGatewayLaunchAgentLabel("work");
-    expect(result).toBe("ai.freeclaw.work");
+  it("returns profile-specific rc.d service name when profile is set", () => {
+    const result = resolveGatewayRcdServiceName("dev");
+    expect(result).toBe("freeclaw_gateway_dev");
   });
 
-  it("trims whitespace from profile", () => {
-    const result = resolveGatewayLaunchAgentLabel("  staging  ");
-    expect(result).toBe("ai.freeclaw.staging");
-  });
-
-  it("returns default label for empty string profile", () => {
-    const result = resolveGatewayLaunchAgentLabel("");
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
-  });
-
-  it("returns default label for whitespace-only profile", () => {
-    const result = resolveGatewayLaunchAgentLabel("   ");
-    expect(result).toBe(GATEWAY_LAUNCH_AGENT_LABEL);
-  });
-});
-
-describe("resolveGatewaySystemdServiceName", () => {
-  it("returns default service name when no profile is set", () => {
-    const result = resolveGatewaySystemdServiceName();
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
-    expect(result).toBe("freeclaw-gateway");
-  });
-
-  it("returns default service name when profile is undefined", () => {
-    const result = resolveGatewaySystemdServiceName(undefined);
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
-  });
-
-  it("returns default service name when profile is 'default'", () => {
-    const result = resolveGatewaySystemdServiceName("default");
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
-  });
-
-  it("returns default service name when profile is 'DEFAULT' (case-insensitive)", () => {
-    const result = resolveGatewaySystemdServiceName("DEFAULT");
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
-  });
-
-  it("returns profile-specific service name when profile is set", () => {
-    const result = resolveGatewaySystemdServiceName("dev");
-    expect(result).toBe("freeclaw-gateway-dev");
-  });
-
-  it("returns profile-specific service name for custom profile", () => {
-    const result = resolveGatewaySystemdServiceName("production");
-    expect(result).toBe("freeclaw-gateway-production");
+  it("returns profile-specific rc.d service name for custom profile", () => {
+    const result = resolveGatewayRcdServiceName("production");
+    expect(result).toBe("freeclaw_gateway_production");
   });
 
   it("trims whitespace from profile", () => {
-    const result = resolveGatewaySystemdServiceName("  test  ");
-    expect(result).toBe("freeclaw-gateway-test");
+    const result = resolveGatewayRcdServiceName("  test  ");
+    expect(result).toBe("freeclaw_gateway_test");
   });
 
-  it("returns default service name for empty string profile", () => {
-    const result = resolveGatewaySystemdServiceName("");
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
+  it("returns default rc.d service name for empty string profile", () => {
+    const result = resolveGatewayRcdServiceName("");
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 
-  it("returns default service name for whitespace-only profile", () => {
-    const result = resolveGatewaySystemdServiceName("   ");
-    expect(result).toBe(GATEWAY_SYSTEMD_SERVICE_NAME);
-  });
-});
-
-describe("resolveGatewayWindowsTaskName", () => {
-  it("returns default task name when no profile is set", () => {
-    const result = resolveGatewayWindowsTaskName();
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-    expect(result).toBe("FreeClaw Gateway");
-  });
-
-  it("returns default task name when profile is undefined", () => {
-    const result = resolveGatewayWindowsTaskName(undefined);
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-  });
-
-  it("returns default task name when profile is 'default'", () => {
-    const result = resolveGatewayWindowsTaskName("default");
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-  });
-
-  it("returns default task name when profile is 'DeFaUlT' (case-insensitive)", () => {
-    const result = resolveGatewayWindowsTaskName("DeFaUlT");
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-  });
-
-  it("returns profile-specific task name when profile is set", () => {
-    const result = resolveGatewayWindowsTaskName("dev");
-    expect(result).toBe("FreeClaw Gateway (dev)");
-  });
-
-  it("returns profile-specific task name for custom profile", () => {
-    const result = resolveGatewayWindowsTaskName("work");
-    expect(result).toBe("FreeClaw Gateway (work)");
-  });
-
-  it("trims whitespace from profile", () => {
-    const result = resolveGatewayWindowsTaskName("  ci  ");
-    expect(result).toBe("FreeClaw Gateway (ci)");
-  });
-
-  it("returns default task name for empty string profile", () => {
-    const result = resolveGatewayWindowsTaskName("");
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
-  });
-
-  it("returns default task name for whitespace-only profile", () => {
-    const result = resolveGatewayWindowsTaskName("   ");
-    expect(result).toBe(GATEWAY_WINDOWS_TASK_NAME);
+  it("returns default rc.d service name for whitespace-only profile", () => {
+    const result = resolveGatewayRcdServiceName("   ");
+    expect(result).toBe(GATEWAY_RCD_SERVICE_NAME);
   });
 });
 
@@ -164,12 +69,12 @@ describe("resolveGatewayProfileSuffix", () => {
     expect(resolveGatewayProfileSuffix(" Default ")).toBe("");
   });
 
-  it("returns a hyphenated suffix for custom profiles", () => {
-    expect(resolveGatewayProfileSuffix("dev")).toBe("-dev");
+  it("returns an underscore suffix for custom profiles", () => {
+    expect(resolveGatewayProfileSuffix("dev")).toBe("_dev");
   });
 
   it("trims whitespace from profiles", () => {
-    expect(resolveGatewayProfileSuffix("  staging  ")).toBe("-staging");
+    expect(resolveGatewayProfileSuffix("  staging  ")).toBe("_staging");
   });
 });
 
