@@ -1,5 +1,5 @@
 ---
-summary: "Get OpenClaw installed and run your first chat in minutes."
+summary: "Get FreeClaw installed and run your first chat in minutes."
 read_when:
   - First time setup from zero
   - You want the fastest path to a working chat
@@ -13,7 +13,7 @@ Goal: go from zero to a first working chat with minimal setup.
 <Info>
 Fastest chat: open the Control UI (no channel setup needed). Run `openclaw dashboard`
 and chat in the browser, or open `http://127.0.0.1:18789/` on the
-<Tooltip headline="Gateway host" tip="The machine running the OpenClaw gateway service.">gateway host</Tooltip>.
+<Tooltip headline="Gateway host" tip="The machine running the FreeClaw gateway service.">gateway host</Tooltip>.
 Docs: [Dashboard](/web/dashboard) and [Control UI](/web/control-ui).
 </Info>
 
@@ -28,16 +28,16 @@ Check your Node version with `node --version` if you are unsure.
 ## Quick setup (CLI)
 
 <Steps>
-  <Step title="Install OpenClaw (recommended)">
+  <Step title="Install FreeClaw (recommended)">
     <Tabs>
       <Tab title="macOS/Linux">
         ```bash
-        curl -fsSL https://openclaw.ai/install.sh | bash
+        curl -fsSL https://freeclaw.ai/install.sh | bash
         ```
       </Tab>
       <Tab title="Windows (PowerShell)">
         ```powershell
-        iwr -useb https://openclaw.ai/install.ps1 | iex
+        iwr -useb https://freeclaw.ai/install.ps1 | iex
         ```
       </Tab>
     </Tabs>
@@ -49,7 +49,7 @@ Check your Node version with `node --version` if you are unsure.
   </Step>
   <Step title="Run the onboarding wizard">
     ```bash
-    openclaw onboard --install-daemon
+    freeclaw onboard --install-daemon
     ```
 
     The wizard configures auth, gateway settings, and optional channels.
@@ -60,13 +60,13 @@ Check your Node version with `node --version` if you are unsure.
     If you installed the service, it should already be running:
 
     ```bash
-    openclaw gateway status
+    freeclaw gateway status
     ```
 
   </Step>
   <Step title="Open the Control UI">
     ```bash
-    openclaw dashboard
+    freeclaw dashboard
     ```
   </Step>
 </Steps>
@@ -82,7 +82,7 @@ If the Control UI loads, your Gateway is ready for use.
     Useful for quick tests or troubleshooting.
 
     ```bash
-    openclaw gateway --port 18789
+    freeclaw gateway --port 18789
     ```
 
   </Accordion>
@@ -90,7 +90,7 @@ If the Control UI loads, your Gateway is ready for use.
     Requires a configured channel.
 
     ```bash
-    openclaw message send --target +15555550123 --message "Hello from OpenClaw"
+    freeclaw message send --target +15555550123 --message "Hello from FreeClaw"
     ```
 
   </Accordion>

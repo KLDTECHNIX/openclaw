@@ -24,7 +24,7 @@ OpenClaw selects models in this order:
 
 Related:
 
-- `agents.defaults.models` is the allowlist/catalog of models OpenClaw can use (plus aliases).
+- `agents.defaults.models` is the allowlist/catalog of models FreeClaw can use (plus aliases).
 - `agents.defaults.imageModel` is used **only when** the primary model can’t accept images.
 - Per-agent defaults can override `agents.defaults.model` via `agents.list[].model` plus bindings (see [/concepts/multi-agent](/concepts/multi-agent)).
 
@@ -38,7 +38,7 @@ Related:
 If you don’t want to hand-edit config, run the onboarding wizard:
 
 ```bash
-openclaw onboard
+freeclaw onboard
 ```
 
 It can set up model + auth for common providers, including **OpenAI Code (Codex)
@@ -108,31 +108,31 @@ Notes:
 - `/model status` is the detailed view (auth candidates and, when configured, provider endpoint `baseUrl` + `api` mode).
 - Model refs are parsed by splitting on the **first** `/`. Use `provider/model` when typing `/model <ref>`.
 - If the model ID itself contains `/` (OpenRouter-style), you must include the provider prefix (example: `/model openrouter/moonshotai/kimi-k2`).
-- If you omit the provider, OpenClaw treats the input as an alias or a model for the **default provider** (only works when there is no `/` in the model ID).
+- If you omit the provider, FreeClaw treats the input as an alias or a model for the **default provider** (only works when there is no `/` in the model ID).
 
 Full command behavior/config: [Slash commands](/tools/slash-commands).
 
 ## CLI commands
 
 ```bash
-openclaw models list
-openclaw models status
-openclaw models set <provider/model>
-openclaw models set-image <provider/model>
+freeclaw models list
+freeclaw models status
+freeclaw models set <provider/model>
+freeclaw models set-image <provider/model>
 
-openclaw models aliases list
-openclaw models aliases add <alias> <provider/model>
-openclaw models aliases remove <alias>
+freeclaw models aliases list
+freeclaw models aliases add <alias> <provider/model>
+freeclaw models aliases remove <alias>
 
-openclaw models fallbacks list
-openclaw models fallbacks add <provider/model>
-openclaw models fallbacks remove <provider/model>
-openclaw models fallbacks clear
+freeclaw models fallbacks list
+freeclaw models fallbacks add <provider/model>
+freeclaw models fallbacks remove <provider/model>
+freeclaw models fallbacks clear
 
-openclaw models image-fallbacks list
-openclaw models image-fallbacks add <provider/model>
-openclaw models image-fallbacks remove <provider/model>
-openclaw models image-fallbacks clear
+freeclaw models image-fallbacks list
+freeclaw models image-fallbacks add <provider/model>
+freeclaw models image-fallbacks remove <provider/model>
+freeclaw models image-fallbacks clear
 ```
 
 `openclaw models` (no subcommand) is a shortcut for `models status`.
@@ -163,7 +163,7 @@ Preferred Anthropic auth is the Claude Code CLI setup-token (run anywhere; paste
 
 ```bash
 claude setup-token
-openclaw models status
+freeclaw models status
 ```
 
 ## Scanning (OpenRouter free models)
@@ -204,5 +204,5 @@ mode, pass `--yes` to accept defaults.
 ## Models registry (`models.json`)
 
 Custom providers in `models.providers` are written into `models.json` under the
-agent directory (default `~/.openclaw/agents/<agentId>/models.json`). This file
+agent directory (default `~/.freeclaw/agents/<agentId>/models.json`). This file
 is merged by default unless `models.mode` is set to `replace`.

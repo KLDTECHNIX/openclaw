@@ -17,7 +17,7 @@ x-i18n:
 
 ## 目标
 
-以 **$6/月**（或使用预留定价 $4/月）在 DigitalOcean 上运行持久的 OpenClaw Gateway 网关。
+以 **$6/月**（或使用预留定价 $4/月）在 DigitalOcean 上运行持久的 FreeClaw Gateway 网关。
 
 如果你想要 $0/月的选项且不介意 ARM + 特定提供商的设置，请参阅 [Oracle Cloud 指南](/platforms/oracle)。
 
@@ -74,16 +74,16 @@ curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 apt install -y nodejs
 
 # Install OpenClaw
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 
 # Verify
-openclaw --version
+freeclaw --version
 ```
 
 ## 4) 运行新手引导
 
 ```bash
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
 向导将引导你完成：
@@ -97,7 +97,7 @@ openclaw onboard --install-daemon
 
 ```bash
 # Check status
-openclaw status
+freeclaw status
 
 # Check service
 systemctl --user status openclaw-gateway.service
@@ -127,8 +127,8 @@ curl -fsSL https://tailscale.com/install.sh | sh
 tailscale up
 
 # Configure Gateway to use Tailscale Serve
-openclaw config set gateway.tailscale.mode serve
-openclaw gateway restart
+freeclaw config set gateway.tailscale.mode serve
+freeclaw gateway restart
 ```
 
 打开：`https://<magicdns>/`
@@ -141,8 +141,8 @@ openclaw gateway restart
 **选项 C：Tailnet 绑定（不使用 Serve）**
 
 ```bash
-openclaw config set gateway.bind tailnet
-openclaw gateway restart
+freeclaw config set gateway.bind tailnet
+freeclaw gateway restart
 ```
 
 打开：`http://<tailscale-ip>:18789`（需要令牌）。
@@ -152,14 +152,14 @@ openclaw gateway restart
 ### Telegram
 
 ```bash
-openclaw pairing list telegram
-openclaw pairing approve telegram <CODE>
+freeclaw pairing list telegram
+freeclaw pairing approve telegram <CODE>
 ```
 
 ### WhatsApp
 
 ```bash
-openclaw channels login whatsapp
+freeclaw channels login whatsapp
 # Scan QR code
 ```
 
@@ -201,13 +201,13 @@ htop
 
 所有状态存储在：
 
-- `~/.openclaw/` — 配置、凭证、会话数据
-- `~/.openclaw/workspace/` — 工作区（SOUL.md、记忆等）
+- `~/.freeclaw/` — 配置、凭证、会话数据
+- `~/.freeclaw/workspace/` — 工作区（SOUL.md、记忆等）
 
 这些在重启后保留。定期备份：
 
 ```bash
-tar -czvf openclaw-backup.tar.gz ~/.openclaw ~/.openclaw/workspace
+tar -czvf openclaw-backup.tar.gz ~/.freeclaw ~/.freeclaw/workspace
 ```
 
 ---
@@ -237,9 +237,9 @@ Oracle Cloud 提供 **Always Free** ARM 实例，比这里任何付费选项都�
 ### Gateway 网关无法启动
 
 ```bash
-openclaw gateway status
-openclaw doctor --non-interactive
-journalctl -u openclaw --no-pager -n 50
+freeclaw gateway status
+freeclaw doctor --non-interactive
+journalctl -u freeclaw --no-pager -n 50
 ```
 
 ### 端口已被使用

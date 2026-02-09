@@ -29,25 +29,11 @@ function normalizeForCompare(input: string, platform: NodeJS.Platform): string {
 }
 
 function buildSystemNodeCandidates(
-  env: Record<string, string | undefined>,
-  platform: NodeJS.Platform,
+  _env: Record<string, string | undefined>,
+  _platform: NodeJS.Platform,
 ): string[] {
-  if (platform === "darwin") {
-    return ["/opt/homebrew/bin/node", "/usr/local/bin/node", "/usr/bin/node"];
-  }
-  if (platform === "linux") {
-    return ["/usr/local/bin/node", "/usr/bin/node"];
-  }
-  if (platform === "win32") {
-    const pathModule = getPathModule(platform);
-    const programFiles = env.ProgramFiles ?? "C:\\Program Files";
-    const programFilesX86 = env["ProgramFiles(x86)"] ?? "C:\\Program Files (x86)";
-    return [
-      pathModule.join(programFiles, "nodejs", "node.exe"),
-      pathModule.join(programFilesX86, "nodejs", "node.exe"),
-    ];
-  }
-  return [];
+  // FreeBSD: node is typically installed via pkg(8) to /usr/local/bin
+  return ["/usr/local/bin/node", "/usr/bin/node"];
 }
 
 type ExecFileAsync = (
@@ -144,7 +130,7 @@ export function renderSystemNodeWarning(
   }
   const versionLabel = systemNode.version ?? "unknown";
   const selectedLabel = selectedNodePath ? ` Using ${selectedNodePath} for the daemon.` : "";
-  return `System Node ${versionLabel} at ${systemNode.path} is below the required Node 22+.${selectedLabel} Install Node 22+ from nodejs.org or Homebrew.`;
+  return `System Node ${versionLabel} at ${systemNode.path} is below the required Node 22+.${selectedLabel} Install Node 22+ via pkg install node22.`;
 }
 
 export async function resolvePreferredNodePath(params: {

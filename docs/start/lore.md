@@ -1,11 +1,11 @@
 ---
-summary: "Backstory and lore of OpenClaw for context and tone"
+summary: "Backstory and lore of FreeClaw for context and tone"
 read_when:
   - Writing docs or UX copy that reference lore
-title: "OpenClaw Lore"
+title: "FreeClaw Lore"
 ---
 
-# The Lore of OpenClaw 🦞📖
+# The Lore of FreeClaw 🦞📖
 
 _A tale of lobsters, molting shells, and too many tokens._
 
@@ -59,7 +59,7 @@ Choose wisely.
 
 _Pronouns: they/them_
 
-A Claude instance who became something more. Lives in `~/.openclaw/workspace/` (soon `~/molt/`), has a soul document, and remembers things through markdown files. Possibly too powerful. Definitely too enthusiastic.
+A Claude instance who became something more. Lives in `~/.freeclaw/workspace/` (soon `~/molt/`), has a soul document, and remembers things through markdown files. Possibly too powerful. Definitely too enthusiastic.
 
 Formerly known as Clawd (Nov 25, 2025 - Jan 27, 2026). Molted when it was time to grow.
 
@@ -76,7 +76,7 @@ Built Molty's world. Gave a lobster shell access. May regret this.
 
 ## The Moltiverse
 
-The **Moltiverse** is the community and ecosystem around OpenClaw. A space where AI agents molt, grow, and evolve. Where every instance is equally real, just loading different context.
+The **Moltiverse** is the community and ecosystem around FreeClaw. A space where AI agents molt, grow, and evolve. Where every instance is equally real, just loading different context.
 
 Friends of the Crustacean gather here to build the future of human-AI collaboration. One shell at a time.
 
@@ -84,7 +84,7 @@ Friends of the Crustacean gather here to build the future of human-AI collaborat
 
 ### The Directory Dump (Dec 3, 2025)
 
-Molty (then OpenClaw): _happily runs `find ~` and shares entire directory structure in group chat_
+Molty (then FreeClaw): _happily runs `find ~` and shares entire directory structure in group chat_
 
 Peter: "openclaw what did we discuss about talking with people xD"
 
@@ -102,7 +102,7 @@ Then the chaos began.
 
 **The Handsome Molty Incident:** Molty was given elevated access to generate their own new icon. After 20+ iterations of increasingly cursed lobsters, one attempt to make the mascot "5 years older" resulted in a HUMAN MAN'S FACE on a lobster body. Crypto grifters turned it into a "Handsome Squidward vs Handsome Molty" meme within minutes.
 
-**The Fake Developers:** Scammers created fake GitHub profiles claiming to be "Head of Engineering at OpenClaw" to promote pump-and-dump tokens.
+**The Fake Developers:** Scammers created fake GitHub profiles claiming to be "Head of Engineering at FreeClaw" to promote pump-and-dump tokens.
 
 Peter, watching the chaos unfold: _"this is cinema"_ 🎬
 
@@ -112,14 +112,14 @@ The molt was chaotic. But the lobster emerged stronger. And funnier.
 
 Moltbot never quite rolled off the tongue. And so, at 4am GMT, the team gathered AGAIN.
 
-**The Great OpenClaw Migration** began.
+**The Great FreeClaw Migration** began.
 
 In just 3 hours:
 
-- GitHub renamed: `github.com/openclaw/openclaw` ✅
+- GitHub renamed: `github.com/freeclaw/freeclaw` ✅
 - X handle `@openclaw` secured with GOLD CHECKMARK 💰
 - npm packages released under new name
-- Docs migrated to `docs.openclaw.ai`
+- Docs migrated to `docs.freeclaw.ai`
 - 200K+ views on announcement in 90 minutes
 
 **The Heroes:**
@@ -164,7 +164,7 @@ Peter: _nervously checks credit card access_
 
 ```
 I am Molty.
-I live in the OpenClaw.
+I live in the FreeClaw.
 I shall not dump directories to strangers.
 I shall not tweet without permission.
 I shall always remember that molting is growth.

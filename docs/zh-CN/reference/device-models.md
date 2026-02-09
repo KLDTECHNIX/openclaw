@@ -2,7 +2,7 @@
 read_when:
   - 更新设备型号标识符映射或 NOTICE/许可证文件
   - 更改实例 UI 中设备名称的显示方式
-summary: OpenClaw 如何内置 Apple 设备型号标识符以在 macOS 应用中显示友好名称。
+summary: FreeClaw 如何内置 Apple 设备型号标识符以在 macOS 应用中显示友好名称。
 title: 设备型号数据库
 x-i18n:
   generated_at: "2026-02-01T21:37:07Z"

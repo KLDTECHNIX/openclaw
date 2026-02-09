@@ -6,10 +6,9 @@ describe("auditGatewayServiceConfig", () => {
   it("flags bun runtime", async () => {
     const audit = await auditGatewayServiceConfig({
       env: { HOME: "/tmp" },
-      platform: "darwin",
       command: {
-        programArguments: ["/opt/homebrew/bin/bun", "gateway"],
-        environment: { PATH: "/usr/bin:/bin" },
+        programArguments: ["/usr/local/bin/bun", "gateway"],
+        environment: { PATH: "/usr/local/bin:/usr/bin:/bin" },
       },
     });
     expect(audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayRuntimeBun)).toBe(
@@ -20,11 +19,10 @@ describe("auditGatewayServiceConfig", () => {
   it("flags version-managed node paths", async () => {
     const audit = await auditGatewayServiceConfig({
       env: { HOME: "/tmp" },
-      platform: "darwin",
       command: {
-        programArguments: ["/Users/test/.nvm/versions/node/v22.0.0/bin/node", "gateway"],
+        programArguments: ["/home/test/.nvm/versions/node/v22.0.0/bin/node", "gateway"],
         environment: {
-          PATH: "/usr/bin:/bin:/Users/test/.nvm/versions/node/v22.0.0/bin",
+          PATH: "/usr/local/bin:/usr/bin:/bin:/home/test/.nvm/versions/node/v22.0.0/bin",
         },
       },
     });
@@ -36,19 +34,15 @@ describe("auditGatewayServiceConfig", () => {
     expect(
       audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathNonMinimal),
     ).toBe(true);
-    expect(
-      audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathMissingDirs),
-    ).toBe(true);
   });
 
-  it("accepts Linux minimal PATH with user directories", async () => {
-    const env = { HOME: "/home/testuser", PNPM_HOME: "/opt/pnpm" };
-    const minimalPath = buildMinimalServicePath({ platform: "linux", env });
+  it("accepts FreeBSD minimal PATH", async () => {
+    const env = { HOME: "/home/testuser" };
+    const minimalPath = buildMinimalServicePath({ platform: "freebsd" as NodeJS.Platform, env });
     const audit = await auditGatewayServiceConfig({
       env,
-      platform: "linux",
       command: {
-        programArguments: ["/usr/bin/node", "gateway"],
+        programArguments: ["/usr/local/bin/node", "gateway"],
         environment: { PATH: minimalPath },
       },
     });
@@ -56,8 +50,53 @@ describe("auditGatewayServiceConfig", () => {
     expect(
       audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathNonMinimal),
     ).toBe(false);
+  });
+
+  it("flags missing PATH", async () => {
+    const audit = await auditGatewayServiceConfig({
+      env: { HOME: "/tmp" },
+      command: {
+        programArguments: ["/usr/local/bin/node", "gateway"],
+        environment: {},
+      },
+    });
     expect(
-      audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathMissingDirs),
+      audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathMissing),
+    ).toBe(true);
+  });
+
+  it("flags missing gateway subcommand", async () => {
+    const audit = await auditGatewayServiceConfig({
+      env: { HOME: "/tmp" },
+      command: {
+        programArguments: ["/usr/local/bin/node", "serve"],
+        environment: { PATH: "/usr/local/bin:/usr/bin:/bin" },
+      },
+    });
+    expect(
+      audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayCommandMissing),
+    ).toBe(true);
+  });
+
+  it("reports no issues for a well-configured FreeBSD service", async () => {
+    const audit = await auditGatewayServiceConfig({
+      env: { HOME: "/home/freeclaw" },
+      command: {
+        programArguments: ["/usr/local/bin/node", "gateway"],
+        environment: { PATH: "/usr/local/bin:/usr/bin:/bin" },
+      },
+    });
+
+    expect(audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayRuntimeBun)).toBe(
+      false,
+    );
+    expect(
+      audit.issues.some(
+        (issue) => issue.code === SERVICE_AUDIT_CODES.gatewayRuntimeNodeVersionManager,
+      ),
+    ).toBe(false);
+    expect(
+      audit.issues.some((issue) => issue.code === SERVICE_AUDIT_CODES.gatewayPathNonMinimal),
     ).toBe(false);
   });
 });

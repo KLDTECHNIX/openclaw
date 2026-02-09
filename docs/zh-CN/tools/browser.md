@@ -1,7 +1,7 @@
 ---
 read_when:
   - 添加智能体控制的浏览器自动化
-  - 调试 openclaw 干扰你自己 Chrome 的问题
+  - 调试 freeclaw 干扰你自己 Chrome 的问题
   - 在 macOS 应用中实现浏览器设置和生命周期管理
 summary: 集成浏览器控制服务 + 操作命令
 title: 浏览器（OpenClaw 托管）
@@ -38,10 +38,10 @@ OpenClaw 可以运行一个由智能体控制的**专用 Chrome/Brave/Edge/Chrom
 ## 快速开始
 
 ```bash
-openclaw browser --browser-profile openclaw status
-openclaw browser --browser-profile openclaw start
-openclaw browser --browser-profile openclaw open https://example.com
-openclaw browser --browser-profile openclaw snapshot
+freeclaw browser --browser-profile freeclaw status
+freeclaw browser --browser-profile freeclaw start
+freeclaw browser --browser-profile freeclaw open https://example.com
+freeclaw browser --browser-profile freeclaw snapshot
 ```
 
 如果出现"Browser disabled"，请在配置中启用它（见下文）并重启 Gateway 网关。
@@ -49,13 +49,13 @@ openclaw browser --browser-profile openclaw snapshot
 ## 配置文件：`openclaw` 与 `chrome`
 
 - `openclaw`：托管的隔离浏览器（无需扩展）。
-- `chrome`：到你**系统浏览器**的扩展中继（需要将 OpenClaw 扩展附加到标签页）。
+- `chrome`：到你**系统浏览器**的扩展中继（需要将 FreeClaw 扩展附加到标签页）。
 
 如果你希望默认使用托管模式，请设置 `browser.defaultProfile: "openclaw"`。
 
 ## 配置
 
-浏览器设置位于 `~/.openclaw/openclaw.json`。
+浏览器设置位于 `~/.freeclaw/freeclaw.json`。
 
 ```json5
 {
@@ -82,7 +82,7 @@ openclaw browser --browser-profile openclaw snapshot
 注意事项：
 
 - 浏览器控制服务绑定到 loopback 上的端口，该端口从 `gateway.port` 派生（默认：`18791`，即 gateway + 2）。中继使用下一个端口（`18792`）。
-- 如果你覆盖了 Gateway 网关端口（`gateway.port` 或 `OPENCLAW_GATEWAY_PORT`），派生的浏览器端口会相应调整以保持在同一"系列"中。
+- 如果你覆盖了 Gateway 网关端口（`gateway.port` 或 `FREECLAW_GATEWAY_PORT`），派生的浏览器端口会相应调整以保持在同一"系列"中。
 - 未设置时，`cdpUrl` 默认为中继端口。
 - `remoteCdpTimeoutMs` 适用于远程（非 loopback）CDP 可达性检查。
 - `remoteCdpHandshakeTimeoutMs` 适用于远程 CDP WebSocket 可达性检查。
@@ -99,7 +99,7 @@ openclaw browser --browser-profile openclaw snapshot
 CLI 示例：
 
 ```bash
-openclaw config set browser.executablePath "/usr/bin/google-chrome"
+freeclaw config set browser.executablePath "/usr/bin/google-chrome"
 ```
 
 ```json5
@@ -152,7 +152,7 @@ OpenClaw 在调用 `/json/*` 端点和连接 CDP WebSocket 时会保留认证信
 
 ## Browserless（托管远程 CDP）
 
-[Browserless](https://browserless.io) 是一个托管的 Chromium 服务，通过 HTTPS 暴露 CDP 端点。你可以将 OpenClaw 浏览器配置文件指向 Browserless 区域端点，并使用你的 API 密钥进行认证。
+[Browserless](https://browserless.io) 是一个托管的 Chromium 服务，通过 HTTPS 暴露 CDP 端点。你可以将 FreeClaw 浏览器配置文件指向 Browserless 区域端点，并使用你的 API 密钥进行认证。
 
 示例：
 
@@ -236,7 +236,7 @@ Chrome 扩展中继接管需要主机浏览器控制，因此要么：
 1. 加载扩展（开发/未打包）：
 
 ```bash
-openclaw browser extension install
+freeclaw browser extension install
 ```
 
 - Chrome → `chrome://extensions` → 启用"开发者模式"
@@ -251,7 +251,7 @@ openclaw browser extension install
 可选：如果你想要不同的名称或中继端口，创建你自己的配置文件：
 
 ```bash
-openclaw browser create-profile \
+freeclaw browser create-profile \
   --name my-chrome \
   --driver extension \
   --cdp-url http://127.0.0.1:18792 \
@@ -308,7 +308,7 @@ openclaw browser create-profile \
 
 ### Playwright 要求
 
-某些功能（navigate/act/AI 快照/角色快照、元素截图、PDF）需要 Playwright。如果未安装 Playwright，这些端点会返回明确的 501 错误。ARIA 快照和基本截图对于 openclaw 托管的 Chrome 仍然有效。对于 Chrome 扩展中继驱动程序，ARIA 快照和截图需要 Playwright。
+某些功能（navigate/act/AI 快照/角色快照、元素截图、PDF）需要 Playwright。如果未安装 Playwright，这些端点会返回明确的 501 错误。ARIA 快照和基本截图对于 freeclaw 托管的 Chrome 仍然有效。对于 Chrome 扩展中继驱动程序，ARIA 快照和截图需要 Playwright。
 
 如果你看到 `Playwright is not available in this gateway build`，请安装完整的 Playwright 包（不是 `playwright-core`）并重启 Gateway 网关，或者重新安装带浏览器支持的 OpenClaw。
 
@@ -321,7 +321,7 @@ docker compose run --rm openclaw-cli \
   node /app/node_modules/playwright-core/cli.js install chromium
 ```
 
-要持久化浏览器下载，设置 `PLAYWRIGHT_BROWSERS_PATH`（例如 `/home/node/.cache/ms-playwright`）并确保 `/home/node` 通过 `OPENCLAW_HOME_VOLUME` 或绑定挂载持久化。参见 [Docker](/install/docker)。
+要持久化浏览器下载，设置 `PLAYWRIGHT_BROWSERS_PATH`（例如 `/home/node/.cache/ms-playwright`）并确保 `/home/node` 通过 `FREECLAW_HOME_VOLUME` 或绑定挂载持久化。参见 [Docker](/install/docker)。
 
 ## 工作原理（内部）
 
@@ -467,7 +467,7 @@ ref 行为：
 这些可以组合使用：
 
 ```bash
-openclaw browser wait "#main" \
+freeclaw browser wait "#main" \
   --url "**/dash" \
   --load networkidle \
   --fn "window.ready===true" \
@@ -496,10 +496,10 @@ openclaw browser wait "#main" \
 示例：
 
 ```bash
-openclaw browser status --json
-openclaw browser snapshot --interactive --json
-openclaw browser requests --filter api --json
-openclaw browser cookies --json
+freeclaw browser status --json
+freeclaw browser snapshot --interactive --json
+freeclaw browser requests --filter api --json
+freeclaw browser cookies --json
 ```
 
 JSON 格式的角色快照包含 `refs` 加上一个小的 `stats` 块（lines/chars/refs/interactive），以便工具可以推断负载大小和密度。
@@ -522,7 +522,7 @@ JSON 格式的角色快照包含 `refs` 加上一个小的 `stats` 块（lines/c
 
 ## 安全与隐私
 
-- openclaw 浏览器配置文件可能包含已登录的会话；请将其视为敏感信息。
+- freeclaw 浏览器配置文件可能包含已登录的会话；请将其视为敏感信息。
 - `browser act kind=evaluate` / `openclaw browser evaluate` 和 `wait --fn` 在页面上下文中执行任意 JavaScript。提示注入可能会操纵它。如果不需要，请使用 `browser.evaluateEnabled=false` 禁用它。
 - 有关登录和反机器人注意事项（X/Twitter 等），请参阅 [浏览器登录 + X/Twitter 发帖](/tools/browser-login)。
 - 保持 Gateway 网关/节点主机私有（仅限 loopback 或 tailnet）。

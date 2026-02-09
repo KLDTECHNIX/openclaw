@@ -31,9 +31,9 @@ OpenClaw 提供三个更新渠道：
 Git checkout：
 
 ```bash
-openclaw update --channel stable
-openclaw update --channel beta
-openclaw update --channel dev
+freeclaw update --channel stable
+freeclaw update --channel beta
+freeclaw update --channel dev
 ```
 
 - `stable`/`beta` 检出最新匹配的标签（通常是同一个标签）。
@@ -42,16 +42,16 @@ openclaw update --channel dev
 npm/pnpm 全局安装：
 
 ```bash
-openclaw update --channel stable
-openclaw update --channel beta
-openclaw update --channel dev
+freeclaw update --channel stable
+freeclaw update --channel beta
+freeclaw update --channel dev
 ```
 
 这会通过相应的 npm dist-tag（`latest`、`beta`、`dev`）进行更新。
 
 当你使用 `--channel` **显式**切换渠道时，OpenClaw 还会对齐安装方式：
 
-- `dev` 确保有一个 git checkout（默认 `~/openclaw`，可通过 `OPENCLAW_GIT_DIR` 覆盖），
+- `dev` 确保有一个 git checkout（默认 `~/openclaw`，可通过 `FREECLAW_GIT_DIR` 覆盖），
   更新它，并从该 checkout 安装全局 CLI。
 - `stable`/`beta` 使用匹配的 dist-tag 从 npm 安装。
 

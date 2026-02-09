@@ -27,12 +27,12 @@ export interface SendMessageResult {
 /**
  * Internal send function used by the outbound adapter.
  *
- * This function has access to the full OpenClaw config and handles
+ * This function has access to the full FreeClaw config and handles
  * account resolution, markdown stripping, and actual message sending.
  *
  * @param channel - The channel name
  * @param text - The message text
- * @param cfg - Full OpenClaw configuration
+ * @param cfg - Full FreeClaw configuration
  * @param accountId - Account ID to use
  * @param stripMarkdown - Whether to strip markdown (default: true)
  * @param logger - Logger instance

@@ -1,7 +1,7 @@
 ---
 read_when:
   - 设置或调试远程 mac 控制时
-summary: macOS 应用通过 SSH 控制远程 OpenClaw Gateway 网关的流程
+summary: macOS 应用通过 SSH 控制远程 FreeClaw Gateway 网关的流程
 title: 远程控制
 x-i18n:
   generated_at: "2026-02-03T07:52:53Z"
@@ -14,7 +14,7 @@ x-i18n:
 
 # 远程 OpenClaw（macOS ⇄ 远程主机）
 
-此流程让 macOS 应用作为运行在另一台主机（桌面/服务器）上的 OpenClaw Gateway 网关的完整远程控制。这是应用的 **Remote over SSH**（远程运行）功能。所有功能——健康检查、语音唤醒转发和 Web Chat——都重用来自 _Settings → General_ 的相同远程 SSH 配置。
+此流程让 macOS 应用作为运行在另一台主机（桌面/服务器）上的 FreeClaw Gateway 网关的完整远程控制。这是应用的 **Remote over SSH**（远程运行）功能。所有功能——健康检查、语音唤醒转发和 Web Chat——都重用来自 _Settings → General_ 的相同远程 SSH 配置。
 
 ## 模式
 
@@ -31,7 +31,7 @@ x-i18n:
 
 ## 远程主机上的先决条件
 
-1. 安装 Node + pnpm 并构建/安装 OpenClaw CLI（`pnpm install && pnpm build && pnpm link --global`）。
+1. 安装 Node + pnpm 并构建/安装 FreeClaw CLI（`pnpm install && pnpm build && pnpm link --global`）。
 2. 确保 `openclaw` 在非交互式 shell 的 PATH 中（如需要，请符号链接到 `/usr/local/bin` 或 `/opt/homebrew/bin`）。
 3. 使用密钥认证打开 SSH。我们推荐使用 **Tailscale** IP 以实现离开局域网时的稳定可达性。
 
@@ -84,7 +84,7 @@ x-i18n:
 通过带有 `openclaw` 和 `node.invoke` 的脚本为每个通知选择声音，例如：
 
 ```bash
-openclaw nodes notify --node <id> --title "Ping" --body "Remote gateway ready" --sound Glass
+freeclaw nodes notify --node <id> --title "Ping" --body "Remote gateway ready" --sound Glass
 ```
 
 应用中不再有全局"默认声音"开关；调用者为每个请求选择声音（或无声音）。

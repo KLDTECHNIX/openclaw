@@ -2,7 +2,7 @@
 read_when:
   - 将 Gmail 收件箱触发器接入 OpenClaw
   - 为智能体唤醒设置 Pub/Sub 推送
-summary: 通过 gogcli 将 Gmail Pub/Sub 推送接入 OpenClaw webhooks
+summary: 通过 gogcli 将 Gmail Pub/Sub 推送接入 FreeClaw webhooks
 title: Gmail PubSub
 x-i18n:
   generated_at: "2026-02-03T07:43:25Z"
@@ -15,13 +15,13 @@ x-i18n:
 
 # Gmail Pub/Sub -> OpenClaw
 
-目标：Gmail watch -> Pub/Sub 推送 -> `gog gmail watch serve` -> OpenClaw webhook。
+目标：Gmail watch -> Pub/Sub 推送 -> `gog gmail watch serve` -> FreeClaw webhook。
 
 ## 前置条件
 
 - 已安装并登录 `gcloud`（[安装指南](https://docs.cloud.google.com/sdk/docs/install-sdk)）。
 - 已安装 `gog` (gogcli) 并为 Gmail 账户授权（[gogcli.sh](https://gogcli.sh/)）。
-- 已启用 OpenClaw hooks（参见 [Webhooks](/automation/webhook)）。
+- 已启用 FreeClaw hooks（参见 [Webhooks](/automation/webhook)）。
 - 已登录 `tailscale`（[tailscale.com](https://tailscale.com/)）。支持的设置使用 Tailscale Funnel 作为公共 HTTPS 端点。
   其他隧道服务也可以使用，但需要自行配置/不受支持，需要手动接入。
   目前，我们支持的是 Tailscale。
@@ -32,7 +32,7 @@ x-i18n:
 {
   hooks: {
     enabled: true,
-    token: "OPENCLAW_HOOK_TOKEN",
+    token: "FREECLAW_HOOK_TOKEN",
     path: "/hooks",
     presets: ["gmail"],
   },
@@ -45,7 +45,7 @@ x-i18n:
 {
   hooks: {
     enabled: true,
-    token: "OPENCLAW_HOOK_TOKEN",
+    token: "FREECLAW_HOOK_TOKEN",
     presets: ["gmail"],
     mappings: [
       {
@@ -94,10 +94,10 @@ x-i18n:
 
 ## 向导（推荐）
 
-使用 OpenClaw 助手将所有内容接入在一起（在 macOS 上通过 brew 安装依赖）：
+使用 FreeClaw 助手将所有内容接入在一起（在 macOS 上通过 brew 安装依赖）：
 
 ```bash
-openclaw webhooks gmail setup \
+freeclaw webhooks gmail setup \
   --account openclaw@gmail.com
 ```
 
@@ -117,13 +117,13 @@ openclaw webhooks gmail setup \
 Gateway 网关自动启动（推荐）：
 
 - 当 `hooks.enabled=true` 且设置了 `hooks.gmail.account` 时，Gateway 网关会在启动时运行 `gog gmail watch serve` 并自动续期 watch。
-- 设置 `OPENCLAW_SKIP_GMAIL_WATCHER=1` 可退出（如果你自己运行守护进程则很有用）。
+- 设置 `FREECLAW_SKIP_GMAIL_WATCHER=1` 可退出（如果你自己运行守护进程则很有用）。
 - 不要同时运行手动守护进程，否则会遇到 `listen tcp 127.0.0.1:8788: bind: address already in use`。
 
 手动守护进程（启动 `gog gmail watch serve` + 自动续期）：
 
 ```bash
-openclaw webhooks gmail run
+freeclaw webhooks gmail run
 ```
 
 ## 一次性设置
@@ -180,7 +180,7 @@ gog gmail watch serve \
   --path /gmail-pubsub \
   --token <shared> \
   --hook-url http://127.0.0.1:18789/hooks/gmail \
-  --hook-token OPENCLAW_HOOK_TOKEN \
+  --hook-token FREECLAW_HOOK_TOKEN \
   --include-body \
   --max-bytes 20000
 ```
@@ -188,8 +188,8 @@ gog gmail watch serve \
 注意事项：
 
 - `--token` 保护推送端点（`x-gog-token` 或 `?token=`）。
-- `--hook-url` 指向 OpenClaw `/hooks/gmail`（已映射；隔离运行 + 摘要发送到主线程）。
-- `--include-body` 和 `--max-bytes` 控制发送到 OpenClaw 的正文片段。
+- `--hook-url` 指向 FreeClaw `/hooks/gmail`（已映射；隔离运行 + 摘要发送到主线程）。
+- `--include-body` 和 `--max-bytes` 控制发送到 FreeClaw 的正文片段。
 
 推荐：`openclaw webhooks gmail run` 封装了相同的流程并自动续期 watch。
 

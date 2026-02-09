@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 打包 OpenClaw.app
+  - 打包 FreeClaw.app
   - 调试 macOS Gateway 网关 launchd 服务
   - 为 macOS 安装 Gateway 网关 CLI
 summary: macOS 上的 Gateway 网关运行时（外部 launchd 服务）
@@ -23,7 +23,7 @@ OpenClaw.app 不再捆绑 Node/Bun 或 Gateway 网关运行时。macOS 应用期
 你需要在 Mac 上安装 Node 22+，然后全局安装 `openclaw`：
 
 ```bash
-npm install -g openclaw@<version>
+npm install -g freeclaw@<version>
 ```
 
 macOS 应用的**安装 CLI**按钮通过 npm/pnpm 运行相同的流程（不推荐使用 bun 作为 Gateway 网关运行时）。
@@ -46,7 +46,7 @@ Plist 位置（每用户）：
 
 行为：
 
-- "OpenClaw Active"启用/禁用 LaunchAgent。
+- "FreeClaw Active"启用/禁用 LaunchAgent。
 - 应用退出**不会**停止 Gateway 网关（launchd 保持其存活）。
 - 如果 Gateway 网关已经在配置的端口上运行，应用会连接到它而不是启动新的。
 
@@ -61,15 +61,15 @@ macOS 应用会检查 Gateway 网关版本与其自身版本是否匹配。如�
 ## 冒烟测试
 
 ```bash
-openclaw --version
+freeclaw --version
 
-OPENCLAW_SKIP_CHANNELS=1 \
-OPENCLAW_SKIP_CANVAS_HOST=1 \
-openclaw gateway --port 18999 --bind loopback
+FREECLAW_SKIP_CHANNELS=1 \
+FREECLAW_SKIP_CANVAS_HOST=1 \
+freeclaw gateway --port 18999 --bind loopback
 ```
 
 然后：
 
 ```bash
-openclaw gateway call health --url ws://127.0.0.1:18999 --timeout 3000
+freeclaw gateway call health --url ws://127.0.0.1:18999 --timeout 3000
 ```

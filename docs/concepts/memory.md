@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw memory works (workspace files + automatic memory flush)"
+summary: "How FreeClaw memory works (workspace files + automatic memory flush)"
 read_when:
   - You want the memory file layout and workflow
   - You want to tune the automatic pre-compaction memory flush
@@ -25,7 +25,7 @@ The default workspace layout uses two memory layers:
   - **Only load in the main, private session** (never in group contexts).
 
 These files live under the workspace (`agents.defaults.workspace`, default
-`~/.openclaw/workspace`). See [Agent workspace](/concepts/agent-workspace) for the full layout.
+`~/.freeclaw/workspace`). See [Agent workspace](/concepts/agent-workspace) for the full layout.
 
 ## When to write memory
 
@@ -37,7 +37,7 @@ These files live under the workspace (`agents.defaults.workspace`, default
 
 ## Automatic memory flush (pre-compaction ping)
 
-When a session is **close to auto-compaction**, OpenClaw triggers a **silent,
+When a session is **close to auto-compaction**, FreeClaw triggers a **silent,
 agentic turn** that reminds the model to write durable memory **before** the
 context is compacted. The default prompts explicitly say the model _may reply_,
 but usually `NO_REPLY` is the correct response so the user never sees this turn.
@@ -84,7 +84,7 @@ Defaults:
 
 - Enabled by default.
 - Watches memory files for changes (debounced).
-- Uses remote embeddings by default. If `memorySearch.provider` is not set, OpenClaw auto-selects:
+- Uses remote embeddings by default. If `memorySearch.provider` is not set, FreeClaw auto-selects:
   1. `local` if a `memorySearch.local.modelPath` is configured and the file exists.
   2. `openai` if an OpenAI key can be resolved.
   3. `gemini` if a Gemini key can be resolved.
@@ -105,7 +105,7 @@ set `memorySearch.remote.apiKey` (and optional `memorySearch.remote.headers`).
 
 Set `memory.backend = "qmd"` to swap the built-in SQLite indexer for
 [QMD](https://github.com/tobi/qmd): a local-first search sidecar that combines
-BM25 + vectors + reranking. Markdown stays the source of truth; OpenClaw shells
+BM25 + vectors + reranking. Markdown stays the source of truth; FreeClaw shells
 out to QMD for retrieval. Key points:
 
 **Prereqs**
@@ -118,7 +118,7 @@ out to QMD for retrieval. Key points:
 - QMD runs fully locally via Bun + `node-llama-cpp` and auto-downloads GGUF
   models from HuggingFace on first use (no separate Ollama daemon required).
 - The gateway runs QMD in a self-contained XDG home under
-  `~/.openclaw/agents/<agentId>/qmd/` by setting `XDG_CONFIG_HOME` and
+  `~/.freeclaw/agents/<agentId>/qmd/` by setting `XDG_CONFIG_HOME` and
   `XDG_CACHE_HOME`.
 - OS support: macOS and Linux work out of the box once Bun + SQLite are
   installed. Windows is best supported via WSL2.
@@ -126,28 +126,28 @@ out to QMD for retrieval. Key points:
 **How the sidecar runs**
 
 - The gateway writes a self-contained QMD home under
-  `~/.openclaw/agents/<agentId>/qmd/` (config + cache + sqlite DB).
+  `~/.freeclaw/agents/<agentId>/qmd/` (config + cache + sqlite DB).
 - Collections are rewritten from `memory.qmd.paths` (plus default workspace
   memory files) into `index.yml`, then `qmd update` + `qmd embed` run on boot and
   on a configurable interval (`memory.qmd.update.interval`, default 5 m).
 - Searches run via `qmd query --json`. If QMD fails or the binary is missing,
-  OpenClaw automatically falls back to the builtin SQLite manager so memory tools
+  FreeClaw automatically falls back to the builtin SQLite manager so memory tools
   keep working.
 - **First search may be slow**: QMD may download local GGUF models (reranker/query
   expansion) on the first `qmd query` run.
-  - OpenClaw sets `XDG_CONFIG_HOME`/`XDG_CACHE_HOME` automatically when it runs QMD.
+  - FreeClaw sets `XDG_CONFIG_HOME`/`XDG_CACHE_HOME` automatically when it runs QMD.
   - If you want to pre-download models manually (and warm the same index OpenClaw
     uses), run a one-off query with the agent’s XDG dirs.
 
-    OpenClaw’s QMD state lives under your **state dir** (defaults to `~/.openclaw`).
+    OpenClaw’s QMD state lives under your **state dir** (defaults to `~/.freeclaw`).
     You can point `qmd` at the exact same index by exporting the same XDG vars
-    OpenClaw uses:
+    FreeClaw uses:
 
     ```bash
-    # Pick the same state dir OpenClaw uses
-    STATE_DIR="${OPENCLAW_STATE_DIR:-$HOME/.openclaw}"
+    # Pick the same state dir FreeClaw uses
+    STATE_DIR="${FREECLAW_STATE_DIR:-$HOME/.openclaw}"
     if [ -d "$HOME/.moltbot" ] && [ ! -d "$HOME/.openclaw" ] \
-      && [ -z "${OPENCLAW_STATE_DIR:-}" ]; then
+      && [ -z "${FREECLAW_STATE_DIR:-}" ]; then
       STATE_DIR="$HOME/.moltbot"
     fi
 
@@ -179,9 +179,9 @@ out to QMD for retrieval. Key points:
 - Snippets sourced outside the workspace show up as
   `qmd/<collection>/<relative-path>` in `memory_search` results; `memory_get`
   understands that prefix and reads from the configured QMD collection root.
-- When `memory.qmd.sessions.enabled = true`, OpenClaw exports sanitized session
+- When `memory.qmd.sessions.enabled = true`, FreeClaw exports sanitized session
   transcripts (User/Assistant turns) into a dedicated QMD collection under
-  `~/.openclaw/agents/<id>/qmd/sessions/`, so `memory_search` can recall recent
+  `~/.freeclaw/agents/<id>/qmd/sessions/`, so `memory_search` can recall recent
   conversations without touching the builtin SQLite index.
 - `memory_search` snippets now include a `Source: <path#line>` footer when
   `memory.citations` is `auto`/`on`; set `memory.citations = "off"` to keep
@@ -345,18 +345,18 @@ Local mode:
 ### What gets indexed (and when)
 
 - File type: Markdown only (`MEMORY.md`, `memory/**/*.md`).
-- Index storage: per-agent SQLite at `~/.openclaw/memory/<agentId>.sqlite` (configurable via `agents.defaults.memorySearch.store.path`, supports `{agentId}` token).
+- Index storage: per-agent SQLite at `~/.freeclaw/memory/<agentId>.sqlite` (configurable via `agents.defaults.memorySearch.store.path`, supports `{agentId}` token).
 - Freshness: watcher on `MEMORY.md` + `memory/` marks the index dirty (debounce 1.5s). Sync is scheduled on session start, on search, or on an interval and runs asynchronously. Session transcripts use delta thresholds to trigger background sync.
-- Reindex triggers: the index stores the embedding **provider/model + endpoint fingerprint + chunking params**. If any of those change, OpenClaw automatically resets and reindexes the entire store.
+- Reindex triggers: the index stores the embedding **provider/model + endpoint fingerprint + chunking params**. If any of those change, FreeClaw automatically resets and reindexes the entire store.
 
 ### Hybrid search (BM25 + vector)
 
-When enabled, OpenClaw combines:
+When enabled, FreeClaw combines:
 
 - **Vector similarity** (semantic match, wording can differ)
 - **BM25 keyword relevance** (exact tokens like IDs, env vars, code symbols)
 
-If full-text search is unavailable on your platform, OpenClaw falls back to vector-only search.
+If full-text search is unavailable on your platform, FreeClaw falls back to vector-only search.
 
 #### Why hybrid?
 
@@ -463,7 +463,7 @@ Notes:
 - `memory_search` never blocks on indexing; results can be slightly stale until background sync finishes.
 - Results still include snippets only; `memory_get` remains limited to memory files.
 - Session indexing is isolated per agent (only that agent’s session logs are indexed).
-- Session logs live on disk (`~/.openclaw/agents/<agentId>/sessions/*.jsonl`). Any process/user with filesystem access can read them, so treat disk access as the trust boundary. For stricter isolation, run agents under separate OS users or hosts.
+- Session logs live on disk (`~/.freeclaw/agents/<agentId>/sessions/*.jsonl`). Any process/user with filesystem access can read them, so treat disk access as the trust boundary. For stricter isolation, run agents under separate OS users or hosts.
 
 Delta thresholds (defaults shown):
 
@@ -484,7 +484,7 @@ agents: {
 
 ### SQLite vector acceleration (sqlite-vec)
 
-When the sqlite-vec extension is available, OpenClaw stores embeddings in a
+When the sqlite-vec extension is available, FreeClaw stores embeddings in a
 SQLite virtual table (`vec0`) and performs vector distance queries in the
 database. This keeps search fast without loading every embedding into JS.
 
@@ -509,7 +509,7 @@ Notes:
 
 - `enabled` defaults to true; when disabled, search falls back to in-process
   cosine similarity over stored embeddings.
-- If the sqlite-vec extension is missing or fails to load, OpenClaw logs the
+- If the sqlite-vec extension is missing or fails to load, FreeClaw logs the
   error and continues with the JS fallback (no vector table).
 - `extensionPath` overrides the bundled sqlite-vec path (useful for custom builds
   or non-standard install locations).

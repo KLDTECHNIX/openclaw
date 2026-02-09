@@ -2,7 +2,7 @@
 read_when:
   - 诊断认证配置文件轮换、冷却时间或模型回退行为
   - 更新认证配置文件或模型的故障转移规则
-summary: OpenClaw 如何轮换认证配置文件并在模型之间进行回退
+summary: FreeClaw 如何轮换认证配置文件并在模型之间进行回退
 title: 模型故障转移
 x-i18n:
   generated_at: "2026-02-03T07:46:17Z"
@@ -26,9 +26,9 @@ OpenClaw 分两个阶段处理故障：
 
 OpenClaw 对 API 密钥和 OAuth 令牌都使用**认证配置文件**。
 
-- 密钥存储在 `~/.openclaw/agents/<agentId>/agent/auth-profiles.json`（旧版：`~/.openclaw/agent/auth-profiles.json`）。
+- 密钥存储在 `~/.freeclaw/agents/<agentId>/agent/auth-profiles.json`（旧版：`~/.freeclaw/agent/auth-profiles.json`）。
 - 配置 `auth.profiles` / `auth.order` **仅用于元数据和路由**（不含密钥）。
-- 旧版仅导入 OAuth 文件：`~/.openclaw/credentials/oauth.json`（首次使用时导入到 `auth-profiles.json`）。
+- 旧版仅导入 OAuth 文件：`~/.freeclaw/credentials/oauth.json`（首次使用时导入到 `auth-profiles.json`）。
 
 更多详情：[/concepts/oauth](/concepts/oauth)
 
@@ -44,7 +44,7 @@ OAuth 登录创建不同的配置文件，以便多个账户可以共存。
 - 默认：当没有电子邮件可用时为 `provider:default`。
 - 带电子邮件的 OAuth：`provider:<email>`（例如 `google-antigravity:user@gmail.com`）。
 
-配置文件存储在 `~/.openclaw/agents/<agentId>/agent/auth-profiles.json` 的 `profiles` 下。
+配置文件存储在 `~/.freeclaw/agents/<agentId>/agent/auth-profiles.json` 的 `profiles` 下。
 
 ## 轮换顺序
 
@@ -70,7 +70,7 @@ OpenClaw **为每个会话固定所选的认证配置文件**以保持提供商�
 
 通过 `/model …@<profileId>` 手动选择会为该会话设置**用户覆盖**，在新会话开始之前不会自动轮换。
 
-自动固定的配置文件（由会话路由器选择）被视为**偏好**：它们会优先尝试，但 OpenClaw 可能在速率限制/超时时轮换到另一个配置文件。用户固定的配置文件会锁定到该配置文件；如果失败且配置了模型回退，OpenClaw 会移动到下一个模型而不是切换配置文件。
+自动固定的配置文件（由会话路由器选择）被视为**偏好**：它们会优先尝试，但 FreeClaw 可能在速率限制/超时时轮换到另一个配置文件。用户固定的配置文件会锁定到该配置文件；如果失败且配置了模型回退，OpenClaw 会移动到下一个模型而不是切换配置文件。
 
 ### 为什么 OAuth 可能"看起来丢失"
 

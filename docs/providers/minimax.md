@@ -1,5 +1,5 @@
 ---
-summary: "Use MiniMax M2.1 in OpenClaw"
+summary: "Use MiniMax M2.1 in FreeClaw"
 read_when:
   - You want MiniMax models in OpenClaw
   - You need MiniMax setup guidance
@@ -44,9 +44,9 @@ MiniMax highlights these improvements in M2.1:
 Enable the bundled OAuth plugin and authenticate:
 
 ```bash
-openclaw plugins enable minimax-portal-auth  # skip if already loaded.
-openclaw gateway restart  # restart if gateway is already running
-openclaw onboard --auth-choice minimax-portal
+freeclaw plugins enable minimax-portal-auth  # skip if already loaded.
+freeclaw gateway restart  # restart if gateway is already running
+freeclaw onboard --auth-choice minimax-portal
 ```
 
 You will be prompted to select an endpoint:
@@ -54,7 +54,7 @@ You will be prompted to select an endpoint:
 - **Global** - International users (`api.minimax.io`)
 - **CN** - Users in China (`api.minimaxi.com`)
 
-See [MiniMax OAuth plugin README](https://github.com/openclaw/openclaw/tree/main/extensions/minimax-portal-auth) for details.
+See [MiniMax OAuth plugin README](https://github.com/freeclaw/freeclaw/tree/main/extensions/minimax-portal-auth) for details.
 
 ### MiniMax M2.1 (API key)
 
@@ -122,7 +122,7 @@ Configure via CLI:
 We have seen strong results with MiniMax M2.1 on powerful hardware (e.g. a
 desktop/server) using LM Studio's local server.
 
-Configure manually via `openclaw.json`:
+Configure manually via `freeclaw.json`:
 
 ```json5
 {
@@ -204,5 +204,5 @@ Make sure the model id is **case‑sensitive**:
 Then recheck with:
 
 ```bash
-openclaw models list
+freeclaw models list
 ```

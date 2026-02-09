@@ -14,7 +14,7 @@ automation and alerting; scripts are optional extras for phone workflows.
 ## Preferred: CLI check (portable)
 
 ```bash
-openclaw models status --check
+freeclaw models status --check
 ```
 
 Exit codes:
@@ -35,10 +35,10 @@ gateway host and are tuned for systemd + Termux.
   so keep `openclaw` on `PATH` for timers.
 - `scripts/auth-monitor.sh`: cron/systemd timer target; sends alerts (ntfy or phone).
 - `scripts/systemd/openclaw-auth-monitor.{service,timer}`: systemd user timer.
-- `scripts/claude-auth-status.sh`: Claude Code + OpenClaw auth checker (full/json/simple).
+- `scripts/claude-auth-status.sh`: Claude Code + FreeClaw auth checker (full/json/simple).
 - `scripts/mobile-reauth.sh`: guided re‑auth flow over SSH.
 - `scripts/termux-quick-auth.sh`: one‑tap widget status + open auth URL.
 - `scripts/termux-auth-widget.sh`: full guided widget flow.
-- `scripts/termux-sync-widget.sh`: sync Claude Code creds → OpenClaw.
+- `scripts/termux-sync-widget.sh`: sync Claude Code creds → FreeClaw.
 
 If you don’t need phone automation or systemd timers, skip these scripts.

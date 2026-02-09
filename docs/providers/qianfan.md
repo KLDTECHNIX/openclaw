@@ -1,5 +1,5 @@
 ---
-summary: "Use Qianfan's unified API to access many models in OpenClaw"
+summary: "Use Qianfan's unified API to access many models in FreeClaw"
 read_when:
   - You want a single API key for many LLMs
   - You need Baidu Qianfan setup guidance
@@ -15,7 +15,7 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
 
 1. A Baidu Cloud account with Qianfan API access
 2. An API key from the Qianfan console
-3. OpenClaw installed on your system
+3. FreeClaw installed on your system
 
 ## Getting Your API Key
 
@@ -27,7 +27,7 @@ endpoint and API key. It is OpenAI-compatible, so most OpenAI SDKs work by switc
 ## CLI setup
 
 ```bash
-openclaw onboard --auth-choice qianfan-api-key
+freeclaw onboard --auth-choice qianfan-api-key
 ```
 
 ## Related Documentation

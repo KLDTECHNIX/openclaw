@@ -49,7 +49,7 @@ x-i18n:
 ## 运行（前台）
 
 ```bash
-openclaw node run --host <gateway-host> --port 18789
+freeclaw node run --host <gateway-host> --port 18789
 ```
 
 选项：
@@ -66,7 +66,7 @@ openclaw node run --host <gateway-host> --port 18789
 将无头节点主机安装为用户服务。
 
 ```bash
-openclaw node install --host <gateway-host> --port 18789
+freeclaw node install --host <gateway-host> --port 18789
 ```
 
 选项：
@@ -83,10 +83,10 @@ openclaw node install --host <gateway-host> --port 18789
 管理服务：
 
 ```bash
-openclaw node status
-openclaw node stop
-openclaw node restart
-openclaw node uninstall
+freeclaw node status
+freeclaw node stop
+freeclaw node restart
+freeclaw node uninstall
 ```
 
 使用 `openclaw node run` 运行前台节点主机（无服务）。
@@ -99,17 +99,17 @@ openclaw node uninstall
 通过以下方式批准：
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
+freeclaw nodes pending
+freeclaw nodes approve <requestId>
 ```
 
 节点主机将其节点 id、token、显示名称和 Gateway 网关连接信息存储在
-`~/.openclaw/node.json` 中。
+`~/.freeclaw/node.json` 中。
 
 ## 执行批准
 
 `system.run` 受本地执行批准限制：
 
-- `~/.openclaw/exec-approvals.json`
+- `~/.freeclaw/exec-approvals.json`
 - [执行批准](/tools/exec-approvals)
 - `openclaw approvals --node <id|name|ip>`（从 Gateway 网关编辑）

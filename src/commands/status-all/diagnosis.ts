@@ -1,5 +1,5 @@
 import type { ProgressReporter } from "../../cli/progress.js";
-import { resolveGatewayLogPaths } from "../../daemon/launchd.js";
+import { resolveGatewayLogPaths } from "../../daemon/rcd.js";
 import { formatPortDiagnostics } from "../../infra/ports.js";
 import {
   type RestartSentinelPayload,
@@ -242,6 +242,6 @@ export async function appendStatusAllDiagnosis(params: {
 
   lines.push("");
   lines.push(muted("Pasteable debug report. Auth tokens redacted."));
-  lines.push("Troubleshooting: https://docs.openclaw.ai/troubleshooting");
+  lines.push("Troubleshooting: https://docs.freeclaw.ai/troubleshooting");
   lines.push("");
 }

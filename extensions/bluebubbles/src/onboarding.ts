@@ -330,7 +330,7 @@ export const blueBubblesOnboardingAdapter: ChannelOnboardingAdapter = {
       [
         "Configure the webhook URL in BlueBubbles Server:",
         "1. Open BlueBubbles Server → Settings → Webhooks",
-        "2. Add your OpenClaw gateway URL + webhook path",
+        "2. Add your FreeClaw gateway URL + webhook path",
         "   Example: https://your-gateway-host:3000/bluebubbles-webhook",
         "3. Enable the webhook and save",
         "",

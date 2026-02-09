@@ -8,7 +8,7 @@ import {
 
 function makeSnapshot(config: Record<string, unknown>, raw?: string): ConfigFileSnapshot {
   return {
-    path: "/home/user/.openclaw/config.json5",
+    path: "/home/user/.freeclaw/config.json5",
     exists: true,
     raw: raw ?? JSON.stringify(config),
     parsed: config,

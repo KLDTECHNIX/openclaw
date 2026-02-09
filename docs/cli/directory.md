@@ -25,8 +25,8 @@ Directory lookups for channels that support it (contacts/peers, groups, and “m
 ## Using results with `message send`
 
 ```bash
-openclaw directory peers list --channel slack --query "U0"
-openclaw message send --channel slack --target user:U012ABCDEF --message "hello"
+freeclaw directory peers list --channel slack --query "U0"
+freeclaw message send --channel slack --target user:U012ABCDEF --message "hello"
 ```
 
 ## ID formats (by channel)
@@ -43,21 +43,21 @@ openclaw message send --channel slack --target user:U012ABCDEF --message "hello"
 ## Self (“me”)
 
 ```bash
-openclaw directory self --channel zalouser
+freeclaw directory self --channel zalouser
 ```
 
 ## Peers (contacts/users)
 
 ```bash
-openclaw directory peers list --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory peers list --channel zalouser --limit 50
+freeclaw directory peers list --channel zalouser
+freeclaw directory peers list --channel zalouser --query "name"
+freeclaw directory peers list --channel zalouser --limit 50
 ```
 
 ## Groups
 
 ```bash
-openclaw directory groups list --channel zalouser
-openclaw directory groups list --channel zalouser --query "work"
-openclaw directory groups members --channel zalouser --group-id <id>
+freeclaw directory groups list --channel zalouser
+freeclaw directory groups list --channel zalouser --query "work"
+freeclaw directory groups members --channel zalouser --group-id <id>
 ```

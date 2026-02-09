@@ -1,37 +1,15 @@
-import fs from "node:fs";
-import fsPromises from "node:fs/promises";
+/**
+ * FreeBSD uses sockstat(1) natively. These stubs exist for import compatibility
+ * with code that previously used lsof. The actual port inspection now uses
+ * sockstat directly in ports-inspect.ts.
+ */
 
-const LSOF_CANDIDATES =
-  process.platform === "darwin"
-    ? ["/usr/sbin/lsof", "/usr/bin/lsof"]
-    : ["/usr/bin/lsof", "/usr/sbin/lsof"];
-
-async function canExecute(path: string): Promise<boolean> {
-  try {
-    await fsPromises.access(path, fs.constants.X_OK);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
+/** @deprecated Use sockstat directly. Kept for import compatibility. */
 export async function resolveLsofCommand(): Promise<string> {
-  for (const candidate of LSOF_CANDIDATES) {
-    if (await canExecute(candidate)) {
-      return candidate;
-    }
-  }
-  return "lsof";
+  return "sockstat";
 }
 
+/** @deprecated Use sockstat directly. Kept for import compatibility. */
 export function resolveLsofCommandSync(): string {
-  for (const candidate of LSOF_CANDIDATES) {
-    try {
-      fs.accessSync(candidate, fs.constants.X_OK);
-      return candidate;
-    } catch {
-      // keep trying
-    }
-  }
-  return "lsof";
+  return "sockstat";
 }

@@ -8,7 +8,7 @@ title: Feishu
 
 # Feishu bot
 
-Feishu (Lark) is a team chat platform used by companies for messaging and collaboration. This plugin connects OpenClaw to a Feishu/Lark bot using the platform’s WebSocket event subscription so messages can be received without exposing a public webhook URL.
+Feishu (Lark) is a team chat platform used by companies for messaging and collaboration. This plugin connects FreeClaw to a Feishu/Lark bot using the platform’s WebSocket event subscription so messages can be received without exposing a public webhook URL.
 
 ---
 
@@ -17,13 +17,13 @@ Feishu (Lark) is a team chat platform used by companies for messaging and collab
 Install the Feishu plugin:
 
 ```bash
-openclaw plugins install @openclaw/feishu
+freeclaw plugins install @openclaw/feishu
 ```
 
 Local checkout (when running from a git repo):
 
 ```bash
-openclaw plugins install ./extensions/feishu
+freeclaw plugins install ./extensions/feishu
 ```
 
 ---
@@ -34,10 +34,10 @@ There are two ways to add the Feishu channel:
 
 ### Method 1: onboarding wizard (recommended)
 
-If you just installed OpenClaw, run the wizard:
+If you just installed FreeClaw, run the wizard:
 
 ```bash
-openclaw onboard
+freeclaw onboard
 ```
 
 The wizard guides you through:
@@ -56,7 +56,7 @@ The wizard guides you through:
 If you already completed initial install, add the channel via CLI:
 
 ```bash
-openclaw channels add
+freeclaw channels add
 ```
 
 Choose **Feishu**, then enter the App ID and App Secret.
@@ -166,14 +166,14 @@ In **Event Subscription**:
 ### Configure with the wizard (recommended)
 
 ```bash
-openclaw channels add
+freeclaw channels add
 ```
 
 Choose **Feishu** and paste your App ID + App Secret.
 
 ### Configure via config file
 
-Edit `~/.openclaw/openclaw.json`:
+Edit `~/.freeclaw/freeclaw.json`:
 
 ```json5
 {
@@ -227,7 +227,7 @@ If your tenant is on Lark (international), set the domain to `lark` (or a full d
 ### 1. Start the gateway
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 ### 2. Send a test message
@@ -239,7 +239,7 @@ In Feishu, find your bot and send a message.
 By default, the bot replies with a pairing code. Approve it:
 
 ```bash
-openclaw pairing approve feishu <CODE>
+freeclaw pairing approve feishu <CODE>
 ```
 
 After approval, you can chat normally.
@@ -263,8 +263,8 @@ After approval, you can chat normally.
 - **Approve pairing**:
 
   ```bash
-  openclaw pairing list feishu
-  openclaw pairing approve feishu <CODE>
+  freeclaw pairing list feishu
+  freeclaw pairing approve feishu <CODE>
   ```
 
 - **Allowlist mode**: set `channels.feishu.allowFrom` with allowed Open IDs
@@ -357,7 +357,7 @@ User IDs look like `ou_xxx`.
 Check pairing requests for user Open IDs:
 
 ```bash
-openclaw pairing list feishu
+freeclaw pairing list feishu
 ```
 
 ---

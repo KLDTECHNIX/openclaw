@@ -19,8 +19,8 @@ Related:
 ## Commands
 
 ```bash
-openclaw skills list
-openclaw skills list --eligible
-openclaw skills info <name>
-openclaw skills check
+freeclaw skills list
+freeclaw skills list --eligible
+freeclaw skills info <name>
+freeclaw skills check
 ```

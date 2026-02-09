@@ -67,7 +67,7 @@ Block chunking is implemented by `EmbeddedBlockChunker`:
 
 ## Coalescing (merge streamed blocks)
 
-When block streaming is enabled, OpenClaw can **merge consecutive block chunks**
+When block streaming is enabled, FreeClaw can **merge consecutive block chunks**
 before sending them out. This reduces “single-line spam” while still providing
 progressive output.
 
@@ -119,7 +119,7 @@ Telegram is the only channel with draft streaming:
 - Final reply is still a normal message.
 - `/reasoning stream` writes reasoning into the draft bubble (Telegram only).
 
-When draft streaming is active, OpenClaw disables block streaming for that reply to avoid double-streaming.
+When draft streaming is active, FreeClaw disables block streaming for that reply to avoid double-streaming.
 
 ```
 Telegram (private + topics)

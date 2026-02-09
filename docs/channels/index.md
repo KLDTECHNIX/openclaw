@@ -1,5 +1,5 @@
 ---
-summary: "Messaging platforms OpenClaw can connect to"
+summary: "Messaging platforms FreeClaw can connect to"
 read_when:
   - You want to choose a chat channel for OpenClaw
   - You need a quick overview of supported messaging platforms
@@ -36,7 +36,7 @@ Text is supported everywhere; media and reactions vary by channel.
 
 ## Notes
 
-- Channels can run simultaneously; configure multiple and OpenClaw will route per chat.
+- Channels can run simultaneously; configure multiple and FreeClaw will route per chat.
 - Fastest setup is usually **Telegram** (simple bot token). WhatsApp requires QR pairing and
   stores more state on disk.
 - Group behavior varies by channel; see [Groups](/concepts/groups).

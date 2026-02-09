@@ -77,7 +77,7 @@ See [zca-cli](https://zca-cli.dev) for manual download (binaries for macOS/Linux
 ### Option 1: Onboarding Wizard (Recommended)
 
 ```bash
-openclaw onboard
+freeclaw onboard
 # Select "Zalo Personal" from channel list
 # Follow QR code login flow
 ```
@@ -85,14 +85,14 @@ openclaw onboard
 ### Option 2: Login (QR, on the Gateway machine)
 
 ```bash
-openclaw channels login --channel zalouser
+freeclaw channels login --channel zalouser
 # Scan QR code with Zalo app
 ```
 
 ### Send a Message
 
 ```bash
-openclaw message send --channel zalouser --target <threadId> --message "Hello from OpenClaw!"
+freeclaw message send --channel zalouser --target <threadId> --message "Hello from FreeClaw!"
 ```
 
 ## Configuration
@@ -127,19 +127,19 @@ channels:
 ### Authentication
 
 ```bash
-openclaw channels login --channel zalouser              # Login via QR
-openclaw channels login --channel zalouser --account work
-openclaw channels status --probe
-openclaw channels logout --channel zalouser
+freeclaw channels login --channel zalouser              # Login via QR
+freeclaw channels login --channel zalouser --account work
+freeclaw channels status --probe
+freeclaw channels logout --channel zalouser
 ```
 
 ### Directory (IDs, contacts, groups)
 
 ```bash
-openclaw directory self --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory groups list --channel zalouser --query "work"
-openclaw directory groups members --channel zalouser --group-id <id>
+freeclaw directory self --channel zalouser
+freeclaw directory peers list --channel zalouser --query "name"
+freeclaw directory groups list --channel zalouser --query "work"
+freeclaw directory groups members --channel zalouser --group-id <id>
 ```
 
 ### Account Management
@@ -156,10 +156,10 @@ zca account label <profile> "Work Account"
 
 ```bash
 # Text
-openclaw message send --channel zalouser --target <threadId> --message "message"
+freeclaw message send --channel zalouser --target <threadId> --message "message"
 
 # Media (URL)
-openclaw message send --channel zalouser --target <threadId> --message "caption" --media-url "https://example.com/img.jpg"
+freeclaw message send --channel zalouser --target <threadId> --message "caption" --media-url "https://example.com/img.jpg"
 ```
 
 ### Listener
@@ -191,8 +191,8 @@ zca me id
 Use `--profile` or `-p` to work with multiple accounts:
 
 ```bash
-openclaw channels login --channel zalouser --account work
-openclaw message send --channel zalouser --account work --target <id> --message "Hello"
+freeclaw channels login --channel zalouser --account work
+freeclaw message send --channel zalouser --account work --target <id> --message "Hello"
 ZCA_PROFILE=work zca listen
 ```
 

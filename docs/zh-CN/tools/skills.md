@@ -21,22 +21,22 @@ OpenClaw 使用**兼容 [AgentSkills](https://agentskills.io)** 的 Skills 文�
 
 Skills 从**三个**位置加载：
 
-1. **内置 Skills**：随安装包一起发布（npm 包或 OpenClaw.app）
-2. **托管/本地 Skills**：`~/.openclaw/skills`
+1. **内置 Skills**：随安装包一起发布（npm 包或 FreeClaw.app）
+2. **托管/本地 Skills**：`~/.freeclaw/skills`
 3. **工作区 Skills**：`<workspace>/skills`
 
 如果 Skills 名称冲突，优先级为：
 
-`<workspace>/skills`（最高）→ `~/.openclaw/skills` → 内置 Skills（最低）
+`<workspace>/skills`（最高）→ `~/.freeclaw/skills` → 内置 Skills（最低）
 
-此外，你可以通过 `~/.openclaw/openclaw.json` 中的 `skills.load.extraDirs` 配置额外的 Skills 文件夹（最低优先级）。
+此外，你可以通过 `~/.freeclaw/freeclaw.json` 中的 `skills.load.extraDirs` 配置额外的 Skills 文件夹（最低优先级）。
 
 ## 单智能体 vs 共享 Skills
 
 在**多智能体**设置中，每个智能体有自己的工作区。这意味着：
 
 - **单智能体 Skills** 位于 `<workspace>/skills` 中，仅供该智能体使用。
-- **共享 Skills** 位于 `~/.openclaw/skills`（托管/本地），对同一机器上的**所有智能体**可见。
+- **共享 Skills** 位于 `~/.freeclaw/skills`（托管/本地），对同一机器上的**所有智能体**可见。
 - 如果你想要多个智能体使用一个通用的 Skills 包，也可以通过 `skills.load.extraDirs`（最低优先级）添加**共享文件夹**。
 
 如果同一个 Skills 名称存在于多个位置，将应用通常的优先级规则：工作区优先，然后是托管/本地，最后是内置。
@@ -47,7 +47,7 @@ Skills 从**三个**位置加载：
 
 ## ClawHub（安装 + 同步）
 
-ClawHub 是 OpenClaw 的公共 Skills 注册表。浏览 https://clawhub.com。使用它来发现、安装、更新和备份 Skills。完整指南：[ClawHub](/tools/clawhub)。
+ClawHub 是 FreeClaw 的公共 Skills 注册表。浏览 https://clawhub.com。使用它来发现、安装、更新和备份 Skills。完整指南：[ClawHub](/tools/clawhub)。
 
 常见流程：
 
@@ -58,7 +58,7 @@ ClawHub 是 OpenClaw 的公共 Skills 注册表。浏览 https://clawhub.com。�
 - 同步（扫描 + 发布更新）：
   - `clawhub sync --all`
 
-默认情况下，`clawhub` 安装到当前工作目录下的 `./skills`（或回退到配置的 OpenClaw 工作区）。OpenClaw 在下一个会话中将其识别为 `<workspace>/skills`。
+默认情况下，`clawhub` 安装到当前工作目录下的 `./skills`（或回退到配置的 FreeClaw 工作区）。OpenClaw 在下一个会话中将其识别为 `<workspace>/skills`。
 
 ## 安全注意事项
 
@@ -123,7 +123,7 @@ metadata:
 - `requires.bins` — 列表；每个都必须存在于 `PATH` 中。
 - `requires.anyBins` — 列表；至少一个必须存在于 `PATH` 中。
 - `requires.env` — 列表；环境变量必须存在**或**在配置中提供。
-- `requires.config` — `openclaw.json` 路径列表，必须为真值。
+- `requires.config` — `freeclaw.json` 路径列表，必须为真值。
 - `primaryEnv` — 与 `skills.entries.<name>.apiKey` 关联的环境变量名称。
 - `install` — macOS Skills UI 使用的可选安装器规格数组（brew/node/go/uv/download）。
 
@@ -164,13 +164,13 @@ metadata:
 - 如果列出了多个安装器，Gateway 网关会选择**单个**首选选项（可用时选择 brew，否则选择 node）。
 - 如果所有安装器都是 `download`，OpenClaw 会列出每个条目，以便你查看可用的构件。
 - 安装器规格可以包含 `os: ["darwin"|"linux"|"win32"]` 按平台过滤选项。
-- Node 安装遵循 `openclaw.json` 中的 `skills.install.nodeManager`（默认：npm；选项：npm/pnpm/yarn/bun）。这仅影响 **Skills 安装**；Gateway 网关运行时应仍为 Node（不推荐 Bun 用于 WhatsApp/Telegram）。
+- Node 安装遵循 `freeclaw.json` 中的 `skills.install.nodeManager`（默认：npm；选项：npm/pnpm/yarn/bun）。这仅影响 **Skills 安装**；Gateway 网关运行时应仍为 Node（不推荐 Bun 用于 WhatsApp/Telegram）。
 - Go 安装：如果缺少 `go` 且 `brew` 可用，Gateway 网关会首先通过 Homebrew 安装 Go，并在可能时将 `GOBIN` 设置为 Homebrew 的 `bin`。
-- Download 安装：`url`（必填）、`archive`（`tar.gz` | `tar.bz2` | `zip`）、`extract`（默认：检测到归档时自动）、`stripComponents`、`targetDir`（默认：`~/.openclaw/tools/<skillKey>`）。
+- Download 安装：`url`（必填）、`archive`（`tar.gz` | `tar.bz2` | `zip`）、`extract`（默认：检测到归档时自动）、`stripComponents`、`targetDir`（默认：`~/.freeclaw/tools/<skillKey>`）。
 
 如果没有 `metadata.openclaw`，该 Skills 始终有资格（除非在配置中禁用或被 `skills.allowBundled` 阻止用于内置 Skills）。
 
-## 配置覆盖（`~/.openclaw/openclaw.json`）
+## 配置覆盖（`~/.freeclaw/freeclaw.json`）
 
 内置/托管 Skills 可以被切换并提供环境变量值：
 
@@ -266,7 +266,7 @@ total = 195 + Σ (97 + len(name_escaped) + len(description_escaped) + len(locati
 
 ## 托管 Skills 生命周期
 
-OpenClaw 作为安装的一部分（npm 包或 OpenClaw.app）发布一组基线 Skills 作为**内置 Skills**。`~/.openclaw/skills` 用于本地覆盖（例如，在不更改内置副本的情况下固定/修补 Skills）。工作区 Skills 由用户拥有，在名称冲突时覆盖两者。
+OpenClaw 作为安装的一部分（npm 包或 FreeClaw.app）发布一组基线 Skills 作为**内置 Skills**。`~/.freeclaw/skills` 用于本地覆盖（例如，在不更改内置副本的情况下固定/修补 Skills）。工作区 Skills 由用户拥有，在名称冲突时覆盖两者。
 
 ## 配置参考
 

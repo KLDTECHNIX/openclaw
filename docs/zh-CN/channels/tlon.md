@@ -25,13 +25,13 @@ Tlon 作为插件提供，不包含在核心安装中。
 通过 CLI 安装（npm 仓库）：
 
 ```bash
-openclaw plugins install @openclaw/tlon
+freeclaw plugins install @openclaw/tlon
 ```
 
 本地检出（从 git 仓库运行时）：
 
 ```bash
-openclaw plugins install ./extensions/tlon
+freeclaw plugins install ./extensions/tlon
 ```
 
 详情：[插件](/plugin)

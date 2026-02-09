@@ -15,13 +15,13 @@ OpenClaw has three related (but different) controls:
 
 ## Quick debug
 
-Use the inspector to see what OpenClaw is _actually_ doing:
+Use the inspector to see what FreeClaw is _actually_ doing:
 
 ```bash
-openclaw sandbox explain
-openclaw sandbox explain --session agent:main:main
-openclaw sandbox explain --agent work
-openclaw sandbox explain --json
+freeclaw sandbox explain
+freeclaw sandbox explain --session agent:main:main
+freeclaw sandbox explain --agent work
+freeclaw sandbox explain --json
 ```
 
 It prints:
@@ -93,7 +93,7 @@ Available groups:
 - `group:automation`: `cron`, `gateway`
 - `group:messaging`: `message`
 - `group:nodes`: `nodes`
-- `group:openclaw`: all built-in OpenClaw tools (excludes provider plugins)
+- `group:openclaw`: all built-in FreeClaw tools (excludes provider plugins)
 
 ## Elevated: exec-only “run on host”
 

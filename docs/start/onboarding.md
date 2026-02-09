@@ -1,5 +1,5 @@
 ---
-summary: "First-run onboarding flow for OpenClaw (macOS app)"
+summary: "First-run onboarding flow for FreeClaw (macOS app)"
 read_when:
   - Designing the macOS onboarding assistant
   - Implementing auth or identity setup
@@ -50,7 +50,7 @@ Where does the **Gateway** run?
 </Tip>
 </Step>
 <Step title="Permissions">
-<Frame caption="Choose what permissions do you want to give OpenClaw">
+<Frame caption="Choose what permissions do you want to give FreeClaw">
 <img src="/assets/macos-onboarding/05-permissions.png" alt="" />
 </Frame>
 

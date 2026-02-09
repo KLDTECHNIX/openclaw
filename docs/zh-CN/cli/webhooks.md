@@ -25,8 +25,8 @@ Webhook 辅助工具和集成（Gmail Pub/Sub、Webhook 辅助工具）。
 ## Gmail
 
 ```bash
-openclaw webhooks gmail setup --account you@example.com
-openclaw webhooks gmail run
+freeclaw webhooks gmail setup --account you@example.com
+freeclaw webhooks gmail run
 ```
 
 详情请参阅 [Gmail Pub/Sub 文档](/automation/gmail-pubsub)。

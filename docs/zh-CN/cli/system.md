@@ -21,10 +21,10 @@ Gateway 网关的系统级辅助工具：入队系统事件、控制心跳和查
 ## 常用命令
 
 ```bash
-openclaw system event --text "Check for urgent follow-ups" --mode now
-openclaw system heartbeat enable
-openclaw system heartbeat last
-openclaw system presence
+freeclaw system event --text "Check for urgent follow-ups" --mode now
+freeclaw system heartbeat enable
+freeclaw system heartbeat last
+freeclaw system presence
 ```
 
 ## `system event`

@@ -58,7 +58,7 @@ export async function applyAuthChoiceOpenAI(
           process.env.OPENAI_API_KEY = envKey.apiKey;
         }
         await params.prompter.note(
-          `Copied OPENAI_API_KEY to ${result.path} for launchd compatibility.`,
+          `Copied OPENAI_API_KEY to ${result.path} for rc.d service compatibility.`,
           "OpenAI API key",
         );
         const applied = await applyDefaultModelChoice({
@@ -94,7 +94,7 @@ export async function applyAuthChoiceOpenAI(
     });
     process.env.OPENAI_API_KEY = trimmed;
     await params.prompter.note(
-      `Saved OPENAI_API_KEY to ${result.path} for launchd compatibility.`,
+      `Saved OPENAI_API_KEY to ${result.path} for rc.d service compatibility.`,
       "OpenAI API key",
     );
     const applied = await applyDefaultModelChoice({
@@ -182,7 +182,7 @@ export async function applyAuthChoiceOpenAI(
       spin.stop("OpenAI OAuth failed");
       params.runtime.error(String(err));
       await params.prompter.note(
-        "Trouble with OAuth? See https://docs.openclaw.ai/start/faq",
+        "Trouble with OAuth? See https://docs.freeclaw.ai/start/faq",
         "OAuth help",
       );
     }

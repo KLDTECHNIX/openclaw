@@ -22,13 +22,13 @@ When the operator says “release”, immediately do this preflight (no extra qu
 
 - [ ] Bump `package.json` version (e.g., `2026.1.29`).
 - [ ] Run `pnpm plugins:sync` to align extension package versions + changelogs.
-- [ ] Update CLI/version strings: [`src/cli/program.ts`](https://github.com/openclaw/openclaw/blob/main/src/cli/program.ts) and the Baileys user agent in [`src/provider-web.ts`](https://github.com/openclaw/openclaw/blob/main/src/provider-web.ts).
-- [ ] Confirm package metadata (name, description, repository, keywords, license) and `bin` map points to [`openclaw.mjs`](https://github.com/openclaw/openclaw/blob/main/openclaw.mjs) for `openclaw`.
+- [ ] Update CLI/version strings: [`src/cli/program.ts`](https://github.com/freeclaw/freeclaw/blob/main/src/cli/program.ts) and the Baileys user agent in [`src/provider-web.ts`](https://github.com/freeclaw/freeclaw/blob/main/src/provider-web.ts).
+- [ ] Confirm package metadata (name, description, repository, keywords, license) and `bin` map points to [`openclaw.mjs`](https://github.com/freeclaw/freeclaw/blob/main/openclaw.mjs) for `openclaw`.
 - [ ] If dependencies changed, run `pnpm install` so `pnpm-lock.yaml` is current.
 
 2. **Build & artifacts**
 
-- [ ] If A2UI inputs changed, run `pnpm canvas:a2ui:bundle` and commit any updated [`src/canvas-host/a2ui/a2ui.bundle.js`](https://github.com/openclaw/openclaw/blob/main/src/canvas-host/a2ui/a2ui.bundle.js).
+- [ ] If A2UI inputs changed, run `pnpm canvas:a2ui:bundle` and commit any updated [`src/canvas-host/a2ui/a2ui.bundle.js`](https://github.com/freeclaw/freeclaw/blob/main/src/canvas-host/a2ui/a2ui.bundle.js).
 - [ ] `pnpm run build` (regenerates `dist/`).
 - [ ] Verify npm package `files` includes all required `dist/*` folders (notably `dist/node-host/**` and `dist/acp/**` for headless node + ACP CLI).
 - [ ] Confirm `dist/build-info.json` exists and includes the expected `commit` hash (CLI banner uses this for npm installs).
@@ -45,10 +45,10 @@ When the operator says “release”, immediately do this preflight (no extra qu
 - [ ] `pnpm check`
 - [ ] `pnpm test` (or `pnpm test:coverage` if you need coverage output)
 - [ ] `pnpm release:check` (verifies npm pack contents)
-- [ ] `OPENCLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke` (Docker install smoke test, fast path; required before release)
-  - If the immediate previous npm release is known broken, set `OPENCLAW_INSTALL_SMOKE_PREVIOUS=<last-good-version>` or `OPENCLAW_INSTALL_SMOKE_SKIP_PREVIOUS=1` for the preinstall step.
+- [ ] `FREECLAW_INSTALL_SMOKE_SKIP_NONROOT=1 pnpm test:install:smoke` (Docker install smoke test, fast path; required before release)
+  - If the immediate previous npm release is known broken, set `FREECLAW_INSTALL_SMOKE_PREVIOUS=<last-good-version>` or `FREECLAW_INSTALL_SMOKE_SKIP_PREVIOUS=1` for the preinstall step.
 - [ ] (Optional) Full installer smoke (adds non-root + CLI coverage): `pnpm test:install:smoke`
-- [ ] (Optional) Installer E2E (Docker, runs `curl -fsSL https://openclaw.ai/install.sh | bash`, onboards, then runs real tool calls):
+- [ ] (Optional) Installer E2E (Docker, runs `curl -fsSL https://freeclaw.ai/install.sh | bash`, onboards, then runs real tool calls):
   - `pnpm test:install:e2e:openai` (requires `OPENAI_API_KEY`)
   - `pnpm test:install:e2e:anthropic` (requires `ANTHROPIC_API_KEY`)
   - `pnpm test:install:e2e` (requires both keys; runs both providers)
@@ -57,7 +57,7 @@ When the operator says “release”, immediately do this preflight (no extra qu
 5. **macOS app (Sparkle)**
 
 - [ ] Build + sign the macOS app, then zip it for distribution.
-- [ ] Generate the Sparkle appcast (HTML notes via [`scripts/make_appcast.sh`](https://github.com/openclaw/openclaw/blob/main/scripts/make_appcast.sh)) and update `appcast.xml`.
+- [ ] Generate the Sparkle appcast (HTML notes via [`scripts/make_appcast.sh`](https://github.com/freeclaw/freeclaw/blob/main/scripts/make_appcast.sh)) and update `appcast.xml`.
 - [ ] Keep the app zip (and optional dSYM zip) ready to attach to the GitHub release.
 - [ ] Follow [macOS release](/platforms/mac/release) for the exact commands and required env vars.
   - `APP_BUILD` must be numeric + monotonic (no `-beta`) so Sparkle compares versions correctly.
@@ -68,7 +68,7 @@ When the operator says “release”, immediately do this preflight (no extra qu
 - [ ] Confirm git status is clean; commit and push as needed.
 - [ ] `npm login` (verify 2FA) if needed.
 - [ ] `npm publish --access public` (use `--tag beta` for pre-releases).
-- [ ] Verify the registry: `npm view openclaw version`, `npm view openclaw dist-tags`, and `npx -y openclaw@X.Y.Z --version` (or `--help`).
+- [ ] Verify the registry: `npm view freeclaw version`, `npm view freeclaw dist-tags`, and `npx -y openclaw@X.Y.Z --version` (or `--help`).
 
 ### Troubleshooting (notes from 2.0.0-beta2 release)
 

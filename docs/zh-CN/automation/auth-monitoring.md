@@ -20,7 +20,7 @@ OpenClaw 通过 `openclaw models status` 提供 OAuth 过期健康状态。请�
 ## 推荐方式：CLI 检查（可移植）
 
 ```bash
-openclaw models status --check
+freeclaw models status --check
 ```
 
 退出码：
@@ -38,7 +38,7 @@ openclaw models status --check
 - `scripts/claude-auth-status.sh` 现在使用 `openclaw models status --json` 作为数据来源（如果 CLI 不可用则回退到直接读取文件），因此请确保 `openclaw` 在定时器的 `PATH` 中。
 - `scripts/auth-monitor.sh`：cron/systemd 定时器目标；发送告警（ntfy 或手机）。
 - `scripts/systemd/openclaw-auth-monitor.{service,timer}`：systemd 用户定时器。
-- `scripts/claude-auth-status.sh`：Claude Code + OpenClaw 认证检查器（完整/json/简洁模式）。
+- `scripts/claude-auth-status.sh`：Claude Code + FreeClaw 认证检查器（完整/json/简洁模式）。
 - `scripts/mobile-reauth.sh`：通过 SSH 引导的重新认证流程。
 - `scripts/termux-quick-auth.sh`：一键小部件状态查看 + 打开认证 URL。
 - `scripts/termux-auth-widget.sh`：完整的引导式小部件流程。

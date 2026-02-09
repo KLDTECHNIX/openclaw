@@ -18,16 +18,16 @@ Last updated: 2025-12-09
 ## How to run (local)
 
 ```bash
-openclaw gateway --port 18789
+freeclaw gateway --port 18789
 # for full debug/trace logs in stdio:
-openclaw gateway --port 18789 --verbose
+freeclaw gateway --port 18789 --verbose
 # if the port is busy, terminate listeners then start:
-openclaw gateway --force
+freeclaw gateway --force
 # dev loop (auto-reload on TS changes):
 pnpm gateway:watch
 ```
 
-- Config hot reload watches `~/.openclaw/openclaw.json` (or `OPENCLAW_CONFIG_PATH`).
+- Config hot reload watches `~/.freeclaw/freeclaw.json` (or `FREECLAW_CONFIG_PATH`).
   - Default mode: `gateway.reload.mode="hybrid"` (hot-apply safe changes, restart on critical).
   - Hot reload uses in-process restart via **SIGUSR1** when needed.
   - Disable with `gateway.reload.mode="off"`.
@@ -36,15 +36,15 @@ pnpm gateway:watch
   - OpenAI Chat Completions (HTTP): [`/v1/chat/completions`](/gateway/openai-http-api).
   - OpenResponses (HTTP): [`/v1/responses`](/gateway/openresponses-http-api).
   - Tools Invoke (HTTP): [`/tools/invoke`](/gateway/tools-invoke-http-api).
-- Starts a Canvas file server by default on `canvasHost.port` (default `18793`), serving `http://<gateway-host>:18793/__openclaw__/canvas/` from `~/.openclaw/workspace/canvas`. Disable with `canvasHost.enabled=false` or `OPENCLAW_SKIP_CANVAS_HOST=1`.
+- Starts a Canvas file server by default on `canvasHost.port` (default `18793`), serving `http://<gateway-host>:18793/__openclaw__/canvas/` from `~/.freeclaw/workspace/canvas`. Disable with `canvasHost.enabled=false` or `FREECLAW_SKIP_CANVAS_HOST=1`.
 - Logs to stdout; use launchd/systemd to keep it alive and rotate logs.
 - Pass `--verbose` to mirror debug logging (handshakes, req/res, events) from the log file into stdio when troubleshooting.
 - `--force` uses `lsof` to find listeners on the chosen port, sends SIGTERM, logs what it killed, then starts the gateway (fails fast if `lsof` is missing).
 - If you run under a supervisor (launchd/systemd/mac app child-process mode), a stop/restart typically sends **SIGTERM**; older builds may surface this as `pnpm` `ELIFECYCLE` exit code **143** (SIGTERM), which is a normal shutdown, not a crash.
 - **SIGUSR1** triggers an in-process restart when authorized (gateway tool/config apply/update, or enable `commands.restart` for manual restarts).
-- Gateway auth is required by default: set `gateway.auth.token` (or `OPENCLAW_GATEWAY_TOKEN`) or `gateway.auth.password`. Clients must send `connect.params.auth.token/password` unless using Tailscale Serve identity.
+- Gateway auth is required by default: set `gateway.auth.token` (or `FREECLAW_GATEWAY_TOKEN`) or `gateway.auth.password`. Clients must send `connect.params.auth.token/password` unless using Tailscale Serve identity.
 - The wizard now generates a token by default, even on loopback.
-- Port precedence: `--port` > `OPENCLAW_GATEWAY_PORT` > `gateway.port` > default `18789`.
+- Port precedence: `--port` > `FREECLAW_GATEWAY_PORT` > `gateway.port` > default `18789`.
 
 ## Remote access
 
@@ -67,13 +67,13 @@ Service names are profile-aware:
 
 - macOS: `bot.molt.<profile>` (legacy `com.openclaw.*` may still exist)
 - Linux: `openclaw-gateway-<profile>.service`
-- Windows: `OpenClaw Gateway (<profile>)`
+- Windows: `FreeClaw Gateway (<profile>)`
 
 Install metadata is embedded in the service config:
 
-- `OPENCLAW_SERVICE_MARKER=openclaw`
-- `OPENCLAW_SERVICE_KIND=gateway`
-- `OPENCLAW_SERVICE_VERSION=<version>`
+- `FREECLAW_SERVICE_MARKER=openclaw`
+- `FREECLAW_SERVICE_KIND=gateway`
+- `FREECLAW_SERVICE_VERSION=<version>`
 
 Rescue-Bot Pattern: keep a second Gateway isolated with its own profile, state dir, workspace, and base port spacing. Full guide: [Rescue-bot guide](/gateway/multiple-gateways#rescue-bot-guide).
 
@@ -82,49 +82,49 @@ Rescue-Bot Pattern: keep a second Gateway isolated with its own profile, state d
 Fast path: run a fully-isolated dev instance (config/state/workspace) without touching your primary setup.
 
 ```bash
-openclaw --dev setup
-openclaw --dev gateway --allow-unconfigured
+freeclaw --dev setup
+freeclaw --dev gateway --allow-unconfigured
 # then target the dev instance:
-openclaw --dev status
-openclaw --dev health
+freeclaw --dev status
+freeclaw --dev health
 ```
 
 Defaults (can be overridden via env/flags/config):
 
-- `OPENCLAW_STATE_DIR=~/.openclaw-dev`
-- `OPENCLAW_CONFIG_PATH=~/.openclaw-dev/openclaw.json`
-- `OPENCLAW_GATEWAY_PORT=19001` (Gateway WS + HTTP)
+- `FREECLAW_STATE_DIR=~/.freeclaw-dev`
+- `FREECLAW_CONFIG_PATH=~/.freeclaw-dev/freeclaw.json`
+- `FREECLAW_GATEWAY_PORT=19001` (Gateway WS + HTTP)
 - browser control service port = `19003` (derived: `gateway.port+2`, loopback only)
 - `canvasHost.port=19005` (derived: `gateway.port+4`)
-- `agents.defaults.workspace` default becomes `~/.openclaw/workspace-dev` when you run `setup`/`onboard` under `--dev`.
+- `agents.defaults.workspace` default becomes `~/.freeclaw/workspace-dev` when you run `setup`/`onboard` under `--dev`.
 
 Derived ports (rules of thumb):
 
-- Base port = `gateway.port` (or `OPENCLAW_GATEWAY_PORT` / `--port`)
+- Base port = `gateway.port` (or `FREECLAW_GATEWAY_PORT` / `--port`)
 - browser control service port = base + 2 (loopback only)
-- `canvasHost.port = base + 4` (or `OPENCLAW_CANVAS_HOST_PORT` / config override)
+- `canvasHost.port = base + 4` (or `FREECLAW_CANVAS_HOST_PORT` / config override)
 - Browser profile CDP ports auto-allocate from `browser.controlPort + 9 .. + 108` (persisted per profile).
 
 Checklist per instance:
 
 - unique `gateway.port`
-- unique `OPENCLAW_CONFIG_PATH`
-- unique `OPENCLAW_STATE_DIR`
+- unique `FREECLAW_CONFIG_PATH`
+- unique `FREECLAW_STATE_DIR`
 - unique `agents.defaults.workspace`
 - separate WhatsApp numbers (if using WA)
 
 Service install per profile:
 
 ```bash
-openclaw --profile main gateway install
-openclaw --profile rescue gateway install
+freeclaw --profile main gateway install
+freeclaw --profile rescue gateway install
 ```
 
 Example:
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json OPENCLAW_STATE_DIR=~/.openclaw-a openclaw gateway --port 19001
-OPENCLAW_CONFIG_PATH=~/.openclaw/b.json OPENCLAW_STATE_DIR=~/.openclaw-b openclaw gateway --port 19002
+FREECLAW_CONFIG_PATH=~/.freeclaw/a.json FREECLAW_STATE_DIR=~/.freeclaw-a freeclaw gateway --port 19001
+FREECLAW_CONFIG_PATH=~/.freeclaw/b.json FREECLAW_STATE_DIR=~/.freeclaw-b freeclaw gateway --port 19002
 ```
 
 ## Protocol (operator view)
@@ -215,11 +215,11 @@ See also: [Presence](/concepts/presence) for how presence is produced/deduped an
 Use the Gateway CLI for install/start/stop/restart/status:
 
 ```bash
-openclaw gateway status
-openclaw gateway install
-openclaw gateway stop
-openclaw gateway restart
-openclaw logs --follow
+freeclaw gateway status
+freeclaw gateway install
+freeclaw gateway stop
+freeclaw gateway restart
+freeclaw logs --follow
 ```
 
 Notes:
@@ -232,14 +232,14 @@ Notes:
 - `gateway status` prints config path + probe target to avoid “localhost vs LAN bind” confusion and profile mismatches.
 - `gateway status` includes the last gateway error line when the service looks running but the port is closed.
 - `logs` tails the Gateway file log via RPC (no manual `tail`/`grep` needed).
-- If other gateway-like services are detected, the CLI warns unless they are OpenClaw profile services.
+- If other gateway-like services are detected, the CLI warns unless they are FreeClaw profile services.
   We still recommend **one gateway per machine** for most setups; use isolated profiles/ports for redundancy or a rescue bot. See [Multiple gateways](/gateway/multiple-gateways).
   - Cleanup: `openclaw gateway uninstall` (current service) and `openclaw doctor` (legacy migrations).
 - `gateway install` is a no-op when already installed; use `openclaw gateway install --force` to reinstall (profile/env/path changes).
 
 Bundled mac app:
 
-- OpenClaw.app can bundle a Node-based gateway relay and install a per-user LaunchAgent labeled
+- FreeClaw.app can bundle a Node-based gateway relay and install a per-user LaunchAgent labeled
   `bot.molt.gateway` (or `bot.molt.<profile>`; legacy `com.openclaw.*` labels still unload cleanly).
 - To stop it cleanly, use `openclaw gateway stop` (or `launchctl bootout gui/$UID/bot.molt.gateway`).
 - To restart, use `openclaw gateway restart` (or `launchctl kickstart -k gui/$UID/bot.molt.gateway`).
@@ -268,7 +268,7 @@ Wants=network-online.target
 ExecStart=/usr/local/bin/openclaw gateway --port 18789
 Restart=always
 RestartSec=5
-Environment=OPENCLAW_GATEWAY_TOKEN=
+Environment=FREECLAW_GATEWAY_TOKEN=
 WorkingDirectory=/home/youruser
 
 [Install]

@@ -15,22 +15,22 @@ x-i18n:
 
 # `openclaw update`
 
-安全更新 OpenClaw 并在 stable/beta/dev 渠道之间切换。
+安全更新 FreeClaw 并在 stable/beta/dev 渠道之间切换。
 
 如果你通过 **npm/pnpm** 安装（全局安装，无 git 元数据），更新通过 [更新](/install/updating) 中的包管理器流程进行。
 
 ## 用法
 
 ```bash
-openclaw update
-openclaw update status
-openclaw update wizard
-openclaw update --channel beta
-openclaw update --channel dev
-openclaw update --tag beta
-openclaw update --no-restart
-openclaw update --json
-openclaw --update
+freeclaw update
+freeclaw update status
+freeclaw update wizard
+freeclaw update --channel beta
+freeclaw update --channel dev
+freeclaw update --tag beta
+freeclaw update --no-restart
+freeclaw update --json
+freeclaw --update
 ```
 
 ## 选项
@@ -48,9 +48,9 @@ openclaw --update
 显示当前更新渠道 + git 标签/分支/SHA（对于源码检出），以及更新可用性。
 
 ```bash
-openclaw update status
-openclaw update status --json
-openclaw update status --timeout 10
+freeclaw update status
+freeclaw update status --json
+freeclaw update status --timeout 10
 ```
 
 选项：
@@ -66,7 +66,7 @@ openclaw update status --timeout 10
 
 当你显式切换渠道（`--channel ...`）时，OpenClaw 也会保持安装方式一致：
 
-- `dev` → 确保存在 git 检出（默认：`~/openclaw`，可通过 `OPENCLAW_GIT_DIR` 覆盖），更新它，并从该检出安装全局 CLI。
+- `dev` → 确保存在 git 检出（默认：`~/openclaw`，可通过 `FREECLAW_GIT_DIR` 覆盖），更新它，并从该检出安装全局 CLI。
 - `stable`/`beta` → 使用匹配的 dist-tag 从 npm 安装。
 
 ## Git 检出流程

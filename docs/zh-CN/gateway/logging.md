@@ -26,7 +26,7 @@ OpenClaw 有两个日志"界面"：
 
 - 默认滚动日志文件位于 `/tmp/openclaw/` 下（每天一个文件）：`openclaw-YYYY-MM-DD.log`
   - 日期使用 Gateway 网关主机的本地时区。
-- 日志文件路径和级别可以通过 `~/.openclaw/openclaw.json` 配置：
+- 日志文件路径和级别可以通过 `~/.freeclaw/freeclaw.json` 配置：
   - `logging.file`
   - `logging.level`
 
@@ -35,7 +35,7 @@ OpenClaw 有两个日志"界面"：
 Control UI 的 Logs 标签页通过 Gateway 网关（`logs.tail`）尾随此文件。CLI 也可以这样做：
 
 ```bash
-openclaw logs --follow
+freeclaw logs --follow
 ```
 
 **Verbose 与日志级别**
@@ -86,13 +86,13 @@ Gateway 网关以两种模式打印 WebSocket 协议日志：
 
 ```bash
 # 优化的（仅错误/慢调用）
-openclaw gateway
+freeclaw gateway
 
 # 显示所有 WS 流量（配对）
-openclaw gateway --verbose --ws-log compact
+freeclaw gateway --verbose --ws-log compact
 
 # 显示所有 WS 流量（完整元数据）
-openclaw gateway --verbose --ws-log full
+freeclaw gateway --verbose --ws-log full
 ```
 
 ## 控制台格式化（子系统日志）

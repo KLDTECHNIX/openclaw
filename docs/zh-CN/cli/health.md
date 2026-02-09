@@ -17,9 +17,9 @@ x-i18n:
 从运行中的 Gateway 网关获取健康状态。
 
 ```bash
-openclaw health
-openclaw health --json
-openclaw health --verbose
+freeclaw health
+freeclaw health --json
+freeclaw health --verbose
 ```
 
 注意：

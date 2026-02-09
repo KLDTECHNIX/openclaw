@@ -3,7 +3,7 @@ read_when:
   - 你想要带安全加固的自动化服务器部署
   - 你需要带 VPN 访问的防火墙隔离设置
   - 你正在部署到远程 Debian/Ubuntu 服务器
-summary: 使用 Ansible、Tailscale VPN 和防火墙隔离进行自动化、加固的 OpenClaw 安装
+summary: 使用 Ansible、Tailscale VPN 和防火墙隔离进行自动化、加固的 FreeClaw 安装
 title: Ansible
 x-i18n:
   generated_at: "2026-02-03T07:49:29Z"
@@ -16,7 +16,7 @@ x-i18n:
 
 # Ansible 安装
 
-将 OpenClaw 部署到生产服务器的推荐方式是通过 **[openclaw-ansible](https://github.com/openclaw/openclaw-ansible)** — 一个安全优先架构的自动化安装程序。
+将 FreeClaw 部署到生产服务器的推荐方式是通过 **[openclaw-ansible](https://github.com/freeclaw/freeclaw-ansible)** — 一个安全优先架构的自动化安装程序。
 
 ## 快速开始
 
@@ -26,7 +26,7 @@ x-i18n:
 curl -fsSL https://raw.githubusercontent.com/openclaw/openclaw-ansible/main/install.sh | bash
 ```
 
-> **📦 完整指南：[github.com/openclaw/openclaw-ansible](https://github.com/openclaw/openclaw-ansible)**
+> **📦 完整指南：[github.com/freeclaw/freeclaw-ansible](https://github.com/freeclaw/freeclaw-ansible)**
 >
 > openclaw-ansible 仓库是 Ansible 部署的权威来源。本页是快速概述。
 
@@ -61,15 +61,15 @@ Ansible playbook 安装并配置：
 
 ## 安装后设置
 
-安装完成后，切换到 openclaw 用户：
+安装完成后，切换到 freeclaw 用户：
 
 ```bash
-sudo -i -u openclaw
+sudo -i -u freeclaw
 ```
 
 安装后脚本将引导你完成：
 
-1. **新手引导向导**：配置 OpenClaw 设置
+1. **新手引导向导**：配置 FreeClaw 设置
 2. **提供商登录**：连接 WhatsApp/Telegram/Discord/Signal
 3. **Gateway 网关测试**：验证安装
 4. **Tailscale 设置**：连接到你的 VPN mesh
@@ -78,17 +78,17 @@ sudo -i -u openclaw
 
 ```bash
 # 检查服务状态
-sudo systemctl status openclaw
+sudo systemctl status freeclaw
 
 # 查看实时日志
-sudo journalctl -u openclaw -f
+sudo journalctl -u freeclaw -f
 
 # 重启 Gateway 网关
-sudo systemctl restart openclaw
+sudo systemctl restart freeclaw
 
-# 提供商登录（以 openclaw 用户运行）
-sudo -i -u openclaw
-openclaw channels login
+# 提供商登录（以 freeclaw 用户运行）
+sudo -i -u freeclaw
+freeclaw channels login
 ```
 
 ## 安全架构
@@ -125,7 +125,7 @@ Docker 用于**智能体沙箱**（隔离的工具执行），而不是用于运
 sudo apt update && sudo apt install -y ansible git
 
 # 2. 克隆仓库
-git clone https://github.com/openclaw/openclaw-ansible.git
+git clone https://github.com/freeclaw/freeclaw-ansible.git
 cd openclaw-ansible
 
 # 3. 安装 Ansible collections
@@ -140,7 +140,7 @@ ansible-galaxy collection install -r requirements.yml
 
 ## 更新 OpenClaw
 
-Ansible 安装程序设置 OpenClaw 为手动更新。标准更新流程参见[更新](/install/updating)。
+Ansible 安装程序设置 FreeClaw 为手动更新。标准更新流程参见[更新](/install/updating)。
 
 要重新运行 Ansible playbook（例如，用于配置更改）：
 
@@ -165,13 +165,13 @@ cd openclaw-ansible
 
 ```bash
 # 检查日志
-sudo journalctl -u openclaw -n 100
+sudo journalctl -u freeclaw -n 100
 
 # 验证权限
 sudo ls -la /opt/openclaw
 
 # 测试手动启动
-sudo -i -u openclaw
+sudo -i -u freeclaw
 cd ~/openclaw
 pnpm start
 ```
@@ -187,7 +187,7 @@ sudo docker images | grep openclaw-sandbox
 
 # 如果缺失则构建沙箱镜像
 cd /opt/openclaw/openclaw
-sudo -u openclaw ./scripts/sandbox-setup.sh
+sudo -u freeclaw ./scripts/sandbox-setup.sh
 ```
 
 ### 提供商登录失败
@@ -195,21 +195,21 @@ sudo -u openclaw ./scripts/sandbox-setup.sh
 确保你以 `openclaw` 用户运行：
 
 ```bash
-sudo -i -u openclaw
-openclaw channels login
+sudo -i -u freeclaw
+freeclaw channels login
 ```
 
 ## 高级配置
 
 详细的安全架构和故障排除：
 
-- [安全架构](https://github.com/openclaw/openclaw-ansible/blob/main/docs/security.md)
-- [技术详情](https://github.com/openclaw/openclaw-ansible/blob/main/docs/architecture.md)
-- [故障排除指南](https://github.com/openclaw/openclaw-ansible/blob/main/docs/troubleshooting.md)
+- [安全架构](https://github.com/freeclaw/freeclaw-ansible/blob/main/docs/security.md)
+- [技术详情](https://github.com/freeclaw/freeclaw-ansible/blob/main/docs/architecture.md)
+- [故障排除指南](https://github.com/freeclaw/freeclaw-ansible/blob/main/docs/troubleshooting.md)
 
 ## 相关内容
 
-- [openclaw-ansible](https://github.com/openclaw/openclaw-ansible) — 完整部署指南
+- [openclaw-ansible](https://github.com/freeclaw/freeclaw-ansible) — 完整部署指南
 - [Docker](/install/docker) — 容器化 Gateway 网关设置
 - [沙箱隔离](/gateway/sandboxing) — 智能体沙箱配置
 - [多智能体沙箱与工具](/multi-agent-sandbox-tools) — 每个智能体的隔离

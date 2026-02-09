@@ -17,18 +17,18 @@ Primary doc:
 ## Common commands
 
 ```bash
-openclaw voicecall status --call-id <id>
-openclaw voicecall call --to "+15555550123" --message "Hello" --mode notify
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall end --call-id <id>
+freeclaw voicecall status --call-id <id>
+freeclaw voicecall call --to "+15555550123" --message "Hello" --mode notify
+freeclaw voicecall continue --call-id <id> --message "Any questions?"
+freeclaw voicecall end --call-id <id>
 ```
 
 ## Exposing webhooks (Tailscale)
 
 ```bash
-openclaw voicecall expose --mode serve
-openclaw voicecall expose --mode funnel
-openclaw voicecall unexpose
+freeclaw voicecall expose --mode serve
+freeclaw voicecall expose --mode funnel
+freeclaw voicecall unexpose
 ```
 
 Security note: only expose the webhook endpoint to networks you trust. Prefer Tailscale Serve over Funnel when possible.

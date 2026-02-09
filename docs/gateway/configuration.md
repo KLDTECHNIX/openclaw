@@ -1,5 +1,5 @@
 ---
-summary: "All configuration options for ~/.openclaw/openclaw.json with examples"
+summary: "All configuration options for ~/.freeclaw/freeclaw.json with examples"
 read_when:
   - Adding or modifying config fields
 title: "Configuration"
@@ -7,9 +7,9 @@ title: "Configuration"
 
 # Configuration 🔧
 
-OpenClaw reads an optional **JSON5** config from `~/.openclaw/openclaw.json` (comments + trailing commas allowed).
+OpenClaw reads an optional **JSON5** config from `~/.freeclaw/freeclaw.json` (comments + trailing commas allowed).
 
-If the file is missing, OpenClaw uses safe-ish defaults (embedded Pi agent + per-sender sessions + workspace `~/.openclaw/workspace`). You usually only need a config to:
+If the file is missing, FreeClaw uses safe-ish defaults (embedded Pi agent + per-sender sessions + workspace `~/.freeclaw/workspace`). You usually only need a config to:
 
 - restrict who can trigger the bot (`channels.whatsapp.allowFrom`, `channels.telegram.allowFrom`, etc.)
 - control group allowlists + mention behavior (`channels.whatsapp.groups`, `channels.telegram.groups`, `channels.discord.guilds`, `agents.list[].groupChat`)
@@ -51,7 +51,7 @@ Use `config.apply` to validate + write the full config and restart the Gateway i
 It writes a restart sentinel and pings the last active session after the Gateway comes back.
 
 Warning: `config.apply` replaces the **entire config**. If you want to change only a few keys,
-use `config.patch` or `openclaw config set`. Keep a backup of `~/.openclaw/openclaw.json`.
+use `config.patch` or `openclaw config set`. Keep a backup of `~/.freeclaw/freeclaw.json`.
 
 Params:
 
@@ -64,9 +64,9 @@ Params:
 Example (via `gateway call`):
 
 ```bash
-openclaw gateway call config.get --params '{}' # capture payload.hash
-openclaw gateway call config.apply --params '{
-  "raw": "{\\n  agents: { defaults: { workspace: \\"~/.openclaw/workspace\\" } }\\n}\\n",
+freeclaw gateway call config.get --params '{}' # capture payload.hash
+freeclaw gateway call config.apply --params '{
+  "raw": "{\\n  agents: { defaults: { workspace: \\"~/.freeclaw/workspace\\" } }\\n}\\n",
   "baseHash": "<hash-from-config.get>",
   "sessionKey": "agent:main:whatsapp:dm:+15555550123",
   "restartDelayMs": 1000
@@ -95,8 +95,8 @@ Params:
 Example:
 
 ```bash
-openclaw gateway call config.get --params '{}' # capture payload.hash
-openclaw gateway call config.patch --params '{
+freeclaw gateway call config.get --params '{}' # capture payload.hash
+freeclaw gateway call config.patch --params '{
   "raw": "{\\n  channels: { telegram: { groups: { \\"*\\": { requireMention: false } } } }\\n}\\n",
   "baseHash": "<hash-from-config.get>",
   "sessionKey": "agent:main:whatsapp:dm:+15555550123",
@@ -108,7 +108,7 @@ openclaw gateway call config.patch --params '{
 
 ```json5
 {
-  agents: { defaults: { workspace: "~/.openclaw/workspace" } },
+  agents: { defaults: { workspace: "~/.freeclaw/workspace" } },
   channels: { whatsapp: { allowFrom: ["+15555550123"] } },
 }
 ```
@@ -126,7 +126,7 @@ To prevent the bot from responding to WhatsApp @-mentions in groups (only respon
 ```json5
 {
   agents: {
-    defaults: { workspace: "~/.openclaw/workspace" },
+    defaults: { workspace: "~/.freeclaw/workspace" },
     list: [
       {
         id: "main",
@@ -155,7 +155,7 @@ Split your config into multiple files using the `$include` directive. This is us
 ### Basic usage
 
 ```json5
-// ~/.openclaw/openclaw.json
+// ~/.freeclaw/freeclaw.json
 {
   gateway: { port: 18789 },
 
@@ -170,10 +170,10 @@ Split your config into multiple files using the `$include` directive. This is us
 ```
 
 ```json5
-// ~/.openclaw/agents.json5
+// ~/.freeclaw/agents.json5
 {
   defaults: { sandbox: { mode: "all", scope: "session" } },
-  list: [{ id: "main", workspace: "~/.openclaw/workspace" }],
+  list: [{ id: "main", workspace: "~/.freeclaw/workspace" }],
 }
 ```
 
@@ -225,7 +225,7 @@ Included files can themselves contain `$include` directives (up to 10 levels dee
 ### Example: Multi-client legal setup
 
 ```json5
-// ~/.openclaw/openclaw.json
+// ~/.freeclaw/freeclaw.json
 {
   gateway: { port: 18789, auth: { token: "secret" } },
 
@@ -248,7 +248,7 @@ Included files can themselves contain `$include` directives (up to 10 levels dee
 ```
 
 ```json5
-// ~/.openclaw/clients/mueller/agents.json5
+// ~/.freeclaw/clients/mueller/agents.json5
 [
   { id: "mueller-transcribe", workspace: "~/clients/mueller/transcribe" },
   { id: "mueller-docs", workspace: "~/clients/mueller/docs" },
@@ -256,7 +256,7 @@ Included files can themselves contain `$include` directives (up to 10 levels dee
 ```
 
 ```json5
-// ~/.openclaw/clients/mueller/broadcast.json5
+// ~/.freeclaw/clients/mueller/broadcast.json5
 {
   "120363403215116621@g.us": ["mueller-transcribe", "mueller-docs"],
 }
@@ -271,7 +271,7 @@ OpenClaw reads env vars from the parent process (shell, launchd/systemd, CI, etc
 Additionally, it loads:
 
 - `.env` from the current working directory (if present)
-- a global fallback `.env` from `~/.openclaw/.env` (aka `$OPENCLAW_STATE_DIR/.env`)
+- a global fallback `.env` from `~/.freeclaw/.env` (aka `$FREECLAW_STATE_DIR/.env`)
 
 Neither `.env` file overrides existing env vars.
 
@@ -293,7 +293,7 @@ See [/environment](/environment) for full precedence and sources.
 
 ### `env.shellEnv` (optional)
 
-Opt-in convenience: if enabled and none of the expected keys are set yet, OpenClaw runs your login shell and imports only the missing expected keys (never overrides).
+Opt-in convenience: if enabled and none of the expected keys are set yet, FreeClaw runs your login shell and imports only the missing expected keys (never overrides).
 This effectively sources your shell profile.
 
 ```json5
@@ -309,8 +309,8 @@ This effectively sources your shell profile.
 
 Env var equivalent:
 
-- `OPENCLAW_LOAD_SHELL_ENV=1`
-- `OPENCLAW_SHELL_ENV_TIMEOUT_MS=15000`
+- `FREECLAW_LOAD_SHELL_ENV=1`
+- `FREECLAW_SHELL_ENV_TIMEOUT_MS=15000`
 
 ### Env var substitution in config
 
@@ -328,7 +328,7 @@ You can reference environment variables directly in any config string value usin
   },
   gateway: {
     auth: {
-      token: "${OPENCLAW_GATEWAY_TOKEN}",
+      token: "${FREECLAW_GATEWAY_TOKEN}",
     },
   },
 }
@@ -359,13 +359,13 @@ You can reference environment variables directly in any config string value usin
 
 OpenClaw stores **per-agent** auth profiles (OAuth + API keys) in:
 
-- `<agentDir>/auth-profiles.json` (default: `~/.openclaw/agents/<agentId>/agent/auth-profiles.json`)
+- `<agentDir>/auth-profiles.json` (default: `~/.freeclaw/agents/<agentId>/agent/auth-profiles.json`)
 
 See also: [/concepts/oauth](/concepts/oauth)
 
 Legacy OAuth imports:
 
-- `~/.openclaw/credentials/oauth.json` (or `$OPENCLAW_STATE_DIR/credentials/oauth.json`)
+- `~/.freeclaw/credentials/oauth.json` (or `$FREECLAW_STATE_DIR/credentials/oauth.json`)
 
 The embedded Pi agent maintains a runtime cache at:
 
@@ -373,14 +373,14 @@ The embedded Pi agent maintains a runtime cache at:
 
 Legacy agent dir (pre multi-agent):
 
-- `~/.openclaw/agent/*` (migrated by `openclaw doctor` into `~/.openclaw/agents/<defaultAgentId>/agent/*`)
+- `~/.freeclaw/agent/*` (migrated by `openclaw doctor` into `~/.freeclaw/agents/<defaultAgentId>/agent/*`)
 
 Overrides:
 
-- OAuth dir (legacy import only): `OPENCLAW_OAUTH_DIR`
-- Agent dir (default agent root override): `OPENCLAW_AGENT_DIR` (preferred), `PI_CODING_AGENT_DIR` (legacy)
+- OAuth dir (legacy import only): `FREECLAW_OAUTH_DIR`
+- Agent dir (default agent root override): `FREECLAW_AGENT_DIR` (preferred), `PI_CODING_AGENT_DIR` (legacy)
 
-On first use, OpenClaw imports `oauth.json` entries into `auth-profiles.json`.
+On first use, FreeClaw imports `oauth.json` entries into `auth-profiles.json`.
 
 ### `auth`
 
@@ -406,7 +406,7 @@ rotation order used for failover.
 
 Optional per-agent identity used for defaults and UX. This is written by the macOS onboarding assistant.
 
-If set, OpenClaw derives defaults (only when you haven’t set them explicitly):
+If set, FreeClaw derives defaults (only when you haven’t set them explicitly):
 
 - `messages.ackReaction` from the **active agent**’s `identity.emoji` (falls back to 👀)
 - `agents.list[].groupChat.mentionPatterns` from the agent’s `identity.name`/`identity.emoji` (so “@Samantha” works in groups across Telegram/Slack/Discord/Google Chat/iMessage/WhatsApp)
@@ -544,8 +544,8 @@ Run multiple WhatsApp accounts in one gateway:
         default: {}, // optional; keeps the default id stable
         personal: {},
         biz: {
-          // Optional override. Default: ~/.openclaw/credentials/whatsapp/biz
-          // authDir: "~/.openclaw/credentials/whatsapp/biz",
+          // Optional override. Default: ~/.freeclaw/credentials/whatsapp/biz
+          // authDir: "~/.freeclaw/credentials/whatsapp/biz",
         },
       },
     },
@@ -740,8 +740,8 @@ Inbound messages are routed to an agent via bindings.
   - `default`: optional; when multiple are set, the first wins and a warning is logged.
     If none are set, the **first entry** in the list is the default agent.
   - `name`: display name for the agent.
-  - `workspace`: default `~/.openclaw/workspace-<agentId>` (for `main`, falls back to `agents.defaults.workspace`).
-  - `agentDir`: default `~/.openclaw/agents/<agentId>/agent`.
+  - `workspace`: default `~/.freeclaw/workspace-<agentId>` (for `main`, falls back to `agents.defaults.workspace`).
+  - `agentDir`: default `~/.freeclaw/agents/<agentId>/agent`.
   - `model`: per-agent default model, overrides `agents.defaults.model` for that agent.
     - string form: `"provider/model"`, overrides only `agents.defaults.model.primary`
     - object form: `{ primary, fallbacks }` (fallbacks override `agents.defaults.model.fallbacks`; `[]` disables global fallbacks for that agent)
@@ -799,7 +799,7 @@ Full access (no sandbox):
     list: [
       {
         id: "personal",
-        workspace: "~/.openclaw/workspace-personal",
+        workspace: "~/.freeclaw/workspace-personal",
         sandbox: { mode: "off" },
       },
     ],
@@ -815,7 +815,7 @@ Read-only tools + read-only workspace:
     list: [
       {
         id: "family",
-        workspace: "~/.openclaw/workspace-family",
+        workspace: "~/.freeclaw/workspace-family",
         sandbox: {
           mode: "all",
           scope: "agent",
@@ -846,7 +846,7 @@ No filesystem access (messaging/session tools enabled):
     list: [
       {
         id: "public",
-        workspace: "~/.openclaw/workspace-public",
+        workspace: "~/.freeclaw/workspace-public",
         sandbox: {
           mode: "all",
           scope: "agent",
@@ -892,8 +892,8 @@ Example: two WhatsApp accounts → two agents:
 {
   agents: {
     list: [
-      { id: "home", default: true, workspace: "~/.openclaw/workspace-home" },
-      { id: "work", workspace: "~/.openclaw/workspace-work" },
+      { id: "home", default: true, workspace: "~/.freeclaw/workspace-home" },
+      { id: "work", workspace: "~/.freeclaw/workspace-work" },
     ],
   },
   bindings: [
@@ -1004,7 +1004,7 @@ Notes:
 - `channels.telegram.customCommands` adds extra Telegram bot menu entries. Names are normalized; conflicts with native commands are ignored.
 - `commands.bash: true` enables `! <cmd>` to run host shell commands (`/bash <cmd>` also works as an alias). Requires `tools.elevated.enabled` and allowlisting the sender in `tools.elevated.allowFrom.<channel>`.
 - `commands.bashForegroundMs` controls how long bash waits before backgrounding. While a bash job is running, new `! <cmd>` requests are rejected (one at a time).
-- `commands.config: true` enables `/config` (reads/writes `openclaw.json`).
+- `commands.config: true` enables `/config` (reads/writes `freeclaw.json`).
 - `channels.<provider>.configWrites` gates config mutations initiated by that channel (default: true). This applies to `/config set|unset` plus provider-specific auto-migrations (Telegram supergroup ID changes, Slack channel ID changes).
 - `commands.debug: true` enables `/debug` (runtime-only overrides).
 - `commands.restart: true` enables `/restart` and the gateway tool restart action.
@@ -1428,11 +1428,11 @@ exec ssh -T gateway-host imsg "$@"
 
 Sets the **single global workspace directory** used by the agent for file operations.
 
-Default: `~/.openclaw/workspace`.
+Default: `~/.freeclaw/workspace`.
 
 ```json5
 {
-  agents: { defaults: { workspace: "~/.openclaw/workspace" } },
+  agents: { defaults: { workspace: "~/.freeclaw/workspace" } },
 }
 ```
 
@@ -1468,7 +1468,7 @@ Use this for pre-seeded deployments where your workspace files come from a repo.
 Max characters of each workspace bootstrap file injected into the system prompt
 before truncation. Default: `20000`.
 
-When a file exceeds this limit, OpenClaw logs a warning and injects a truncated
+When a file exceeds this limit, FreeClaw logs a warning and injects a truncated
 head/tail with a marker.
 
 ```json5
@@ -1480,7 +1480,7 @@ head/tail with a marker.
 ### `agents.defaults.userTimezone`
 
 Sets the user’s timezone for **system prompt context** (not for timestamps in
-message envelopes). If unset, OpenClaw uses the host timezone at runtime.
+message envelopes). If unset, FreeClaw uses the host timezone at runtime.
 
 ```json5
 {
@@ -1570,7 +1570,7 @@ Example output: `[claude-opus-4-6 | think:high] Here's my response...`
 WhatsApp inbound prefix is configured via `channels.whatsapp.messagePrefix` (deprecated:
 `messages.messagePrefix`). Default stays **unchanged**: `"[openclaw]"` when
 `channels.whatsapp.allowFrom` is empty, otherwise `""` (no prefix). When using
-`"[openclaw]"`, OpenClaw will instead use `[{identity.name}]` when the routed
+`"[openclaw]"`, FreeClaw will instead use `[{identity.name}]` when the routed
 agent has `identity.name` set.
 
 `ackReaction` sends a best-effort emoji reaction to acknowledge inbound messages
@@ -1589,7 +1589,7 @@ active agent’s `identity.emoji` when set, otherwise `"👀"`. Set it to `""` t
 
 #### `messages.tts`
 
-Enable text-to-speech for outbound replies. When on, OpenClaw generates audio
+Enable text-to-speech for outbound replies. When on, FreeClaw generates audio
 using ElevenLabs or OpenAI and attaches it to responses. Telegram uses Opus
 voice notes; other channels send MP3 audio.
 
@@ -1606,7 +1606,7 @@ voice notes; other channels send MP3 audio.
       },
       maxTextLength: 4000,
       timeoutMs: 30000,
-      prefsPath: "~/.openclaw/settings/tts.json",
+      prefsPath: "~/.freeclaw/settings/tts.json",
       elevenlabs: {
         apiKey: "elevenlabs_api_key",
         baseUrl: "https://api.elevenlabs.io",
@@ -2018,7 +2018,7 @@ Typing indicators:
 
 `agents.defaults.model.primary` should be set as `provider/model` (e.g. `anthropic/claude-opus-4-6`).
 Aliases come from `agents.defaults.models.*.alias` (e.g. `Opus`).
-If you omit the provider, OpenClaw currently assumes `anthropic` as a temporary
+If you omit the provider, FreeClaw currently assumes `anthropic` as a temporary
 deprecation fallback.
 Z.AI models are available as `zai/<model>` (e.g. `zai/glm-4.7`) and require
 `ZAI_API_KEY` (or legacy `Z_AI_API_KEY`) in the environment.
@@ -2226,7 +2226,7 @@ Tool groups (shorthands) work in **global** and **per-agent** tool policies:
 - `group:automation`: `cron`, `gateway`
 - `group:messaging`: `message`
 - `group:nodes`: `nodes`
-- `group:openclaw`: all built-in OpenClaw tools (excludes provider plugins)
+- `group:openclaw`: all built-in FreeClaw tools (excludes provider plugins)
 
 `tools.elevated` controls elevated (host) exec access:
 
@@ -2295,7 +2295,7 @@ Defaults (if enabled):
 - scope: `"agent"` (one container + workspace per agent)
 - Debian bookworm-slim based image
 - agent workspace access: `workspaceAccess: "none"` (default)
-  - `"none"`: use a per-scope sandbox workspace under `~/.openclaw/sandboxes`
+  - `"none"`: use a per-scope sandbox workspace under `~/.freeclaw/sandboxes`
 - `"ro"`: keep the sandbox workspace at `/workspace`, and mount the agent workspace read-only at `/agent` (disables `write`/`edit`/`apply_patch`)
   - `"rw"`: mount the agent workspace read/write at `/workspace`
 - auto-prune: idle > 24h OR age > 7d
@@ -2322,7 +2322,7 @@ For package installs, ensure network egress, a writable root FS, and a root user
         mode: "non-main", // off | non-main | all
         scope: "agent", // session | agent | shared (agent is default)
         workspaceAccess: "none", // none | ro | rw
-        workspaceRoot: "~/.openclaw/sandboxes",
+        workspaceRoot: "~/.freeclaw/sandboxes",
         docker: {
           image: "openclaw-sandbox:bookworm-slim",
           containerPrefix: "openclaw-sbx-",
@@ -2436,12 +2436,12 @@ Allowlists for remote control:
 
 OpenClaw uses the **pi-coding-agent** model catalog. You can add custom providers
 (LiteLLM, local OpenAI-compatible servers, Anthropic proxies, etc.) by writing
-`~/.openclaw/agents/<agentId>/agent/models.json` or by defining the same schema inside your
+`~/.freeclaw/agents/<agentId>/agent/models.json` or by defining the same schema inside your
 OpenClaw config under `models.providers`.
 Provider-by-provider overview + examples: [/concepts/model-providers](/concepts/model-providers).
 
-When `models.providers` is present, OpenClaw writes/merges a `models.json` into
-`~/.openclaw/agents/<agentId>/agent/` on startup:
+When `models.providers` is present, FreeClaw writes/merges a `models.json` into
+`~/.freeclaw/agents/<agentId>/agent/` on startup:
 
 - default behavior: **merge** (keeps existing providers, overrides on name)
 - set `models.mode: "replace"` to overwrite the file contents
@@ -2484,7 +2484,7 @@ Select the model via `agents.defaults.model.primary` (provider/model).
 
 ### OpenCode Zen (multi-model proxy)
 
-OpenCode Zen is a multi-model gateway with per-model endpoints. OpenClaw uses
+OpenCode Zen is a multi-model gateway with per-model endpoints. FreeClaw uses
 the built-in `opencode` provider from pi-ai; set `OPENCODE_API_KEY` (or
 `OPENCODE_ZEN_API_KEY`) from [https://opencode.ai/auth](https://opencode.ai/auth).
 
@@ -2738,8 +2738,8 @@ Notes:
 - Supported APIs: `openai-completions`, `openai-responses`, `anthropic-messages`,
   `google-generative-ai`
 - Use `authHeader: true` + `headers` for custom auth needs.
-- Override the agent config root with `OPENCLAW_AGENT_DIR` (or `PI_CODING_AGENT_DIR`)
-  if you want `models.json` stored elsewhere (default: `~/.openclaw/agents/main/agent`).
+- Override the agent config root with `FREECLAW_AGENT_DIR` (or `PI_CODING_AGENT_DIR`)
+  if you want `models.json` stored elsewhere (default: `~/.freeclaw/agents/main/agent`).
 
 ### `session`
 
@@ -2764,9 +2764,9 @@ Controls session scoping, reset policy, reset triggers, and where the session st
       group: { mode: "idle", idleMinutes: 120 },
     },
     resetTriggers: ["/new", "/reset"],
-    // Default is already per-agent under ~/.openclaw/agents/<agentId>/sessions/sessions.json
+    // Default is already per-agent under ~/.freeclaw/agents/<agentId>/sessions/sessions.json
     // You can override with {agentId} templating:
-    store: "~/.openclaw/agents/{agentId}/sessions/sessions.json",
+    store: "~/.freeclaw/agents/{agentId}/sessions/sessions.json",
     // Direct chats collapse to agent:<agentId>:<mainKey> (default: "main").
     mainKey: "main",
     agentToAgent: {
@@ -2798,7 +2798,7 @@ Fields:
   - `atHour`: local hour (0-23) for the daily reset boundary.
   - `idleMinutes`: sliding idle window in minutes. When daily + idle are both configured, whichever expires first wins.
 - `resetByType`: per-session overrides for `dm`, `group`, and `thread`.
-  - If you only set legacy `session.idleMinutes` without any `reset`/`resetByType`, OpenClaw stays in idle-only mode for backward compatibility.
+  - If you only set legacy `session.idleMinutes` without any `reset`/`resetByType`, FreeClaw stays in idle-only mode for backward compatibility.
 - `heartbeatIdleMinutes`: optional idle override for heartbeat checks (daily reset still applies when enabled).
 - `agentToAgent.maxPingPongTurns`: max reply-back turns between requester/target (0–5, default 5).
 - `sendPolicy.default`: `allow` or `deny` fallback when no rule matches.
@@ -2807,7 +2807,7 @@ Fields:
 ### `skills` (skills config)
 
 Controls bundled allowlist, install preferences, extra skill folders, and per-skill
-overrides. Applies to **bundled** skills and `~/.openclaw/skills` (workspace skills
+overrides. Applies to **bundled** skills and `~/.freeclaw/skills` (workspace skills
 still win on name conflicts).
 
 Fields:
@@ -2855,7 +2855,7 @@ Example:
 ### `plugins` (extensions)
 
 Controls plugin discovery, allow/deny, and per-plugin config. Plugins are loaded
-from `~/.openclaw/extensions`, `<workspace>/.openclaw/extensions`, plus any
+from `~/.freeclaw/extensions`, `<workspace>/.openclaw/extensions`, plus any
 `plugins.load.paths` entries. **Config changes require a gateway restart.**
 See [/plugin](/plugin) for full usage.
 
@@ -2893,7 +2893,7 @@ Example:
 
 ### `browser` (openclaw-managed browser)
 
-OpenClaw can start a **dedicated, isolated** Chrome/Brave/Edge/Chromium instance for openclaw and expose a small loopback control service.
+OpenClaw can start a **dedicated, isolated** Chrome/Brave/Edge/Chromium instance for freeclaw and expose a small loopback control service.
 Profiles can point at a **remote** Chromium-based browser via `profiles.<name>.cdpUrl`. Remote
 profiles are attach-only (start/stop/reset are disabled).
 
@@ -2907,7 +2907,7 @@ Defaults:
 - control service: loopback only (port derived from `gateway.port`, default `18791`)
 - CDP URL: `http://127.0.0.1:18792` (control service + 1, legacy single-profile)
 - profile color: `#FF4500` (lobster-orange)
-- Note: the control server is started by the running gateway (OpenClaw.app menubar, or `openclaw gateway`).
+- Note: the control server is started by the running gateway (FreeClaw.app menubar, or `openclaw gateway`).
 - Auto-detect order: default browser if Chromium-based; otherwise Chrome → Brave → Edge → Chromium → Chrome Canary.
 
 ```json5
@@ -2945,7 +2945,7 @@ If unset, clients fall back to a muted light-blue.
     // Optional: Control UI assistant identity override.
     // If unset, the Control UI uses the active agent identity (config or IDENTITY.md).
     assistant: {
-      name: "OpenClaw",
+      name: "FreeClaw",
       avatar: "CB", // emoji, short text, or image URL/data URI
     },
   },
@@ -2997,7 +2997,7 @@ Related docs:
 Trusted proxies:
 
 - `gateway.trustedProxies`: list of reverse proxy IPs that terminate TLS in front of the Gateway.
-- When a connection comes from one of these IPs, OpenClaw uses `x-forwarded-for` (or `x-real-ip`) to determine the client IP for local pairing checks and HTTP auth/local checks.
+- When a connection comes from one of these IPs, FreeClaw uses `x-forwarded-for` (or `x-real-ip`) to determine the client IP for local pairing checks and HTTP auth/local checks.
 - Only list proxies you fully control, and ensure they **overwrite** incoming `x-forwarded-for`.
 
 Notes:
@@ -3005,7 +3005,7 @@ Notes:
 - `openclaw gateway` refuses to start unless `gateway.mode` is set to `local` (or you pass the override flag).
 - `gateway.port` controls the single multiplexed port used for WebSocket + HTTP (control UI, hooks, A2UI).
 - OpenAI Chat Completions endpoint: **disabled by default**; enable with `gateway.http.endpoints.chatCompletions.enabled: true`.
-- Precedence: `--port` > `OPENCLAW_GATEWAY_PORT` > `gateway.port` > default `18789`.
+- Precedence: `--port` > `FREECLAW_GATEWAY_PORT` > `gateway.port` > default `18789`.
 - Gateway auth is required by default (token/password or Tailscale Serve identity). Non-loopback binds require a shared token/password.
 - The onboarding wizard generates a gateway token by default (even on loopback).
 - `gateway.remote.token` is **only** for remote CLI calls; it does not enable local gateway auth. `gateway.token` is ignored.
@@ -3015,7 +3015,7 @@ Auth and Tailscale:
 - `gateway.auth.mode` sets the handshake requirements (`token` or `password`). When unset, token auth is assumed.
 - `gateway.auth.token` stores the shared token for token auth (used by the CLI on the same machine).
 - When `gateway.auth.mode` is set, only that method is accepted (plus optional Tailscale headers).
-- `gateway.auth.password` can be set here, or via `OPENCLAW_GATEWAY_PASSWORD` (recommended).
+- `gateway.auth.password` can be set here, or via `FREECLAW_GATEWAY_PASSWORD` (recommended).
 - `gateway.auth.allowTailscale` allows Tailscale Serve identity headers
   (`tailscale-user-login`) to satisfy auth when the request arrives on loopback
   with `x-forwarded-for`, `x-forwarded-proto`, and `x-forwarded-host`. OpenClaw
@@ -3036,7 +3036,7 @@ Remote client defaults (CLI):
 
 macOS app behavior:
 
-- OpenClaw.app watches `~/.openclaw/openclaw.json` and switches modes live when `gateway.mode` or `gateway.remote.url` changes.
+- FreeClaw.app watches `~/.freeclaw/freeclaw.json` and switches modes live when `gateway.mode` or `gateway.remote.url` changes.
 - If `gateway.mode` is unset but `gateway.remote.url` is set, the macOS app treats it as remote mode.
 - When you change connection mode in the macOS app, it writes `gateway.mode` (and `gateway.remote.url` + `gateway.remote.transport` in remote mode) back to the config file.
 
@@ -3070,7 +3070,7 @@ Direct transport example (macOS app):
 
 ### `gateway.reload` (Config hot reload)
 
-The Gateway watches `~/.openclaw/openclaw.json` (or `OPENCLAW_CONFIG_PATH`) and applies changes automatically.
+The Gateway watches `~/.freeclaw/freeclaw.json` (or `FREECLAW_CONFIG_PATH`) and applies changes automatically.
 
 Modes:
 
@@ -3094,7 +3094,7 @@ Modes:
 
 Files watched:
 
-- `~/.openclaw/openclaw.json` (or `OPENCLAW_CONFIG_PATH`)
+- `~/.freeclaw/freeclaw.json` (or `FREECLAW_CONFIG_PATH`)
 
 Hot-applied (no full gateway restart):
 
@@ -3119,15 +3119,15 @@ Requires full Gateway restart:
 
 To run multiple gateways on one host (for redundancy or a rescue bot), isolate per-instance state + config and use unique ports:
 
-- `OPENCLAW_CONFIG_PATH` (per-instance config)
-- `OPENCLAW_STATE_DIR` (sessions/creds)
+- `FREECLAW_CONFIG_PATH` (per-instance config)
+- `FREECLAW_STATE_DIR` (sessions/creds)
 - `agents.defaults.workspace` (memories)
 - `gateway.port` (unique per instance)
 
 Convenience flags (CLI):
 
-- `openclaw --dev …` → uses `~/.openclaw-dev` + shifts ports from base `19001`
-- `openclaw --profile <name> …` → uses `~/.openclaw-<name>` (port via config/env/flags)
+- `openclaw --dev …` → uses `~/.freeclaw-dev` + shifts ports from base `19001`
+- `openclaw --profile <name> …` → uses `~/.freeclaw-<name>` (port via config/env/flags)
 
 See [Gateway runbook](/gateway) for the derived port mapping (gateway/browser/canvas).
 See [Multiple gateways](/gateway/multiple-gateways) for browser/CDP port isolation details.
@@ -3135,9 +3135,9 @@ See [Multiple gateways](/gateway/multiple-gateways) for browser/CDP port isolati
 Example:
 
 ```bash
-OPENCLAW_CONFIG_PATH=~/.openclaw/a.json \
-OPENCLAW_STATE_DIR=~/.openclaw-a \
-openclaw gateway --port 19001
+FREECLAW_CONFIG_PATH=~/.freeclaw/a.json \
+FREECLAW_STATE_DIR=~/.freeclaw-a \
+freeclaw gateway --port 19001
 ```
 
 ### `hooks` (Gateway webhooks)
@@ -3157,7 +3157,7 @@ Defaults:
     token: "shared-secret",
     path: "/hooks",
     presets: ["gmail"],
-    transformsDir: "~/.openclaw/hooks",
+    transformsDir: "~/.freeclaw/hooks",
     mappings: [
       {
         match: { path: "gmail" },
@@ -3238,11 +3238,11 @@ Gateway auto-start:
 
 - If `hooks.enabled=true` and `hooks.gmail.account` is set, the Gateway starts
   `gog gmail watch serve` on boot and auto-renews the watch.
-- Set `OPENCLAW_SKIP_GMAIL_WATCHER=1` to disable the auto-start (for manual runs).
+- Set `FREECLAW_SKIP_GMAIL_WATCHER=1` to disable the auto-start (for manual runs).
 - Avoid running a separate `gog gmail watch serve` alongside the Gateway; it will
   fail with `listen tcp 127.0.0.1:8788: bind: address already in use`.
 
-Note: when `tailscale.mode` is on, OpenClaw defaults `serve.path` to `/` so
+Note: when `tailscale.mode` is on, FreeClaw defaults `serve.path` to `/` so
 Tailscale can proxy `/gmail-pubsub` correctly (it strips the set-path prefix).
 If you need the backend to receive the prefixed path, set
 `hooks.gmail.tailscale.target` to a full URL (and align `serve.path`).
@@ -3251,8 +3251,8 @@ If you need the backend to receive the prefixed path, set
 
 The Gateway serves a directory of HTML/CSS/JS over HTTP so iOS/Android nodes can simply `canvas.navigate` to it.
 
-Default root: `~/.openclaw/workspace/canvas`  
-Default port: `18793` (chosen to avoid the openclaw browser CDP port `18792`)  
+Default root: `~/.freeclaw/workspace/canvas`  
+Default port: `18793` (chosen to avoid the freeclaw browser CDP port `18792`)  
 The server listens on the **gateway bind host** (LAN or Tailnet) so nodes can reach it.
 
 The server:
@@ -3271,7 +3271,7 @@ Disable live reload (and file watching) if the directory is large or you hit `EM
 ```json5
 {
   canvasHost: {
-    root: "~/.openclaw/workspace/canvas",
+    root: "~/.freeclaw/workspace/canvas",
     port: 18793,
     liveReload: true,
   },
@@ -3283,7 +3283,7 @@ Changes to `canvasHost.*` require a gateway restart (config reload will restart)
 Disable with:
 
 - config: `canvasHost: { enabled: false }`
-- env: `OPENCLAW_SKIP_CANVAS_HOST=1`
+- env: `FREECLAW_SKIP_CANVAS_HOST=1`
 
 ### `bridge` (legacy TCP bridge, removed)
 
@@ -3327,9 +3327,9 @@ Auto-generated certs require `openssl` on PATH; if generation fails, the bridge 
     bind: "tailnet",
     tls: {
       enabled: true,
-      // Uses ~/.openclaw/bridge/tls/bridge-{cert,key}.pem when omitted.
-      // certPath: "~/.openclaw/bridge/tls/bridge-cert.pem",
-      // keyPath: "~/.openclaw/bridge/tls/bridge-key.pem"
+      // Uses ~/.freeclaw/bridge/tls/bridge-{cert,key}.pem when omitted.
+      // certPath: "~/.freeclaw/bridge/tls/bridge-cert.pem",
+      // keyPath: "~/.freeclaw/bridge/tls/bridge-key.pem"
     },
   },
 }
@@ -3342,7 +3342,7 @@ Controls LAN mDNS discovery broadcasts (`_openclaw-gw._tcp`).
 - `minimal` (default): omit `cliPath` + `sshPort` from TXT records
 - `full`: include `cliPath` + `sshPort` in TXT records
 - `off`: disable mDNS broadcasts entirely
-- Hostname: defaults to `openclaw` (advertises `openclaw.local`). Override with `OPENCLAW_MDNS_HOSTNAME`.
+- Hostname: defaults to `openclaw` (advertises `openclaw.local`). Override with `FREECLAW_MDNS_HOSTNAME`.
 
 ```json5
 {
@@ -3352,7 +3352,7 @@ Controls LAN mDNS discovery broadcasts (`_openclaw-gw._tcp`).
 
 ### `discovery.wideArea` (Wide-Area Bonjour / unicast DNS‑SD)
 
-When enabled, the Gateway writes a unicast DNS-SD zone for `_openclaw-gw._tcp` under `~/.openclaw/dns/` using the configured discovery domain (example: `openclaw.internal.`).
+When enabled, the Gateway writes a unicast DNS-SD zone for `_openclaw-gw._tcp` under `~/.freeclaw/dns/` using the configured discovery domain (example: `openclaw.internal.`).
 
 To make iOS/Android discover across networks (Vienna ⇄ London), pair this with:
 
@@ -3362,7 +3362,7 @@ To make iOS/Android discover across networks (Vienna ⇄ London), pair this with
 One-time setup helper (gateway host):
 
 ```bash
-openclaw dns setup --apply
+freeclaw dns setup --apply
 ```
 
 ```json5

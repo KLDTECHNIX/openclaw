@@ -26,17 +26,17 @@ Note: one-shot (`--at`) jobs delete after success by default. Use `--keep-after-
 Update delivery settings without changing the message:
 
 ```bash
-openclaw cron edit <job-id> --announce --channel telegram --to "123456789"
+freeclaw cron edit <job-id> --announce --channel telegram --to "123456789"
 ```
 
 Disable delivery for an isolated job:
 
 ```bash
-openclaw cron edit <job-id> --no-deliver
+freeclaw cron edit <job-id> --no-deliver
 ```
 
 Announce to a specific channel:
 
 ```bash
-openclaw cron edit <job-id> --announce --channel slack --to "channel:C1234567890"
+freeclaw cron edit <job-id> --announce --channel slack --to "channel:C1234567890"
 ```

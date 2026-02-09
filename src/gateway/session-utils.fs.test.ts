@@ -14,7 +14,7 @@ describe("readFirstUserMessageFromTranscript", () => {
   let storePath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-session-fs-test-"));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "freeclaw-session-fs-test-"));
     storePath = path.join(tmpDir, "sessions.json");
   });
 
@@ -160,7 +160,7 @@ describe("readLastMessagePreviewFromTranscript", () => {
   let storePath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-session-fs-test-"));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "freeclaw-session-fs-test-"));
     storePath = path.join(tmpDir, "sessions.json");
   });
 
@@ -396,7 +396,7 @@ describe("readSessionPreviewItemsFromTranscript", () => {
   let storePath: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-session-preview-test-"));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "freeclaw-session-preview-test-"));
     storePath = path.join(tmpDir, "sessions.json");
   });
 

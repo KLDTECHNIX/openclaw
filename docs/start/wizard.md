@@ -9,13 +9,13 @@ sidebarTitle: "Onboarding: CLI"
 
 # Onboarding Wizard (CLI)
 
-The onboarding wizard is the **recommended** way to set up OpenClaw on macOS,
+The onboarding wizard is the **recommended** way to set up FreeClaw on macOS,
 Linux, or Windows (via WSL2; strongly recommended).
 It configures a local Gateway or a remote Gateway connection, plus channels, skills,
 and workspace defaults in one guided flow.
 
 ```bash
-openclaw onboard
+freeclaw onboard
 ```
 
 <Info>
@@ -26,8 +26,8 @@ Fastest first chat: open the Control UI (no channel setup needed). Run
 To reconfigure later:
 
 ```bash
-openclaw configure
-openclaw agents add <name>
+freeclaw configure
+freeclaw agents add <name>
 ```
 
 <Note>
@@ -63,7 +63,7 @@ The wizard starts with **QuickStart** (defaults) vs **Advanced** (full control).
 **Local mode (default)** walks you through these steps:
 
 1. **Model/Auth** — Anthropic API key (recommended), OAuth, OpenAI, or other providers. Pick a default model.
-2. **Workspace** — Location for agent files (default `~/.openclaw/workspace`). Seeds bootstrap files.
+2. **Workspace** — Location for agent files (default `~/.freeclaw/workspace`). Seeds bootstrap files.
 3. **Gateway** — Port, bind address, auth mode, Tailscale exposure.
 4. **Channels** — WhatsApp, Telegram, Discord, Google Chat, Mattermost, Signal, BlueBubbles, or iMessage.
 5. **Daemon** — Installs a LaunchAgent (macOS) or systemd user unit (Linux/WSL2).
@@ -91,7 +91,7 @@ What it sets:
 
 Notes:
 
-- Default workspaces follow `~/.openclaw/workspace-<agentId>`.
+- Default workspaces follow `~/.freeclaw/workspace-<agentId>`.
 - Add `bindings` to route inbound messages (the wizard can do this).
 - Non-interactive flags: `--model`, `--agent-dir`, `--bind`, `--non-interactive`.
 

@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 你想让 OpenClaw 与你的主 macOS 环境隔离
+  - 你想让 FreeClaw 与你的主 macOS 环境隔离
   - 你想在沙箱中集成 iMessage（BlueBubbles）
   - 你想要一个可重置、可克隆的 macOS 环境
   - 你想比较本地与托管 macOS VM 选项
@@ -52,9 +52,9 @@ x-i18n:
 ## 快速路径（Lume，有经验的用户）
 
 1. 安装 Lume
-2. `lume create openclaw --os macos --ipsw latest`
+2. `lume create freeclaw --os macos --ipsw latest`
 3. 完成设置助手，启用远程登录（SSH）
-4. `lume run openclaw --no-display`
+4. `lume run freeclaw --no-display`
 5. SSH 进入，安装 OpenClaw，配置渠道
 6. 完成
 
@@ -94,7 +94,7 @@ lume --version
 ## 2) 创建 macOS VM
 
 ```bash
-lume create openclaw --os macos --ipsw latest
+lume create freeclaw --os macos --ipsw latest
 ```
 
 这会下载 macOS 并创建 VM。VNC 窗口会自动打开。
@@ -122,7 +122,7 @@ lume create openclaw --os macos --ipsw latest
 ## 4) 获取 VM 的 IP 地址
 
 ```bash
-lume get openclaw
+lume get freeclaw
 ```
 
 查找 IP 地址（通常是 `192.168.64.x`）。
@@ -144,8 +144,8 @@ ssh youruser@192.168.64.X
 在 VM 内：
 
 ```bash
-npm install -g openclaw@latest
-openclaw onboard --install-daemon
+npm install -g freeclaw@latest
+freeclaw onboard --install-daemon
 ```
 
 按照新手引导提示设置你的模型提供商（Anthropic、OpenAI 等）。
@@ -157,7 +157,7 @@ openclaw onboard --install-daemon
 编辑配置文件：
 
 ```bash
-nano ~/.openclaw/openclaw.json
+nano ~/.freeclaw/freeclaw.json
 ```
 
 添加你的渠道：
@@ -179,7 +179,7 @@ nano ~/.openclaw/openclaw.json
 然后登录 WhatsApp（扫描二维码）：
 
 ```bash
-openclaw channels login
+freeclaw channels login
 ```
 
 ---
@@ -189,8 +189,8 @@ openclaw channels login
 停止 VM 并在无显示器模式下重启：
 
 ```bash
-lume stop openclaw
-lume run openclaw --no-display
+lume stop freeclaw
+lume run freeclaw --no-display
 ```
 
 VM 在后台运行。OpenClaw 的守护进程保持 Gateway 网关运行。
@@ -214,7 +214,7 @@ ssh youruser@192.168.64.X "openclaw status"
 3. 启用 Web API 并设置密码
 4. 将 BlueBubbles webhooks 指向你的 Gateway 网关（示例：`https://your-gateway-host:3000/bluebubbles-webhook?password=<password>`）
 
-添加到你的 OpenClaw 配置：
+添加到你的 FreeClaw 配置：
 
 ```json
 {
@@ -239,16 +239,16 @@ ssh youruser@192.168.64.X "openclaw status"
 在进一步自定义之前，快照你的干净状态：
 
 ```bash
-lume stop openclaw
-lume clone openclaw openclaw-golden
+lume stop freeclaw
+lume clone freeclaw openclaw-golden
 ```
 
 随时重置：
 
 ```bash
-lume stop openclaw && lume delete openclaw
-lume clone openclaw-golden openclaw
-lume run openclaw --no-display
+lume stop freeclaw && lume delete freeclaw
+lume clone openclaw-golden freeclaw
+lume run freeclaw --no-display
 ```
 
 ---

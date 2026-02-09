@@ -1,8 +1,11 @@
+/**
+ * Port inspection for FreeBSD using sockstat(1) — the native tool for
+ * examining open sockets. Falls back to net.createServer probing.
+ */
 import net from "node:net";
 import type { PortListener, PortUsage, PortUsageStatus } from "./ports-types.js";
 import { runCommandWithTimeout } from "../process/exec.js";
 import { buildPortHints } from "./ports-format.js";
-import { resolveLsofCommand } from "./ports-lsof.js";
 
 type CommandResult = {
   stdout: string;
@@ -33,73 +36,95 @@ async function runCommandSafe(argv: string[], timeoutMs = 5_000): Promise<Comman
   }
 }
 
-function parseLsofFieldOutput(output: string): PortListener[] {
-  const lines = output.split(/\r?\n/).filter(Boolean);
+/**
+ * Parse sockstat(1) output to find listeners on a given port.
+ *
+ * sockstat -4 -6 -l -p <port> output format:
+ *   USER  COMMAND  PID  FD  PROTO  LOCAL ADDRESS  FOREIGN ADDRESS
+ *   root  node     1234 3   tcp4   *:18789        *:*
+ */
+function parseSockstatOutput(output: string, port: number): PortListener[] {
   const listeners: PortListener[] = [];
-  let current: PortListener = {};
-  for (const line of lines) {
-    if (line.startsWith("p")) {
-      if (current.pid || current.command) {
-        listeners.push(current);
-      }
-      const pid = Number.parseInt(line.slice(1), 10);
-      current = Number.isFinite(pid) ? { pid } : {};
-    } else if (line.startsWith("c")) {
-      current.command = line.slice(1);
-    } else if (line.startsWith("n")) {
-      // TCP 127.0.0.1:18789 (LISTEN)
-      // TCP *:18789 (LISTEN)
-      if (!current.address) {
-        current.address = line.slice(1);
-      }
+  const portToken = `:${port}`;
+  const lines = output.split(/\r?\n/).filter(Boolean);
+
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    // Skip header line
+    if (line.startsWith("USER") || !line) {
+      continue;
     }
-  }
-  if (current.pid || current.command) {
-    listeners.push(current);
+    if (!line.includes(portToken)) {
+      continue;
+    }
+
+    const parts = line.split(/\s+/);
+    // USER COMMAND PID FD PROTO LOCAL FOREIGN
+    if (parts.length < 6) {
+      continue;
+    }
+
+    const user = parts[0];
+    const command = parts[1];
+    const pid = Number.parseInt(parts[2] ?? "", 10);
+    const localAddr = parts[5];
+
+    const listener: PortListener = {};
+    if (Number.isFinite(pid) && pid > 0) {
+      listener.pid = pid;
+    }
+    if (command) {
+      listener.command = command;
+    }
+    if (user) {
+      listener.user = user;
+    }
+    if (localAddr?.includes(portToken)) {
+      listener.address = localAddr;
+    }
+    listeners.push(listener);
   }
   return listeners;
 }
 
-async function resolveUnixCommandLine(pid: number): Promise<string | undefined> {
-  const res = await runCommandSafe(["ps", "-p", String(pid), "-o", "command="]);
+async function resolveCommandLine(pid: number): Promise<string | undefined> {
+  // Use procstat -c for full command line on FreeBSD
+  const res = await runCommandSafe(["procstat", "-c", String(pid)]);
   if (res.code !== 0) {
+    // Fall back to ps
+    const psRes = await runCommandSafe(["ps", "-p", String(pid), "-o", "command="]);
+    if (psRes.code !== 0) {
+      return undefined;
+    }
+    return psRes.stdout.trim() || undefined;
+  }
+  // procstat -c output: header + "PID COMM ARGS..."
+  const lines = res.stdout.trim().split("\n");
+  const dataLine = lines.find((l) => l.trim().startsWith(String(pid)));
+  if (!dataLine) {
     return undefined;
   }
-  const line = res.stdout.trim();
-  return line || undefined;
+  const parts = dataLine.trim().split(/\s+/);
+  return parts.slice(1).join(" ") || undefined;
 }
 
-async function resolveUnixUser(pid: number): Promise<string | undefined> {
-  const res = await runCommandSafe(["ps", "-p", String(pid), "-o", "user="]);
-  if (res.code !== 0) {
-    return undefined;
-  }
-  const line = res.stdout.trim();
-  return line || undefined;
-}
-
-async function readUnixListeners(
+async function readSockstatListeners(
   port: number,
 ): Promise<{ listeners: PortListener[]; detail?: string; errors: string[] }> {
   const errors: string[] = [];
-  const lsof = await resolveLsofCommand();
-  const res = await runCommandSafe([lsof, "-nP", `-iTCP:${port}`, "-sTCP:LISTEN", "-FpFcn"]);
+  // sockstat: -4 IPv4, -6 IPv6, -l listening only, -p port
+  const res = await runCommandSafe(["sockstat", "-4", "-6", "-l", "-p", String(port)]);
   if (res.code === 0) {
-    const listeners = parseLsofFieldOutput(res.stdout);
+    const listeners = parseSockstatOutput(res.stdout, port);
+    // Enrich with full command line via procstat
     await Promise.all(
       listeners.map(async (listener) => {
         if (!listener.pid) {
           return;
         }
-        const [commandLine, user] = await Promise.all([
-          resolveUnixCommandLine(listener.pid),
-          resolveUnixUser(listener.pid),
-        ]);
+        const commandLine = await resolveCommandLine(listener.pid);
         if (commandLine) {
           listener.commandLine = commandLine;
-        }
-        if (user) {
-          listener.user = user;
         }
       }),
     );
@@ -117,115 +142,6 @@ async function readUnixListeners(
     errors.push(detail);
   }
   return { listeners: [], detail: undefined, errors };
-}
-
-function parseNetstatListeners(output: string, port: number): PortListener[] {
-  const listeners: PortListener[] = [];
-  const portToken = `:${port}`;
-  for (const rawLine of output.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line) {
-      continue;
-    }
-    if (!line.toLowerCase().includes("listen")) {
-      continue;
-    }
-    if (!line.includes(portToken)) {
-      continue;
-    }
-    const parts = line.split(/\s+/);
-    if (parts.length < 4) {
-      continue;
-    }
-    const pidRaw = parts.at(-1);
-    const pid = pidRaw ? Number.parseInt(pidRaw, 10) : NaN;
-    const localAddr = parts[1];
-    const listener: PortListener = {};
-    if (Number.isFinite(pid)) {
-      listener.pid = pid;
-    }
-    if (localAddr?.includes(portToken)) {
-      listener.address = localAddr;
-    }
-    listeners.push(listener);
-  }
-  return listeners;
-}
-
-async function resolveWindowsImageName(pid: number): Promise<string | undefined> {
-  const res = await runCommandSafe(["tasklist", "/FI", `PID eq ${pid}`, "/FO", "LIST"]);
-  if (res.code !== 0) {
-    return undefined;
-  }
-  for (const rawLine of res.stdout.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line.toLowerCase().startsWith("image name:")) {
-      continue;
-    }
-    const value = line.slice("image name:".length).trim();
-    return value || undefined;
-  }
-  return undefined;
-}
-
-async function resolveWindowsCommandLine(pid: number): Promise<string | undefined> {
-  const res = await runCommandSafe([
-    "wmic",
-    "process",
-    "where",
-    `ProcessId=${pid}`,
-    "get",
-    "CommandLine",
-    "/value",
-  ]);
-  if (res.code !== 0) {
-    return undefined;
-  }
-  for (const rawLine of res.stdout.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line.toLowerCase().startsWith("commandline=")) {
-      continue;
-    }
-    const value = line.slice("commandline=".length).trim();
-    return value || undefined;
-  }
-  return undefined;
-}
-
-async function readWindowsListeners(
-  port: number,
-): Promise<{ listeners: PortListener[]; detail?: string; errors: string[] }> {
-  const errors: string[] = [];
-  const res = await runCommandSafe(["netstat", "-ano", "-p", "tcp"]);
-  if (res.code !== 0) {
-    if (res.error) {
-      errors.push(res.error);
-    }
-    const detail = [res.stderr.trim(), res.stdout.trim()].filter(Boolean).join("\n");
-    if (detail) {
-      errors.push(detail);
-    }
-    return { listeners: [], errors };
-  }
-  const listeners = parseNetstatListeners(res.stdout, port);
-  await Promise.all(
-    listeners.map(async (listener) => {
-      if (!listener.pid) {
-        return;
-      }
-      const [imageName, commandLine] = await Promise.all([
-        resolveWindowsImageName(listener.pid),
-        resolveWindowsCommandLine(listener.pid),
-      ]);
-      if (imageName) {
-        listener.command = imageName;
-      }
-      if (commandLine) {
-        listener.commandLine = commandLine;
-      }
-    }),
-  );
-  return { listeners, detail: res.stdout.trim() || undefined, errors };
 }
 
 async function tryListenOnHost(port: number, host: string): Promise<PortUsageStatus | "skip"> {
@@ -268,8 +184,7 @@ async function checkPortInUse(port: number): Promise<PortUsageStatus> {
 
 export async function inspectPortUsage(port: number): Promise<PortUsage> {
   const errors: string[] = [];
-  const result =
-    process.platform === "win32" ? await readWindowsListeners(port) : await readUnixListeners(port);
+  const result = await readSockstatListeners(port);
   errors.push(...result.errors);
   let listeners = result.listeners;
   let status: PortUsageStatus = listeners.length > 0 ? "busy" : "unknown";
@@ -282,7 +197,7 @@ export async function inspectPortUsage(port: number): Promise<PortUsage> {
   const hints = buildPortHints(listeners, port);
   if (status === "busy" && listeners.length === 0) {
     hints.push(
-      "Port is in use but process details are unavailable (install lsof or run as an admin user).",
+      "Port is in use but process details are unavailable (run sockstat as root for full details).",
     );
   }
   return {

@@ -1,5 +1,5 @@
 ---
-summary: "OpenClaw CLI reference for `openclaw` commands, subcommands, and options"
+summary: "FreeClaw CLI reference for `openclaw` commands, subcommands, and options"
 read_when:
   - Adding or modifying CLI commands or options
   - Documenting new command surfaces
@@ -54,8 +54,8 @@ This page describes the current CLI behavior. If commands change, update this do
 
 ## Global flags
 
-- `--dev`: isolate state under `~/.openclaw-dev` and shift default ports.
-- `--profile <name>`: isolate state under `~/.openclaw-<name>`.
+- `--dev`: isolate state under `~/.freeclaw-dev` and shift default ports.
+- `--profile <name>`: isolate state under `~/.freeclaw-<name>`.
 - `--no-color`: disable ANSI colors.
 - `--update`: shorthand for `openclaw update` (source installs only).
 - `-V`, `--version`, `-v`: print version and exit.
@@ -86,7 +86,7 @@ Palette source of truth: `src/terminal/palette.ts` (aka “lobster seam”).
 ## Command tree
 
 ```
-openclaw [--dev] [--profile <name>] <command>
+freeclaw [--dev] [--profile <name>] <command>
   setup
   onboard
   configure
@@ -283,7 +283,7 @@ Initialize config + workspace.
 
 Options:
 
-- `--workspace <dir>`: agent workspace path (default `~/.openclaw/workspace`).
+- `--workspace <dir>`: agent workspace path (default `~/.freeclaw/workspace`).
 - `--wizard`: run the onboarding wizard.
 - `--non-interactive`: run wizard without prompts.
 - `--mode <local|remote>`: wizard mode.
@@ -413,11 +413,11 @@ More detail: [/concepts/oauth](/concepts/oauth)
 Examples:
 
 ```bash
-openclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
-openclaw channels add --channel discord --account work --name "Work Bot" --token $DISCORD_BOT_TOKEN
-openclaw channels remove --channel discord --account work --delete
-openclaw channels status --probe
-openclaw status --deep
+freeclaw channels add --channel telegram --account alerts --name "Alerts Bot" --token $TELEGRAM_BOT_TOKEN
+freeclaw channels add --channel discord --account work --name "Work Bot" --token $DISCORD_BOT_TOKEN
+freeclaw channels remove --channel discord --account work --delete
+freeclaw channels status --probe
+freeclaw status --deep
 ```
 
 ### `skills`
@@ -705,11 +705,11 @@ Notes:
 Examples:
 
 ```bash
-openclaw logs --follow
-openclaw logs --limit 200
-openclaw logs --plain
-openclaw logs --json
-openclaw logs --no-color
+freeclaw logs --follow
+freeclaw logs --limit 200
+freeclaw logs --plain
+freeclaw logs --json
+freeclaw logs --no-color
 ```
 
 ### `gateway <subcommand>`
@@ -745,8 +745,8 @@ Preferred Anthropic auth (setup-token):
 
 ```bash
 claude setup-token
-openclaw models auth setup-token --provider anthropic
-openclaw models status
+freeclaw models auth setup-token --provider anthropic
+freeclaw models status
 ```
 
 ### `models` (root)

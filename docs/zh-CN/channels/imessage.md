@@ -22,7 +22,7 @@ x-i18n:
 1. 确保在此 Mac 上已登录"信息"。
 2. 安装 `imsg`：
    - `brew install steipete/tap/imsg`
-3. 配置 OpenClaw 的 `channels.imessage.cliPath` 和 `channels.imessage.dbPath`。
+3. 配置 FreeClaw 的 `channels.imessage.cliPath` 和 `channels.imessage.dbPath`。
 4. 启动 Gateway 网关并批准所有 macOS 提示（自动化 + 完全磁盘访问权限）。
 
 最小配置：
@@ -61,7 +61,7 @@ x-i18n:
 ## 要求
 
 - 已登录"信息"的 macOS。
-- OpenClaw + `imsg` 的完全磁盘访问权限（访问"信息"数据库）。
+- FreeClaw + `imsg` 的完全磁盘访问权限（访问"信息"数据库）。
 - 发送时需要自动化权限。
 - `channels.imessage.cliPath` 可以指向任何代理 stdin/stdout 的命令（例如，通过 SSH 连接到另一台 Mac 并运行 `imsg rpc` 的包装脚本）。
 
@@ -156,7 +156,7 @@ exec ssh -T gateway-host imsg "$@"
 ```
 ┌──────────────────────────────┐          SSH (imsg rpc)          ┌──────────────────────────┐
 │ Gateway host (Linux/VM)      │──────────────────────────────────▶│ Mac with Messages + imsg │
-│ - openclaw gateway           │          SCP (attachments)        │ - Messages signed in     │
+│ - freeclaw gateway           │          SCP (attachments)        │ - Messages signed in     │
 │ - channels.imessage.cliPath  │◀──────────────────────────────────│ - Remote Login enabled   │
 └──────────────────────────────┘                                   └──────────────────────────┘
               ▲
@@ -172,7 +172,7 @@ exec ssh -T gateway-host imsg "$@"
   channels: {
     imessage: {
       enabled: true,
-      cliPath: "~/.openclaw/scripts/imsg-ssh",
+      cliPath: "~/.freeclaw/scripts/imsg-ssh",
       remoteHost: "bot@mac-mini.tailnet-1234.ts.net",
       includeAttachments: true,
       dbPath: "/Users/bot/Library/Messages/chat.db",
@@ -181,7 +181,7 @@ exec ssh -T gateway-host imsg "$@"
 }
 ```
 
-示例包装脚本（`~/.openclaw/scripts/imsg-ssh`）：
+示例包装脚本（`~/.freeclaw/scripts/imsg-ssh`）：
 
 ```bash
 #!/usr/bin/env bash
@@ -194,7 +194,7 @@ exec ssh -T bot@mac-mini.tailnet-1234.ts.net imsg "$@"
 - 使用 SSH 密钥使 `ssh bot@mac-mini.tailnet-1234.ts.net` 无需提示即可工作。
 - `remoteHost` 应与 SSH 目标匹配，以便 SCP 可以获取附件。
 
-多账户支持：使用 `channels.imessage.accounts` 配置每个账户及可选的 `name`。参见 [`gateway/configuration`](/gateway/configuration#telegramaccounts--discordaccounts--slackaccounts--signalaccounts--imessageaccounts) 了解共享模式。不要提交 `~/.openclaw/openclaw.json`（它通常包含令牌）。
+多账户支持：使用 `channels.imessage.accounts` 配置每个账户及可选的 `name`。参见 [`gateway/configuration`](/gateway/configuration#telegramaccounts--discordaccounts--slackaccounts--signalaccounts--imessageaccounts) 了解共享模式。不要提交 `~/.freeclaw/freeclaw.json`（它通常包含令牌）。
 
 ## 访问控制（私信 + 群组）
 

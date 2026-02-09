@@ -18,8 +18,8 @@ Related:
 ## Gmail
 
 ```bash
-openclaw webhooks gmail setup --account you@example.com
-openclaw webhooks gmail run
+freeclaw webhooks gmail setup --account you@example.com
+freeclaw webhooks gmail run
 ```
 
 See [Gmail Pub/Sub documentation](/automation/gmail-pubsub) for details.

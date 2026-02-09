@@ -13,7 +13,7 @@ type SubCliEntry = {
 };
 
 const shouldRegisterPrimaryOnly = (argv: string[]) => {
-  if (isTruthyEnvValue(process.env.OPENCLAW_DISABLE_LAZY_SUBCOMMANDS)) {
+  if (isTruthyEnvValue(process.env.FREECLAW_DISABLE_LAZY_SUBCOMMANDS)) {
     return false;
   }
   if (hasHelpOrVersion(argv)) {
@@ -23,7 +23,7 @@ const shouldRegisterPrimaryOnly = (argv: string[]) => {
 };
 
 const shouldEagerRegisterSubcommands = (_argv: string[]) => {
-  return isTruthyEnvValue(process.env.OPENCLAW_DISABLE_LAZY_SUBCOMMANDS);
+  return isTruthyEnvValue(process.env.FREECLAW_DISABLE_LAZY_SUBCOMMANDS);
 };
 
 const loadConfig = async (): Promise<OpenClawConfig> => {
@@ -237,6 +237,14 @@ const entries: SubCliEntry[] = [
     register: async (program) => {
       const mod = await import("../completion-cli.js");
       mod.registerCompletionCli(program);
+    },
+  },
+  {
+    name: "tune",
+    description: "FreeBSD system tuning wizard",
+    register: async (program) => {
+      const mod = await import("../tune-cli.js");
+      mod.registerTuneCli(program);
     },
   },
 ];

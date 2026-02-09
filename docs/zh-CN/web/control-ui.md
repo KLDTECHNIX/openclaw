@@ -47,10 +47,10 @@ x-i18n:
 
 ```bash
 # 列出待处理的请求
-openclaw devices list
+freeclaw devices list
 
 # 按请求 ID 批准
-openclaw devices approve <requestId>
+freeclaw devices approve <requestId>
 ```
 
 一旦批准，设备会被记住，除非你使用 `openclaw devices revoke --device <id> --role <role>` 撤销它，否则不需要重新批准。参见 [Devices CLI](/cli/devices) 了解 token 轮换和撤销。
@@ -72,7 +72,7 @@ openclaw devices approve <requestId>
 - Skills：状态、启用/禁用、安装、API 密钥更新（`skills.*`）
 - 节点：列表 + 能力（`node.list`）
 - 执行批准：编辑 Gateway 网关或节点允许列表 + `exec host=gateway/node` 的询问策略（`exec.approvals.*`）
-- 配置：查看/编辑 `~/.openclaw/openclaw.json`（`config.get`、`config.set`）
+- 配置：查看/编辑 `~/.freeclaw/freeclaw.json`（`config.get`、`config.set`）
 - 配置：应用 + 带验证的重启（`config.apply`）并唤醒上次活动的会话
 - 配置写入包含基础哈希保护，以防止覆盖并发编辑
 - 配置 schema + 表单渲染（`config.schema`，包括插件 + 渠道 schema）；原始 JSON 编辑器仍然可用
@@ -97,7 +97,7 @@ openclaw devices approve <requestId>
 保持 Gateway 网关在 loopback 上，让 Tailscale Serve 用 HTTPS 代理它：
 
 ```bash
-openclaw gateway --tailscale serve
+freeclaw gateway --tailscale serve
 ```
 
 打开：
@@ -109,7 +109,7 @@ openclaw gateway --tailscale serve
 ### 绑定到 tailnet + token
 
 ```bash
-openclaw gateway --bind tailnet --token "$(openssl rand -hex 32)"
+freeclaw gateway --bind tailnet --token "$(openssl rand -hex 32)"
 ```
 
 然后打开：
@@ -154,7 +154,7 @@ pnpm ui:build # 首次运行时自动安装 UI 依赖
 可选的绝对基础路径（当你想要固定的资源 URL 时）：
 
 ```bash
-OPENCLAW_CONTROL_UI_BASE_PATH=/openclaw/ pnpm ui:build
+FREECLAW_CONTROL_UI_BASE_PATH=/openclaw/ pnpm ui:build
 ```
 
 用于本地开发（单独的开发服务器）：

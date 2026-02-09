@@ -2,7 +2,7 @@
 read_when:
   - 添加或修改插件/扩展
   - 记录插件安装或加载规则
-summary: OpenClaw 插件/扩展：发现、配置和安全
+summary: FreeClaw 插件/扩展：发现、配置和安全
 title: 插件
 x-i18n:
   generated_at: "2026-02-03T07:55:25Z"
@@ -19,20 +19,20 @@ x-i18n:
 
 插件只是一个**小型代码模块**，用额外功能（命令、工具和 Gateway 网关 RPC）扩展 OpenClaw。
 
-大多数时候，当你想要一个尚未内置到核心 OpenClaw 的功能（或你想将可选功能排除在主安装之外）时，你会使用插件。
+大多数时候，当你想要一个尚未内置到核心 FreeClaw 的功能（或你想将可选功能排除在主安装之外）时，你会使用插件。
 
 快速路径：
 
 1. 查看已加载的内容：
 
 ```bash
-openclaw plugins list
+freeclaw plugins list
 ```
 
 2. 安装官方插件（例如：Voice Call）：
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+freeclaw plugins install @openclaw/voice-call
 ```
 
 3. 重启 Gateway 网关，然后在 `plugins.entries.<id>.config` 下配置。
@@ -77,7 +77,7 @@ OpenClaw 插件是通过 jiti 在运行时加载的 **TypeScript 模块**。**�
 
 ```ts
 const result = await api.runtime.tts.textToSpeechTelephony({
-  text: "Hello from OpenClaw",
+  text: "Hello from FreeClaw",
   cfg: api.config,
 });
 ```
@@ -103,10 +103,10 @@ OpenClaw 按顺序扫描：
 
 3. 全局扩展
 
-- `~/.openclaw/extensions/*.ts`
-- `~/.openclaw/extensions/*/index.ts`
+- `~/.freeclaw/extensions/*.ts`
+- `~/.freeclaw/extensions/*/index.ts`
 
-4. 捆绑扩展（随 OpenClaw 一起发布，**默认禁用**）
+4. 捆绑扩展（随 FreeClaw 一起发布，**默认禁用**）
 
 - `<openclaw>/extensions/*`
 
@@ -165,11 +165,11 @@ OpenClaw 按顺序扫描：
 
 OpenClaw 还可以合并**外部渠道目录**（例如，MPM 注册表导出）。将 JSON 文件放在以下位置之一：
 
-- `~/.openclaw/mpm/plugins.json`
-- `~/.openclaw/mpm/catalog.json`
-- `~/.openclaw/plugins/catalog.json`
+- `~/.freeclaw/mpm/plugins.json`
+- `~/.freeclaw/mpm/catalog.json`
+- `~/.freeclaw/plugins/catalog.json`
 
-或将 `OPENCLAW_PLUGIN_CATALOG_PATHS`（或 `OPENCLAW_MPM_CATALOG_PATHS`）指向一个或多个 JSON 文件（逗号/分号/`PATH` 分隔）。每个文件应包含 `{ "entries": [ { "name": "@scope/pkg", "openclaw": { "channel": {...}, "install": {...} } } ] }`。
+或将 `FREECLAW_PLUGIN_CATALOG_PATHS`（或 `FREECLAW_MPM_CATALOG_PATHS`）指向一个或多个 JSON 文件（逗号/分号/`PATH` 分隔）。每个文件应包含 `{ "entries": [ { "name": "@scope/pkg", "openclaw": { "channel": {...}, "install": {...} } } ] }`。
 
 ## 插件 ID
 
@@ -264,19 +264,19 @@ OpenClaw 在运行时根据发现的插件增强 `uiHints`：
 ## CLI
 
 ```bash
-openclaw plugins list
-openclaw plugins info <id>
-openclaw plugins install <path>                 # copy a local file/dir into ~/.openclaw/extensions/<id>
-openclaw plugins install ./extensions/voice-call # relative path ok
-openclaw plugins install ./plugin.tgz           # install from a local tarball
-openclaw plugins install ./plugin.zip           # install from a local zip
-openclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
-openclaw plugins install @openclaw/voice-call # install from npm
-openclaw plugins update <id>
-openclaw plugins update --all
-openclaw plugins enable <id>
-openclaw plugins disable <id>
-openclaw plugins doctor
+freeclaw plugins list
+freeclaw plugins info <id>
+freeclaw plugins install <path>                 # copy a local file/dir into ~/.freeclaw/extensions/<id>
+freeclaw plugins install ./extensions/voice-call # relative path ok
+freeclaw plugins install ./plugin.tgz           # install from a local tarball
+freeclaw plugins install ./plugin.zip           # install from a local zip
+freeclaw plugins install -l ./extensions/voice-call # link (no copy) for dev
+freeclaw plugins install @openclaw/voice-call # install from npm
+freeclaw plugins update <id>
+freeclaw plugins update --all
+freeclaw plugins enable <id>
+freeclaw plugins disable <id>
+freeclaw plugins doctor
 ```
 
 `plugins update` 仅适用于在 `plugins.installs` 下跟踪的 npm 安装。
@@ -313,7 +313,7 @@ export default function register(api) {
 
 ## 提供商插件（模型认证）
 
-插件可以注册**模型提供商认证**流程，以便用户可以在 OpenClaw 内运行 OAuth 或 API 密钥设置（无需外部脚本）。
+插件可以注册**模型提供商认证**流程，以便用户可以在 FreeClaw 内运行 OAuth 或 API 密钥设置（无需外部脚本）。
 
 通过 `api.registerProvider(...)` 注册提供商。每个提供商暴露一个或多个认证方法（OAuth、API 密钥、设备码等）。这些方法驱动：
 
@@ -537,7 +537,7 @@ export default function (api) {
 - `isAuthorizedSender`：发送者是否是授权用户
 - `args`：命令后传递的参数（如果 `acceptsArgs: true`）
 - `commandBody`：完整的命令文本
-- `config`：当前 OpenClaw 配置
+- `config`：当前 FreeClaw 配置
 
 命令选项：
 
@@ -606,7 +606,7 @@ export default function (api) {
 
 - 插件 `package.json` 必须包含带有一个或多个入口文件的 `openclaw.extensions`。
 - 入口文件可以是 `.js` 或 `.ts`（jiti 在运行时加载 TS）。
-- `openclaw plugins install <npm-spec>` 使用 `npm pack`，提取到 `~/.openclaw/extensions/<id>/`，并在配置中启用它。
+- `openclaw plugins install <npm-spec>` 使用 `npm pack`，提取到 `~/.freeclaw/extensions/<id>/`，并在配置中启用它。
 - 配置键稳定性：作用域包被规范化为 `plugins.entries.*` 的**无作用域** id。
 
 ## 示例插件：Voice Call

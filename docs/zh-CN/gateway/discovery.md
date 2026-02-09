@@ -77,11 +77,11 @@ Bonjour 是尽力而为的，不会跨网络。它仅用于"同一 LAN"的便利
 
 禁用/覆盖：
 
-- `OPENCLAW_DISABLE_BONJOUR=1` 禁用广播。
-- `~/.openclaw/openclaw.json` 中的 `gateway.bind` 控制 Gateway 网关绑定模式。
-- `OPENCLAW_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（默认为 22）。
-- `OPENCLAW_TAILNET_DNS` 发布 `tailnetDns` 提示（MagicDNS）。
-- `OPENCLAW_CLI_PATH` 覆盖广播的 CLI 路径。
+- `FREECLAW_DISABLE_BONJOUR=1` 禁用广播。
+- `~/.freeclaw/freeclaw.json` 中的 `gateway.bind` 控制 Gateway 网关绑定模式。
+- `FREECLAW_SSH_PORT` 覆盖 TXT 中广播的 SSH 端口（默认为 22）。
+- `FREECLAW_TAILNET_DNS` 发布 `tailnetDns` 提示（MagicDNS）。
+- `FREECLAW_CLI_PATH` 覆盖广播的 CLI 路径。
 
 ### 2）Tailnet（跨网络）
 

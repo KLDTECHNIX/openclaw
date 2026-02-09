@@ -19,7 +19,7 @@ OpenClaw has two log “surfaces”:
 
 - Default rolling log file is under `/tmp/openclaw/` (one file per day): `openclaw-YYYY-MM-DD.log`
   - Date uses the gateway host's local timezone.
-- The log file path and level can be configured via `~/.openclaw/openclaw.json`:
+- The log file path and level can be configured via `~/.freeclaw/freeclaw.json`:
   - `logging.file`
   - `logging.level`
 
@@ -29,7 +29,7 @@ The Control UI Logs tab tails this file via the gateway (`logs.tail`).
 CLI can do the same:
 
 ```bash
-openclaw logs --follow
+freeclaw logs --follow
 ```
 
 **Verbose vs. log levels**
@@ -84,13 +84,13 @@ Examples:
 
 ```bash
 # optimized (only errors/slow)
-openclaw gateway
+freeclaw gateway
 
 # show all WS traffic (paired)
-openclaw gateway --verbose --ws-log compact
+freeclaw gateway --verbose --ws-log compact
 
 # show all WS traffic (full meta)
-openclaw gateway --verbose --ws-log full
+freeclaw gateway --verbose --ws-log full
 ```
 
 ## Console formatting (subsystem logging)

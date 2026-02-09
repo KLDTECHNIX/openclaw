@@ -13,7 +13,7 @@ describe("createOpenClawCodingTools", () => {
     const readTool = defaultTools.find((tool) => tool.name === "read");
     expect(readTool).toBeDefined();
 
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-read-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-read-"));
     try {
       const imagePath = path.join(tmpDir, "sample.png");
       const png = await sharp({
@@ -50,10 +50,10 @@ describe("createOpenClawCodingTools", () => {
     const readTool = tools.find((tool) => tool.name === "read");
     expect(readTool).toBeDefined();
 
-    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-read-"));
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-read-"));
     try {
       const textPath = path.join(tmpDir, "sample.txt");
-      const contents = "Hello from openclaw read tool.";
+      const contents = "Hello from freeclaw read tool.";
       await fs.writeFile(textPath, contents, "utf8");
 
       const result = await readTool?.execute("tool-2", {
@@ -75,14 +75,14 @@ describe("createOpenClawCodingTools", () => {
     const sandbox = {
       enabled: true,
       sessionKey: "sandbox:test",
-      workspaceDir: path.join(os.tmpdir(), "openclaw-sandbox"),
-      agentWorkspaceDir: path.join(os.tmpdir(), "openclaw-workspace"),
+      workspaceDir: path.join(os.tmpdir(), "freeclaw-sandbox"),
+      agentWorkspaceDir: path.join(os.tmpdir(), "freeclaw-workspace"),
       workspaceAccess: "none",
-      containerName: "openclaw-sbx-test",
+      containerName: "freeclaw-sbx-test",
       containerWorkdir: "/workspace",
       docker: {
-        image: "openclaw-sandbox:bookworm-slim",
-        containerPrefix: "openclaw-sbx-",
+        image: "freeclaw-sandbox:bookworm-slim",
+        containerPrefix: "freeclaw-sbx-",
         workdir: "/workspace",
         readOnlyRoot: true,
         tmpfs: [],
@@ -106,14 +106,14 @@ describe("createOpenClawCodingTools", () => {
     const sandbox = {
       enabled: true,
       sessionKey: "sandbox:test",
-      workspaceDir: path.join(os.tmpdir(), "openclaw-sandbox"),
-      agentWorkspaceDir: path.join(os.tmpdir(), "openclaw-workspace"),
+      workspaceDir: path.join(os.tmpdir(), "freeclaw-sandbox"),
+      agentWorkspaceDir: path.join(os.tmpdir(), "freeclaw-workspace"),
       workspaceAccess: "ro",
-      containerName: "openclaw-sbx-test",
+      containerName: "freeclaw-sbx-test",
       containerWorkdir: "/workspace",
       docker: {
-        image: "openclaw-sandbox:bookworm-slim",
-        containerPrefix: "openclaw-sbx-",
+        image: "freeclaw-sandbox:bookworm-slim",
+        containerPrefix: "freeclaw-sbx-",
         workdir: "/workspace",
         readOnlyRoot: true,
         tmpfs: [],

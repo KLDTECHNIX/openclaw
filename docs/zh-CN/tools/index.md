@@ -2,7 +2,7 @@
 read_when:
   - 添加或修改智能体工具
   - 停用或更改 `openclaw-*` Skills
-summary: OpenClaw 的智能体工具接口（browser、canvas、nodes、message、cron），替代旧版 `openclaw-*` Skills
+summary: FreeClaw 的智能体工具接口（browser、canvas、nodes、message、cron），替代旧版 `openclaw-*` Skills
 title: 工具
 x-i18n:
   generated_at: "2026-02-03T10:12:41Z"
@@ -21,7 +21,7 @@ OpenClaw 为 browser、canvas、nodes 和 cron 暴露**一流的智能体工具*
 
 ## 禁用工具
 
-你可以通过 `openclaw.json` 中的 `tools.allow` / `tools.deny` 全局允许/拒绝工具
+你可以通过 `freeclaw.json` 中的 `tools.allow` / `tools.deny` 全局允许/拒绝工具
 （deny 优先）。这会阻止不允许的工具被发送到模型提供商。
 
 ```json5
@@ -158,7 +158,7 @@ OpenClaw 为 browser、canvas、nodes 和 cron 暴露**一流的智能体工具*
 - `group:automation`：`cron`、`gateway`
 - `group:messaging`：`message`
 - `group:nodes`：`nodes`
-- `group:openclaw`：所有内置 OpenClaw 工具（不包括提供商插件）
+- `group:openclaw`：所有内置 FreeClaw 工具（不包括提供商插件）
 
 示例（仅允许文件工具 + browser）：
 
@@ -266,7 +266,7 @@ OpenClaw 为 browser、canvas、nodes 和 cron 暴露**一流的智能体工具*
 
 ### `browser`
 
-控制专用的 OpenClaw 管理的浏览器。
+控制专用的 FreeClaw 管理的浏览器。
 
 核心操作：
 

@@ -46,19 +46,19 @@ Gateway 网关在 Linux 上完全支持。**Node 是推荐的运行时**。
 使用以下任一方式：
 
 ```
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
 或：
 
 ```
-openclaw gateway install
+freeclaw gateway install
 ```
 
 或：
 
 ```
-openclaw configure
+freeclaw configure
 ```
 
 出现提示时选择 **Gateway service**。
@@ -66,7 +66,7 @@ openclaw configure
 修复/迁移：
 
 ```
-openclaw doctor
+freeclaw doctor
 ```
 
 ## 系统控制（systemd 用户单元）

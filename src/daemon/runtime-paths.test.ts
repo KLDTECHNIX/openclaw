@@ -20,11 +20,11 @@ afterEach(() => {
 });
 
 describe("resolvePreferredNodePath", () => {
-  const darwinNode = "/opt/homebrew/bin/node";
+  const freebsdNode = "/usr/local/bin/node";
 
   it("uses system node when it meets the minimum version", async () => {
     fsMocks.access.mockImplementation(async (target: string) => {
-      if (target === darwinNode) {
+      if (target === freebsdNode) {
         return;
       }
       throw new Error("missing");
@@ -36,17 +36,17 @@ describe("resolvePreferredNodePath", () => {
     const result = await resolvePreferredNodePath({
       env: {},
       runtime: "node",
-      platform: "darwin",
+      platform: "freebsd" as NodeJS.Platform,
       execFile,
     });
 
-    expect(result).toBe(darwinNode);
+    expect(result).toBe(freebsdNode);
     expect(execFile).toHaveBeenCalledTimes(1);
   });
 
   it("skips system node when it is too old", async () => {
     fsMocks.access.mockImplementation(async (target: string) => {
-      if (target === darwinNode) {
+      if (target === freebsdNode) {
         return;
       }
       throw new Error("missing");
@@ -58,7 +58,7 @@ describe("resolvePreferredNodePath", () => {
     const result = await resolvePreferredNodePath({
       env: {},
       runtime: "node",
-      platform: "darwin",
+      platform: "freebsd" as NodeJS.Platform,
       execFile,
     });
 
@@ -74,21 +74,41 @@ describe("resolvePreferredNodePath", () => {
     const result = await resolvePreferredNodePath({
       env: {},
       runtime: "node",
-      platform: "darwin",
+      platform: "freebsd" as NodeJS.Platform,
       execFile,
     });
 
     expect(result).toBeUndefined();
     expect(execFile).not.toHaveBeenCalled();
   });
+
+  it("falls back to /usr/bin/node when /usr/local/bin/node is missing", async () => {
+    fsMocks.access.mockImplementation(async (target: string) => {
+      if (target === "/usr/bin/node") {
+        return;
+      }
+      throw new Error("missing");
+    });
+
+    const execFile = vi.fn().mockResolvedValue({ stdout: "22.12.0\n", stderr: "" });
+
+    const result = await resolvePreferredNodePath({
+      env: {},
+      runtime: "node",
+      platform: "freebsd" as NodeJS.Platform,
+      execFile,
+    });
+
+    expect(result).toBe("/usr/bin/node");
+  });
 });
 
 describe("resolveSystemNodeInfo", () => {
-  const darwinNode = "/opt/homebrew/bin/node";
+  const freebsdNode = "/usr/local/bin/node";
 
   it("returns supported info when version is new enough", async () => {
     fsMocks.access.mockImplementation(async (target: string) => {
-      if (target === darwinNode) {
+      if (target === freebsdNode) {
         return;
       }
       throw new Error("missing");
@@ -99,12 +119,12 @@ describe("resolveSystemNodeInfo", () => {
 
     const result = await resolveSystemNodeInfo({
       env: {},
-      platform: "darwin",
+      platform: "freebsd" as NodeJS.Platform,
       execFile,
     });
 
     expect(result).toEqual({
-      path: darwinNode,
+      path: freebsdNode,
       version: "22.12.0",
       supported: true,
     });
@@ -113,14 +133,15 @@ describe("resolveSystemNodeInfo", () => {
   it("renders a warning when system node is too old", () => {
     const warning = renderSystemNodeWarning(
       {
-        path: darwinNode,
+        path: freebsdNode,
         version: "18.19.0",
         supported: false,
       },
-      "/Users/me/.fnm/node-22/bin/node",
+      "/home/user/.nvm/versions/node/v22.0.0/bin/node",
     );
 
     expect(warning).toContain("below the required Node 22+");
-    expect(warning).toContain(darwinNode);
+    expect(warning).toContain(freebsdNode);
+    expect(warning).toContain("pkg install node22");
   });
 });

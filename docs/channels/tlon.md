@@ -7,7 +7,7 @@ title: "Tlon"
 
 # Tlon (plugin)
 
-Tlon is a decentralized messenger built on Urbit. OpenClaw connects to your Urbit ship and can
+Tlon is a decentralized messenger built on Urbit. FreeClaw connects to your Urbit ship and can
 respond to DMs and group chat messages. Group replies require an @ mention by default and can
 be further restricted via allowlists.
 
@@ -21,13 +21,13 @@ Tlon ships as a plugin and is not bundled with the core install.
 Install via CLI (npm registry):
 
 ```bash
-openclaw plugins install @openclaw/tlon
+freeclaw plugins install @openclaw/tlon
 ```
 
 Local checkout (when running from a git repo):
 
 ```bash
-openclaw plugins install ./extensions/tlon
+freeclaw plugins install ./extensions/tlon
 ```
 
 Details: [Plugins](/plugin)
@@ -128,5 +128,5 @@ Use these with `openclaw message send` or cron delivery:
 ## Notes
 
 - Group replies require a mention (e.g. `~your-bot-ship`) to respond.
-- Thread replies: if the inbound message is in a thread, OpenClaw replies in-thread.
+- Thread replies: if the inbound message is in a thread, FreeClaw replies in-thread.
 - Media: `sendMedia` falls back to text + URL (no native upload).

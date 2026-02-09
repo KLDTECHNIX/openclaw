@@ -8,44 +8,44 @@ title: "Doctor"
 
 # Doctor
 
-`openclaw doctor` is the repair + migration tool for OpenClaw. It fixes stale
+`openclaw doctor` is the repair + migration tool for FreeClaw. It fixes stale
 config/state, checks health, and provides actionable repair steps.
 
 ## Quick start
 
 ```bash
-openclaw doctor
+freeclaw doctor
 ```
 
 ### Headless / automation
 
 ```bash
-openclaw doctor --yes
+freeclaw doctor --yes
 ```
 
 Accept defaults without prompting (including restart/service/sandbox repair steps when applicable).
 
 ```bash
-openclaw doctor --repair
+freeclaw doctor --repair
 ```
 
 Apply recommended repairs without prompting (repairs + restarts where safe).
 
 ```bash
-openclaw doctor --repair --force
+freeclaw doctor --repair --force
 ```
 
 Apply aggressive repairs too (overwrites custom supervisor configs).
 
 ```bash
-openclaw doctor --non-interactive
+freeclaw doctor --non-interactive
 ```
 
 Run without prompts and only apply safe migrations (config normalization + on-disk state moves). Skips restart/service/sandbox actions that require human confirmation.
 Legacy state migrations run automatically when detected.
 
 ```bash
-openclaw doctor --deep
+freeclaw doctor --deep
 ```
 
 Scan system services for extra gateway installs (launchd/systemd/schtasks).
@@ -53,7 +53,7 @@ Scan system services for extra gateway installs (launchd/systemd/schtasks).
 If you want to review changes before writing, open the config file first:
 
 ```bash
-cat ~/.openclaw/openclaw.json
+cat ~/.freeclaw/freeclaw.json
 ```
 
 ## What it does (summary)
@@ -104,7 +104,7 @@ Doctor will:
 
 - Explain which legacy keys were found.
 - Show the migration it applied.
-- Rewrite `~/.openclaw/openclaw.json` with the updated schema.
+- Rewrite `~/.freeclaw/freeclaw.json` with the updated schema.
 
 The Gateway also auto-runs doctor migrations on startup when it detects a
 legacy config format, so stale configs are repaired without manual intervention.
@@ -138,12 +138,12 @@ remove the override and restore per-model API routing + costs.
 Doctor can migrate older on-disk layouts into the current structure:
 
 - Sessions store + transcripts:
-  - from `~/.openclaw/sessions/` to `~/.openclaw/agents/<agentId>/sessions/`
+  - from `~/.freeclaw/sessions/` to `~/.freeclaw/agents/<agentId>/sessions/`
 - Agent dir:
-  - from `~/.openclaw/agent/` to `~/.openclaw/agents/<agentId>/agent/`
+  - from `~/.freeclaw/agent/` to `~/.freeclaw/agents/<agentId>/agent/`
 - WhatsApp auth state (Baileys):
-  - from legacy `~/.openclaw/credentials/*.json` (except `oauth.json`)
-  - to `~/.openclaw/credentials/whatsapp/<accountId>/...` (default account id: `default`)
+  - from legacy `~/.freeclaw/credentials/*.json` (except `oauth.json`)
+  - to `~/.freeclaw/credentials/whatsapp/<accountId>/...` (default account id: `default`)
 
 These migrations are best-effort and idempotent; doctor will emit warnings when
 it leaves any legacy folders behind as backups. The Gateway/CLI also auto-migrates
@@ -168,12 +168,12 @@ Doctor checks:
   transcript files.
 - **Main session “1-line JSONL”**: flags when the main transcript has only one
   line (history is not accumulating).
-- **Multiple state dirs**: warns when multiple `~/.openclaw` folders exist across
-  home directories or when `OPENCLAW_STATE_DIR` points elsewhere (history can
+- **Multiple state dirs**: warns when multiple `~/.freeclaw` folders exist across
+  home directories or when `FREECLAW_STATE_DIR` points elsewhere (history can
   split between installs).
 - **Remote mode reminder**: if `gateway.mode=remote`, doctor reminds you to run
   it on the remote host (the state lives there).
-- **Config file permissions**: warns if `~/.openclaw/openclaw.json` is
+- **Config file permissions**: warns if `~/.freeclaw/freeclaw.json` is
   group/world readable and offers to tighten to `600`.
 
 ### 5) Model auth health (OAuth expiry)
@@ -202,7 +202,7 @@ switch to legacy names if the current image is missing.
 ### 8) Gateway service migrations and cleanup hints
 
 Doctor detects legacy gateway services (launchd/systemd/schtasks) and
-offers to remove them and install the OpenClaw service using the current gateway
+offers to remove them and install the FreeClaw service using the current gateway
 port. It can also scan for extra gateway-like services and print cleanup hints.
 Profile-named OpenClaw gateway services are considered first-class and are not
 flagged as "extra."

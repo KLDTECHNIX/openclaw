@@ -53,8 +53,8 @@ export function extractHookToken(req: IncomingMessage): string | undefined {
     }
   }
   const headerToken =
-    typeof req.headers["x-openclaw-token"] === "string"
-      ? req.headers["x-openclaw-token"].trim()
+    typeof req.headers["x-freeclaw-token"] === "string"
+      ? req.headers["x-freeclaw-token"].trim()
       : "";
   if (headerToken) {
     return headerToken;

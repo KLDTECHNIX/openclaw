@@ -91,7 +91,7 @@ OpenClaw ships with the pi‑ai catalog. These providers require **no**
 - Gemini CLI OAuth is shipped as a bundled plugin (`google-gemini-cli-auth`, disabled by default).
   - Enable: `openclaw plugins enable google-gemini-cli-auth`
   - Login: `openclaw models auth login --provider google-gemini-cli --set-default`
-  - Note: you do **not** paste a client id or secret into `openclaw.json`. The CLI login flow stores
+  - Note: you do **not** paste a client id or secret into `freeclaw.json`. The CLI login flow stores
     tokens in auth profiles on the gateway host.
 
 ### Z.AI (GLM)
@@ -187,8 +187,8 @@ Qwen provides OAuth access to Qwen Coder + Vision via a device-code flow.
 Enable the bundled plugin, then log in:
 
 ```bash
-openclaw plugins enable qwen-portal-auth
-openclaw models auth login --provider qwen-portal --set-default
+freeclaw plugins enable qwen-portal-auth
+freeclaw models auth login --provider qwen-portal --set-default
 ```
 
 Model refs:
@@ -297,7 +297,7 @@ Example (OpenAI‑compatible):
 Notes:
 
 - For custom providers, `reasoning`, `input`, `cost`, `contextWindow`, and `maxTokens` are optional.
-  When omitted, OpenClaw defaults to:
+  When omitted, FreeClaw defaults to:
   - `reasoning: false`
   - `input: ["text"]`
   - `cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }`
@@ -308,9 +308,9 @@ Notes:
 ## CLI examples
 
 ```bash
-openclaw onboard --auth-choice opencode-zen
-openclaw models set opencode/claude-opus-4-6
-openclaw models list
+freeclaw onboard --auth-choice opencode-zen
+freeclaw models set opencode/claude-opus-4-6
+freeclaw models list
 ```
 
 See also: [/gateway/configuration](/gateway/configuration) for full configuration examples.

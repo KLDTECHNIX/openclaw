@@ -79,7 +79,7 @@ Client                    Gateway
 - After handshake:
   - Requests: `{type:"req", id, method, params}` → `{type:"res", id, ok, payload|error}`
   - Events: `{type:"event", event, payload, seq?, stateVersion?}`
-- If `OPENCLAW_GATEWAY_TOKEN` (or `--token`) is set, `connect.params.auth.token`
+- If `FREECLAW_GATEWAY_TOKEN` (or `--token`) is set, `connect.params.auth.token`
   must match or the socket closes.
 - Idempotency keys are required for side‑effecting methods (`send`, `agent`) to
   safely retry; the server keeps a short‑lived dedupe cache.

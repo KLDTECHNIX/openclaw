@@ -10,7 +10,7 @@ This page tracks OpenClaw’s **formal security models** (TLA+/TLC today; more a
 
 > Note: some older links may refer to the previous project name.
 
-**Goal (north star):** provide a machine-checked argument that OpenClaw enforces its
+**Goal (north star):** provide a machine-checked argument that FreeClaw enforces its
 intended security policy (authorization, session isolation, tool gating, and
 misconfiguration safety), under explicit assumptions.
 

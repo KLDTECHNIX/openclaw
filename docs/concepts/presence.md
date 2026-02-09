@@ -1,5 +1,5 @@
 ---
-summary: "How OpenClaw presence entries are produced, merged, and displayed"
+summary: "How FreeClaw presence entries are produced, merged, and displayed"
 read_when:
   - Debugging the Instances tab
   - Investigating duplicate or stale instance rows

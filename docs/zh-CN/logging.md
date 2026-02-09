@@ -31,7 +31,7 @@ OpenClaw 在两个地方记录日志：
 
 日期使用 Gateway 网关主机的本地时区。
 
-你可以在 `~/.openclaw/openclaw.json` 中覆盖此设置：
+你可以在 `~/.freeclaw/freeclaw.json` 中覆盖此设置：
 
 ```json
 {
@@ -48,7 +48,7 @@ OpenClaw 在两个地方记录日志：
 使用 CLI 通过 RPC 跟踪 Gateway 网关日志文件：
 
 ```bash
-openclaw logs --follow
+freeclaw logs --follow
 ```
 
 输出模式：
@@ -69,7 +69,7 @@ openclaw logs --follow
 如果 Gateway 网关无法访问，CLI 会打印一个简短提示运行：
 
 ```bash
-openclaw doctor
+freeclaw doctor
 ```
 
 ### 控制 UI（Web）
@@ -82,7 +82,7 @@ openclaw doctor
 要过滤渠道活动（WhatsApp/Telegram 等），使用：
 
 ```bash
-openclaw channels logs --channel whatsapp
+freeclaw channels logs --channel whatsapp
 ```
 
 ## 日志格式
@@ -103,7 +103,7 @@ openclaw channels logs --channel whatsapp
 
 ## 配置日志
 
-所有日志配置都在 `~/.openclaw/openclaw.json` 的 `logging` 下。
+所有日志配置都在 `~/.freeclaw/freeclaw.json` 的 `logging` 下。
 
 ```json
 {
@@ -152,7 +152,7 @@ openclaw channels logs --channel whatsapp
 
 - **OpenTelemetry（OTel）**：追踪、指标和日志的数据模型 + SDK。
 - **OTLP**：用于将 OTel 数据导出到收集器/后端的线路协议。
-- OpenClaw 目前通过 **OTLP/HTTP（protobuf）** 导出。
+- FreeClaw 目前通过 **OTLP/HTTP（protobuf）** 导出。
 
 ### 导出的信号
 
@@ -211,7 +211,7 @@ openclaw channels logs --channel whatsapp
 环境变量覆盖（一次性）：
 
 ```
-OPENCLAW_DIAGNOSTICS=telegram.http,telegram.payload
+FREECLAW_DIAGNOSTICS=telegram.http,telegram.payload
 ```
 
 注意：

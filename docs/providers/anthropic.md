@@ -1,5 +1,5 @@
 ---
-summary: "Use Anthropic Claude via API keys or setup-token in OpenClaw"
+summary: "Use Anthropic Claude via API keys or setup-token in FreeClaw"
 read_when:
   - You want to use Anthropic models in OpenClaw
   - You want setup-token instead of API keys
@@ -9,7 +9,7 @@ title: "Anthropic"
 # Anthropic (Claude)
 
 Anthropic builds the **Claude** model family and provides access via an API.
-In OpenClaw you can authenticate with an API key or a **setup-token**.
+In FreeClaw you can authenticate with an API key or a **setup-token**.
 
 ## Option A: Anthropic API key
 
@@ -19,11 +19,11 @@ Create your API key in the Anthropic Console.
 ### CLI setup
 
 ```bash
-openclaw onboard
+freeclaw onboard
 # choose: Anthropic API key
 
 # or non-interactive
-openclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
+freeclaw onboard --anthropic-api-key "$ANTHROPIC_API_KEY"
 ```
 
 ### Config snippet
@@ -65,7 +65,7 @@ Use the `cacheRetention` parameter in your model config:
 
 ### Defaults
 
-When using Anthropic API Key authentication, OpenClaw automatically applies `cacheRetention: "short"` (5-minute cache) for all Anthropic models. You can override this by explicitly setting `cacheRetention` in your config.
+When using Anthropic API Key authentication, FreeClaw automatically applies `cacheRetention: "short"` (5-minute cache) for all Anthropic models. You can override this by explicitly setting `cacheRetention` in your config.
 
 ### Legacy parameter
 
@@ -91,23 +91,23 @@ Setup-tokens are created by the **Claude Code CLI**, not the Anthropic Console. 
 claude setup-token
 ```
 
-Paste the token into OpenClaw (wizard: **Anthropic token (paste setup-token)**), or run it on the gateway host:
+Paste the token into FreeClaw (wizard: **Anthropic token (paste setup-token)**), or run it on the gateway host:
 
 ```bash
-openclaw models auth setup-token --provider anthropic
+freeclaw models auth setup-token --provider anthropic
 ```
 
 If you generated the token on a different machine, paste it:
 
 ```bash
-openclaw models auth paste-token --provider anthropic
+freeclaw models auth paste-token --provider anthropic
 ```
 
 ### CLI setup (setup-token)
 
 ```bash
 # Paste a setup-token during onboarding
-openclaw onboard --auth-choice setup-token
+freeclaw onboard --auth-choice setup-token
 ```
 
 ### Config snippet (setup-token)

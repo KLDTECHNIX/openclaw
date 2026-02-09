@@ -20,10 +20,10 @@ OpenClaw can run agents in isolated Docker containers for security. The `sandbox
 Inspect the **effective** sandbox mode/scope/workspace access, sandbox tool policy, and elevated gates (with fix-it config key paths).
 
 ```bash
-openclaw sandbox explain
-openclaw sandbox explain --session agent:main:main
-openclaw sandbox explain --agent work
-openclaw sandbox explain --json
+freeclaw sandbox explain
+freeclaw sandbox explain --session agent:main:main
+freeclaw sandbox explain --agent work
+freeclaw sandbox explain --json
 ```
 
 ### `openclaw sandbox list`
@@ -31,9 +31,9 @@ openclaw sandbox explain --json
 List all sandbox containers with their status and configuration.
 
 ```bash
-openclaw sandbox list
-openclaw sandbox list --browser  # List only browser containers
-openclaw sandbox list --json     # JSON output
+freeclaw sandbox list
+freeclaw sandbox list --browser  # List only browser containers
+freeclaw sandbox list --json     # JSON output
 ```
 
 **Output includes:**
@@ -49,11 +49,11 @@ openclaw sandbox list --json     # JSON output
 Remove sandbox containers to force recreation with updated images/config.
 
 ```bash
-openclaw sandbox recreate --all                # Recreate all containers
-openclaw sandbox recreate --session main       # Specific session
-openclaw sandbox recreate --agent mybot        # Specific agent
-openclaw sandbox recreate --browser            # Only browser containers
-openclaw sandbox recreate --all --force        # Skip confirmation
+freeclaw sandbox recreate --all                # Recreate all containers
+freeclaw sandbox recreate --session main       # Specific session
+freeclaw sandbox recreate --agent mybot        # Specific agent
+freeclaw sandbox recreate --browser            # Only browser containers
+freeclaw sandbox recreate --all --force        # Skip confirmation
 ```
 
 **Options:**
@@ -79,7 +79,7 @@ docker tag openclaw-sandbox:latest openclaw-sandbox:bookworm-slim
 # Edit config: agents.defaults.sandbox.docker.image (or agents.list[].sandbox.docker.image)
 
 # Recreate containers
-openclaw sandbox recreate --all
+freeclaw sandbox recreate --all
 ```
 
 ### After changing sandbox configuration
@@ -88,22 +88,22 @@ openclaw sandbox recreate --all
 # Edit config: agents.defaults.sandbox.* (or agents.list[].sandbox.*)
 
 # Recreate to apply new config
-openclaw sandbox recreate --all
+freeclaw sandbox recreate --all
 ```
 
 ### After changing setupCommand
 
 ```bash
-openclaw sandbox recreate --all
+freeclaw sandbox recreate --all
 # or just one agent:
-openclaw sandbox recreate --agent family
+freeclaw sandbox recreate --agent family
 ```
 
 ### For a specific agent only
 
 ```bash
 # Update only one agent's containers
-openclaw sandbox recreate --agent alfred
+freeclaw sandbox recreate --agent alfred
 ```
 
 ## Why is this needed?
@@ -121,7 +121,7 @@ Gateway’s container naming and avoids mismatches when scope/session keys chang
 
 ## Configuration
 
-Sandbox settings live in `~/.openclaw/openclaw.json` under `agents.defaults.sandbox` (per-agent overrides go in `agents.list[].sandbox`):
+Sandbox settings live in `~/.freeclaw/freeclaw.json` under `agents.defaults.sandbox` (per-agent overrides go in `agents.list[].sandbox`):
 
 ```jsonc
 {

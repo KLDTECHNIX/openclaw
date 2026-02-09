@@ -14,10 +14,10 @@ A skill is a directory containing a `SKILL.md` file (which provides instructions
 
 ### 1. Create the Directory
 
-Skills live in your workspace, usually `~/.openclaw/workspace/skills/`. Create a new folder for your skill:
+Skills live in your workspace, usually `~/.freeclaw/workspace/skills/`. Create a new folder for your skill:
 
 ```bash
-mkdir -p ~/.openclaw/workspace/skills/hello-world
+mkdir -p ~/.freeclaw/workspace/skills/hello-world
 ```
 
 ### 2. Define the `SKILL.md`
@@ -41,7 +41,7 @@ You can define custom tools in the frontmatter or instruct the agent to use exis
 
 ### 4. Refresh OpenClaw
 
-Ask your agent to "refresh skills" or restart the gateway. OpenClaw will discover the new directory and index the `SKILL.md`.
+Ask your agent to "refresh skills" or restart the gateway. FreeClaw will discover the new directory and index the `SKILL.md`.
 
 ## Best Practices
 

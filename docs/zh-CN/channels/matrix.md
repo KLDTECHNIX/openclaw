@@ -25,13 +25,13 @@ Matrix 作为插件提供，不包含在核心安装中。
 通过 CLI 安装（npm 仓库）：
 
 ```bash
-openclaw plugins install @openclaw/matrix
+freeclaw plugins install @openclaw/matrix
 ```
 
 本地检出（从 git 仓库运行时）：
 
 ```bash
-openclaw plugins install ./extensions/matrix
+freeclaw plugins install ./extensions/matrix
 ```
 
 如果你在配置/新手引导期间选择 Matrix 并检测到 git 检出，OpenClaw 将自动提供本地安装路径。
@@ -64,7 +64,7 @@ openclaw plugins install ./extensions/matrix
    ```
 
    - 将 `matrix.example.org` 替换为你的主服务器 URL。
-   - 或设置 `channels.matrix.userId` + `channels.matrix.password`：OpenClaw 会调用相同的登录端点，将访问令牌存储在 `~/.openclaw/credentials/matrix/credentials.json`，并在下次启动时重用。
+   - 或设置 `channels.matrix.userId` + `channels.matrix.password`：OpenClaw 会调用相同的登录端点，将访问令牌存储在 `~/.freeclaw/credentials/matrix/credentials.json`，并在下次启动时重用。
 
 4. 配置凭证：
    - 环境变量：`MATRIX_HOMESERVER`、`MATRIX_ACCESS_TOKEN`（或 `MATRIX_USER_ID` + `MATRIX_PASSWORD`）
@@ -119,7 +119,7 @@ E2EE 配置（启用端到端加密）：
 - 如果无法加载加密模块，E2EE 将被禁用，加密房间将无法解密；OpenClaw 会记录警告。
 - 如果你看到缺少加密模块的错误（例如 `@matrix-org/matrix-sdk-crypto-nodejs-*`），请允许 `@matrix-org/matrix-sdk-crypto-nodejs` 的构建脚本并运行 `pnpm rebuild @matrix-org/matrix-sdk-crypto-nodejs`，或使用 `node node_modules/@matrix-org/matrix-sdk-crypto-nodejs/download-lib.js` 获取二进制文件。
 
-加密状态按账户 + 访问令牌存储在 `~/.openclaw/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/crypto/`（SQLite 数据库）。同步状态存储在同目录的 `bot-storage.json` 中。如果访问令牌（设备）更改，将创建新的存储，机器人必须重新验证才能访问加密房间。
+加密状态按账户 + 访问令牌存储在 `~/.freeclaw/matrix/accounts/<account>/<homeserver>__<user>/<token-hash>/crypto/`（SQLite 数据库）。同步状态存储在同目录的 `bot-storage.json` 中。如果访问令牌（设备）更改，将创建新的存储，机器人必须重新验证才能访问加密房间。
 
 **设备验证：**
 启用 E2EE 时，机器人将在启动时向你的其他会话请求验证。打开 Element（或其他客户端）并批准验证请求以建立信任。验证后，机器人可以解密加密房间中的消息。

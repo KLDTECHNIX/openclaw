@@ -20,13 +20,13 @@ x-i18n:
 1. 启动 Gateway 网关。
 
 ```bash
-openclaw gateway
+freeclaw gateway
 ```
 
 2. 打开 TUI。
 
 ```bash
-openclaw tui
+freeclaw tui
 ```
 
 3. 输入消息并按 Enter。
@@ -34,7 +34,7 @@ openclaw tui
 远程 Gateway 网关：
 
 ```bash
-openclaw tui --url ws://<host>:<port> --token <gateway-token>
+freeclaw tui --url ws://<host>:<port> --token <gateway-token>
 ```
 
 如果你的 Gateway 网关使用密码认证，请使用 `--password`。

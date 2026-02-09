@@ -18,10 +18,10 @@ x-i18n:
 渠道 + 会话的诊断。
 
 ```bash
-openclaw status
-openclaw status --all
-openclaw status --deep
-openclaw status --usage
+freeclaw status
+freeclaw status --all
+freeclaw status --deep
+freeclaw status --usage
 ```
 
 注意事项：

@@ -37,7 +37,7 @@ x-i18n:
 1. 启动 Gateway 网关：
 
 ```bash
-openclaw gateway --port 18789
+freeclaw gateway --port 18789
 ```
 
 2. 在 iOS 应用中，打开设置并选择一个已发现的 Gateway 网关（或启用手动主机并输入主机/端口）。
@@ -45,15 +45,15 @@ openclaw gateway --port 18789
 3. 在 Gateway 网关主机上批准配对请求：
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
+freeclaw nodes pending
+freeclaw nodes approve <requestId>
 ```
 
 4. 验证连接：
 
 ```bash
-openclaw nodes status
-openclaw gateway call node.list --params "{}"
+freeclaw nodes status
+freeclaw gateway call node.list --params "{}"
 ```
 
 ## 发现路径
@@ -76,7 +76,7 @@ Gateway 网关在 `local.` 上广播 `_openclaw-gw._tcp`。iOS 应用会自动�
 iOS 节点渲染一个 WKWebView canvas。使用 `node.invoke` 来驱动它：
 
 ```bash
-openclaw nodes invoke --node "iOS Node" --command canvas.navigate --params '{"url":"http://<gateway-host>:18793/__openclaw__/canvas/"}'
+freeclaw nodes invoke --node "iOS Node" --command canvas.navigate --params '{"url":"http://<gateway-host>:18793/__openclaw__/canvas/"}'
 ```
 
 注意事项：
@@ -88,11 +88,11 @@ openclaw nodes invoke --node "iOS Node" --command canvas.navigate --params '{"ur
 ### Canvas eval / snapshot
 
 ```bash
-openclaw nodes invoke --node "iOS Node" --command canvas.eval --params '{"javaScript":"(() => { const {ctx} = window.__openclaw; ctx.clearRect(0,0,innerWidth,innerHeight); ctx.lineWidth=6; ctx.strokeStyle=\"#ff2d55\"; ctx.beginPath(); ctx.moveTo(40,40); ctx.lineTo(innerWidth-40, innerHeight-40); ctx.stroke(); return \"ok\"; })()"}'
+freeclaw nodes invoke --node "iOS Node" --command canvas.eval --params '{"javaScript":"(() => { const {ctx} = window.__openclaw; ctx.clearRect(0,0,innerWidth,innerHeight); ctx.lineWidth=6; ctx.strokeStyle=\"#ff2d55\"; ctx.beginPath(); ctx.moveTo(40,40); ctx.lineTo(innerWidth-40, innerHeight-40); ctx.stroke(); return \"ok\"; })()"}'
 ```
 
 ```bash
-openclaw nodes invoke --node "iOS Node" --command canvas.snapshot --params '{"maxWidth":900,"format":"jpeg"}'
+freeclaw nodes invoke --node "iOS Node" --command canvas.snapshot --params '{"maxWidth":900,"format":"jpeg"}'
 ```
 
 ## 语音唤醒 + 对话模式

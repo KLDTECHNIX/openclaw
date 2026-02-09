@@ -11,10 +11,10 @@ title: "status"
 Diagnostics for channels + sessions.
 
 ```bash
-openclaw status
-openclaw status --all
-openclaw status --deep
-openclaw status --usage
+freeclaw status
+freeclaw status --all
+freeclaw status --deep
+freeclaw status --usage
 ```
 
 Notes:

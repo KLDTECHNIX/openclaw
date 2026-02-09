@@ -26,7 +26,7 @@ SOUL Evil 钩子在清除窗口期间或随机概率下，将**注入的** `SOUL
 ## 启用
 
 ```bash
-openclaw hooks enable soul-evil
+freeclaw hooks enable soul-evil
 ```
 
 然后设置配置：

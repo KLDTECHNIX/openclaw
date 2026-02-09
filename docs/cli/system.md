@@ -15,10 +15,10 @@ and view presence.
 ## Common commands
 
 ```bash
-openclaw system event --text "Check for urgent follow-ups" --mode now
-openclaw system heartbeat enable
-openclaw system heartbeat last
-openclaw system presence
+freeclaw system event --text "Check for urgent follow-ups" --mode now
+freeclaw system heartbeat enable
+freeclaw system heartbeat last
+freeclaw system presence
 ```
 
 ## `system event`

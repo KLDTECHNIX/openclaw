@@ -10,9 +10,9 @@ title: "health"
 Fetch health from the running Gateway.
 
 ```bash
-openclaw health
-openclaw health --json
-openclaw health --verbose
+freeclaw health
+freeclaw health --json
+freeclaw health --verbose
 ```
 
 Notes:

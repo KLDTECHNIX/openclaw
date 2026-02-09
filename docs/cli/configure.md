@@ -28,6 +28,6 @@ Notes:
 ## Examples
 
 ```bash
-openclaw configure
-openclaw configure --section models --section channels
+freeclaw configure
+freeclaw configure --section models --section channels
 ```

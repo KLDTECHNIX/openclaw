@@ -32,8 +32,8 @@ x-i18n:
 ## 将结果用于 `message send`
 
 ```bash
-openclaw directory peers list --channel slack --query "U0"
-openclaw message send --channel slack --target user:U012ABCDEF --message "hello"
+freeclaw directory peers list --channel slack --query "U0"
+freeclaw message send --channel slack --target user:U012ABCDEF --message "hello"
 ```
 
 ## ID 格式（按渠道）
@@ -50,21 +50,21 @@ openclaw message send --channel slack --target user:U012ABCDEF --message "hello"
 ## Self（"我"）
 
 ```bash
-openclaw directory self --channel zalouser
+freeclaw directory self --channel zalouser
 ```
 
 ## Peers（联系人/用户）
 
 ```bash
-openclaw directory peers list --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory peers list --channel zalouser --limit 50
+freeclaw directory peers list --channel zalouser
+freeclaw directory peers list --channel zalouser --query "name"
+freeclaw directory peers list --channel zalouser --limit 50
 ```
 
 ## 群组
 
 ```bash
-openclaw directory groups list --channel zalouser
-openclaw directory groups list --channel zalouser --query "work"
-openclaw directory groups members --channel zalouser --group-id <id>
+freeclaw directory groups list --channel zalouser
+freeclaw directory groups list --channel zalouser --query "work"
+freeclaw directory groups members --channel zalouser --group-id <id>
 ```

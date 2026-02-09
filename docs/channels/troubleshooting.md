@@ -15,11 +15,11 @@ Use this page when a channel connects but behavior is wrong.
 Run these in order first:
 
 ```bash
-openclaw status
-openclaw gateway status
-openclaw logs --follow
-openclaw doctor
-openclaw channels status --probe
+freeclaw status
+freeclaw gateway status
+freeclaw logs --follow
+freeclaw doctor
+freeclaw channels status --probe
 ```
 
 Healthy baseline:

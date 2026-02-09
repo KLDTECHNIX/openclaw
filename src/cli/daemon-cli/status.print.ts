@@ -1,15 +1,7 @@
 import { resolveControlUiLinks } from "../../commands/onboard-helpers.js";
-import {
-  resolveGatewayLaunchAgentLabel,
-  resolveGatewaySystemdServiceName,
-} from "../../daemon/constants.js";
+import { resolveGatewayRcdServiceName } from "../../daemon/constants.js";
 import { renderGatewayServiceCleanupHints } from "../../daemon/inspect.js";
-import { resolveGatewayLogPaths } from "../../daemon/launchd.js";
-import {
-  isSystemdUnavailableDetail,
-  renderSystemdUnavailableHints,
-} from "../../daemon/systemd-hints.js";
-import { isWSLEnv } from "../../infra/wsl.js";
+import { resolveGatewayLogPaths } from "../../daemon/rcd.js";
 import { getResolvedLoggerSettings } from "../../logging.js";
 import { defaultRuntime } from "../../runtime.js";
 import { colorize, isRich, theme } from "../../terminal/theme.js";
@@ -102,7 +94,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     }
     defaultRuntime.error(
       warnText(
-        `Recommendation: run "${formatCliCommand("openclaw doctor")}" (or "${formatCliCommand("openclaw doctor --repair")}").`,
+        `Recommendation: run "${formatCliCommand("freeclaw doctor")}" (or "${formatCliCommand("freeclaw doctor --repair")}").`,
       ),
     );
   }
@@ -136,7 +128,7 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
       );
       defaultRuntime.error(
         errorText(
-          `Fix: rerun \`${formatCliCommand("openclaw gateway install --force")}\` from the same --profile / OPENCLAW_STATE_DIR you expect.`,
+          `Fix: rerun \`${formatCliCommand("freeclaw gateway install --force")}\` from the same --profile / FREECLAW_STATE_DIR you expect.`,
         ),
       );
     }
@@ -204,15 +196,6 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     spacer();
   }
 
-  const systemdUnavailable =
-    process.platform === "linux" && isSystemdUnavailableDetail(service.runtime?.detail);
-  if (systemdUnavailable) {
-    defaultRuntime.error(errorText("systemd user services unavailable."));
-    for (const hint of renderSystemdUnavailableHints({ wsl: isWSLEnv() })) {
-      defaultRuntime.error(errorText(hint));
-    }
-    spacer();
-  }
 
   if (service.runtime?.missingUnit) {
     defaultRuntime.error(errorText("Service unit not found."));
@@ -234,14 +217,14 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
 
   if (service.runtime?.cachedLabel) {
     const env = (service.command?.environment ?? process.env) as NodeJS.ProcessEnv;
-    const labelValue = resolveGatewayLaunchAgentLabel(env.OPENCLAW_PROFILE);
+    const serviceName = resolveGatewayRcdServiceName(env.FREECLAW_PROFILE);
     defaultRuntime.error(
       errorText(
-        `LaunchAgent label cached but plist missing. Clear with: launchctl bootout gui/$UID/${labelValue}`,
+        `rc.d service cached but script missing. Clear with: service ${serviceName} stop`,
       ),
     );
     defaultRuntime.error(
-      errorText(`Then reinstall: ${formatCliCommand("openclaw gateway install")}`),
+      errorText(`Then reinstall: ${formatCliCommand("freeclaw gateway install")}`),
     );
     spacer();
   }
@@ -275,19 +258,12 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     if (status.lastError) {
       defaultRuntime.error(`${errorText("Last gateway error:")} ${status.lastError}`);
     }
-    if (process.platform === "linux") {
-      const env = (service.command?.environment ?? process.env) as NodeJS.ProcessEnv;
-      const unit = resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE);
-      defaultRuntime.error(
-        errorText(`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`),
-      );
-    } else if (process.platform === "darwin") {
-      const logs = resolveGatewayLogPaths(
-        (service.command?.environment ?? process.env) as NodeJS.ProcessEnv,
-      );
-      defaultRuntime.error(`${errorText("Logs:")} ${shortenHomePath(logs.stdoutPath)}`);
-      defaultRuntime.error(`${errorText("Errors:")} ${shortenHomePath(logs.stderrPath)}`);
-    }
+    const env = (service.command?.environment ?? process.env) as NodeJS.ProcessEnv;
+    const serviceName = resolveGatewayRcdServiceName(env.FREECLAW_PROFILE);
+    const logs = resolveGatewayLogPaths(env);
+    defaultRuntime.error(`${errorText("Logs:")} ${shortenHomePath(logs.stdoutPath)}`);
+    defaultRuntime.error(`${errorText("Errors:")} ${shortenHomePath(logs.stderrPath)}`);
+    defaultRuntime.error(errorText(`Service status: service ${serviceName} status`));
     spacer();
   }
 
@@ -316,6 +292,6 @@ export function printDaemonStatus(status: DaemonStatus, opts: { json: boolean })
     spacer();
   }
 
-  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("openclaw status")}`);
-  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.openclaw.ai/troubleshooting`);
+  defaultRuntime.log(`${label("Troubles:")} run ${formatCliCommand("freeclaw status")}`);
+  defaultRuntime.log(`${label("Troubleshooting:")} https://docs.freeclaw.ai/troubleshooting`);
 }

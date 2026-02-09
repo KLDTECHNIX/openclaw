@@ -1,5 +1,4 @@
 import { execFileSync } from "node:child_process";
-import { resolveLsofCommandSync } from "../infra/ports-lsof.js";
 import { sleep } from "../utils.js";
 
 export type PortProcess = { pid: number; command?: string };
@@ -10,42 +9,46 @@ export type ForceFreePortResult = {
   escalatedToSigkill: boolean;
 };
 
-export function parseLsofOutput(output: string): PortProcess[] {
+/**
+ * Parse sockstat(1) output into PortProcess entries.
+ * sockstat output: USER COMMAND PID FD PROTO LOCAL FOREIGN
+ */
+export function parseSockstatOutput(output: string): PortProcess[] {
   const lines = output.split(/\r?\n/).filter(Boolean);
   const results: PortProcess[] = [];
-  let current: Partial<PortProcess> = {};
-  for (const line of lines) {
-    if (line.startsWith("p")) {
-      if (current.pid) {
-        results.push(current as PortProcess);
-      }
-      current = { pid: Number.parseInt(line.slice(1), 10) };
-    } else if (line.startsWith("c")) {
-      current.command = line.slice(1);
+  for (const rawLine of lines) {
+    const line = rawLine.trim();
+    if (line.startsWith("USER") || !line) {
+      continue;
     }
-  }
-  if (current.pid) {
-    results.push(current as PortProcess);
+    const parts = line.split(/\s+/);
+    if (parts.length < 3) {
+      continue;
+    }
+    const command = parts[1];
+    const pid = Number.parseInt(parts[2] ?? "", 10);
+    if (Number.isFinite(pid) && pid > 0) {
+      results.push({ pid, command });
+    }
   }
   return results;
 }
 
 export function listPortListeners(port: number): PortProcess[] {
   try {
-    const lsof = resolveLsofCommandSync();
-    const out = execFileSync(lsof, ["-nP", `-iTCP:${port}`, "-sTCP:LISTEN", "-FpFc"], {
+    const out = execFileSync("sockstat", ["-4", "-6", "-l", "-p", String(port)], {
       encoding: "utf-8",
     });
-    return parseLsofOutput(out);
+    return parseSockstatOutput(out);
   } catch (err: unknown) {
     const status = (err as { status?: number }).status;
     const code = (err as { code?: string }).code;
     if (code === "ENOENT") {
-      throw new Error("lsof not found; required for --force", { cause: err });
+      throw new Error("sockstat not found; required for --force", { cause: err });
     }
     if (status === 1) {
       return [];
-    } // no listeners
+    }
     throw err instanceof Error ? err : new Error(String(err));
   }
 }
@@ -83,7 +86,7 @@ export async function forceFreePortAndWait(
   opts: {
     /** Total wait budget across signals. */
     timeoutMs?: number;
-    /** Poll interval for checking whether lsof reports listeners. */
+    /** Poll interval for checking whether sockstat reports listeners. */
     intervalMs?: number;
     /** How long to wait after SIGTERM before escalating to SIGKILL. */
     sigtermTimeoutMs?: number;

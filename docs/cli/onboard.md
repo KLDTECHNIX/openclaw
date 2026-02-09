@@ -19,10 +19,10 @@ Interactive onboarding wizard (local or remote Gateway setup).
 ## Examples
 
 ```bash
-openclaw onboard
-openclaw onboard --flow quickstart
-openclaw onboard --flow manual
-openclaw onboard --mode remote --remote-url ws://gateway-host:18789
+freeclaw onboard
+freeclaw onboard --flow quickstart
+freeclaw onboard --flow manual
+freeclaw onboard --mode remote --remote-url ws://gateway-host:18789
 ```
 
 Flow notes:
@@ -34,8 +34,8 @@ Flow notes:
 ## Common follow-up commands
 
 ```bash
-openclaw configure
-openclaw agents add <name>
+freeclaw configure
+freeclaw agents add <name>
 ```
 
 <Note>

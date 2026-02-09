@@ -25,7 +25,7 @@ By default, the Gateway writes a rolling log file under:
 
 The date uses the gateway host's local timezone.
 
-You can override this in `~/.openclaw/openclaw.json`:
+You can override this in `~/.freeclaw/freeclaw.json`:
 
 ```json
 {
@@ -42,7 +42,7 @@ You can override this in `~/.openclaw/openclaw.json`:
 Use the CLI to tail the gateway log file via RPC:
 
 ```bash
-openclaw logs --follow
+freeclaw logs --follow
 ```
 
 Output modes:
@@ -63,7 +63,7 @@ In JSON mode, the CLI emits `type`-tagged objects:
 If the Gateway is unreachable, the CLI prints a short hint to run:
 
 ```bash
-openclaw doctor
+freeclaw doctor
 ```
 
 ### Control UI (web)
@@ -76,7 +76,7 @@ See [/web/control-ui](/web/control-ui) for how to open it.
 To filter channel activity (WhatsApp/Telegram/etc), use:
 
 ```bash
-openclaw channels logs --channel whatsapp
+freeclaw channels logs --channel whatsapp
 ```
 
 ## Log formats
@@ -98,7 +98,7 @@ Console formatting is controlled by `logging.consoleStyle`.
 
 ## Configuring logging
 
-All logging configuration lives under `logging` in `~/.openclaw/openclaw.json`.
+All logging configuration lives under `logging` in `~/.freeclaw/freeclaw.json`.
 
 ```json
 {
@@ -150,7 +150,7 @@ diagnostics + the exporter plugin are enabled.
 
 - **OpenTelemetry (OTel)**: the data model + SDKs for traces, metrics, and logs.
 - **OTLP**: the wire protocol used to export OTel data to a collector/backend.
-- OpenClaw exports via **OTLP/HTTP (protobuf)** today.
+- FreeClaw exports via **OTLP/HTTP (protobuf)** today.
 
 ### Signals exported
 
@@ -210,7 +210,7 @@ Flags are case-insensitive and support wildcards (e.g. `telegram.*` or `*`).
 Env override (one-off):
 
 ```
-OPENCLAW_DIAGNOSTICS=telegram.http,telegram.payload
+FREECLAW_DIAGNOSTICS=telegram.http,telegram.payload
 ```
 
 Notes:

@@ -1,19 +1,19 @@
 ---
-summary: "Run OpenClaw Gateway 24/7 on a GCP Compute Engine VM (Docker) with durable state"
+summary: "Run FreeClaw Gateway 24/7 on a GCP Compute Engine VM (Docker) with durable state"
 read_when:
-  - You want OpenClaw running 24/7 on GCP
+  - You want FreeClaw running 24/7 on GCP
   - You want a production-grade, always-on Gateway on your own VM
   - You want full control over persistence, binaries, and restart behavior
 title: "GCP"
 ---
 
-# OpenClaw on GCP Compute Engine (Docker, Production VPS Guide)
+# FreeClaw on GCP Compute Engine (Docker, Production VPS Guide)
 
 ## Goal
 
-Run a persistent OpenClaw Gateway on a GCP Compute Engine VM using Docker, with durable state, baked-in binaries, and safe restart behavior.
+Run a persistent FreeClaw Gateway on a GCP Compute Engine VM using Docker, with durable state, baked-in binaries, and safe restart behavior.
 
-If you want "OpenClaw 24/7 for ~$5-12/mo", this is a reliable setup on Google Cloud.
+If you want "FreeClaw 24/7 for ~$5-12/mo", this is a reliable setup on Google Cloud.
 Pricing varies by machine type and region; pick the smallest VM that fits your workload and scale up if you hit OOMs.
 
 ## What are we doing (simple terms)?
@@ -21,8 +21,8 @@ Pricing varies by machine type and region; pick the smallest VM that fits your w
 - Create a GCP project and enable billing
 - Create a Compute Engine VM
 - Install Docker (isolated app runtime)
-- Start the OpenClaw Gateway in Docker
-- Persist `~/.openclaw` + `~/.openclaw/workspace` on the host (survives restarts/rebuilds)
+- Start the FreeClaw Gateway in Docker
+- Persist `~/.freeclaw` + `~/.freeclaw/workspace` on the host (survives restarts/rebuilds)
 - Access the Control UI from your laptop via an SSH tunnel
 
 The Gateway can be accessed via:
@@ -42,7 +42,7 @@ For the generic Docker flow, see [Docker](/install/docker).
 2. Create Compute Engine VM (e2-small, Debian 12, 20GB)
 3. SSH into the VM
 4. Install Docker
-5. Clone OpenClaw repository
+5. Clone FreeClaw repository
 6. Create persistent host directories
 7. Configure `.env` and `docker-compose.yml`
 8. Bake required binaries, build, and launch
@@ -89,7 +89,7 @@ All steps can be done via the web UI at [https://console.cloud.google.com](https
 **CLI:**
 
 ```bash
-gcloud projects create my-openclaw-project --name="OpenClaw Gateway"
+gcloud projects create my-openclaw-project --name="FreeClaw Gateway"
 gcloud config set project my-openclaw-project
 ```
 
@@ -187,11 +187,11 @@ docker compose version
 
 ---
 
-## 6) Clone the OpenClaw repository
+## 6) Clone the FreeClaw repository
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 ```
 
 This guide assumes you will build a custom image to guarantee binary persistence.
@@ -204,8 +204,8 @@ Docker containers are ephemeral.
 All long-lived state must live on the host.
 
 ```bash
-mkdir -p ~/.openclaw
-mkdir -p ~/.openclaw/workspace
+mkdir -p ~/.freeclaw
+mkdir -p ~/.freeclaw/workspace
 ```
 
 ---
@@ -215,13 +215,13 @@ mkdir -p ~/.openclaw/workspace
 Create `.env` in the repository root.
 
 ```bash
-OPENCLAW_IMAGE=openclaw:latest
-OPENCLAW_GATEWAY_TOKEN=change-me-now
-OPENCLAW_GATEWAY_BIND=lan
-OPENCLAW_GATEWAY_PORT=18789
+FREECLAW_IMAGE=openclaw:latest
+FREECLAW_GATEWAY_TOKEN=change-me-now
+FREECLAW_GATEWAY_BIND=lan
+FREECLAW_GATEWAY_PORT=18789
 
-OPENCLAW_CONFIG_DIR=/home/$USER/.openclaw
-OPENCLAW_WORKSPACE_DIR=/home/$USER/.openclaw/workspace
+FREECLAW_CONFIG_DIR=/home/$USER/.openclaw
+FREECLAW_WORKSPACE_DIR=/home/$USER/.openclaw/workspace
 
 GOG_KEYRING_PASSWORD=change-me-now
 XDG_CONFIG_HOME=/home/node/.openclaw
@@ -244,7 +244,7 @@ Create or update `docker-compose.yml`.
 ```yaml
 services:
   openclaw-gateway:
-    image: ${OPENCLAW_IMAGE}
+    image: ${FREECLAW_IMAGE}
     build: .
     restart: unless-stopped
     env_file:
@@ -253,19 +253,19 @@ services:
       - HOME=/home/node
       - NODE_ENV=production
       - TERM=xterm-256color
-      - OPENCLAW_GATEWAY_BIND=${OPENCLAW_GATEWAY_BIND}
-      - OPENCLAW_GATEWAY_PORT=${OPENCLAW_GATEWAY_PORT}
-      - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
+      - FREECLAW_GATEWAY_BIND=${FREECLAW_GATEWAY_BIND}
+      - FREECLAW_GATEWAY_PORT=${FREECLAW_GATEWAY_PORT}
+      - FREECLAW_GATEWAY_TOKEN=${FREECLAW_GATEWAY_TOKEN}
       - GOG_KEYRING_PASSWORD=${GOG_KEYRING_PASSWORD}
       - XDG_CONFIG_HOME=${XDG_CONFIG_HOME}
       - PATH=/home/linuxbrew/.linuxbrew/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     volumes:
-      - ${OPENCLAW_CONFIG_DIR}:/home/node/.openclaw
-      - ${OPENCLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
+      - ${FREECLAW_CONFIG_DIR}:/home/node/.openclaw
+      - ${FREECLAW_WORKSPACE_DIR}:/home/node/.openclaw/workspace
     ports:
       # Recommended: keep the Gateway loopback-only on the VM; access via SSH tunnel.
       # To expose it publicly, remove the `127.0.0.1:` prefix and firewall accordingly.
-      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT}:18789"
+      - "127.0.0.1:${FREECLAW_GATEWAY_PORT}:18789"
 
       # Optional: only if you run iOS/Android nodes against this VM and need Canvas host.
       # If you expose this publicly, read /gateway/security and firewall accordingly.
@@ -276,9 +276,9 @@ services:
         "dist/index.js",
         "gateway",
         "--bind",
-        "${OPENCLAW_GATEWAY_BIND}",
+        "${FREECLAW_GATEWAY_BIND}",
         "--port",
-        "${OPENCLAW_GATEWAY_PORT}",
+        "${FREECLAW_GATEWAY_PORT}",
       ]
 ```
 
@@ -409,7 +409,7 @@ All long-lived state must survive restarts, rebuilds, and reboots.
 
 | Component           | Location                          | Persistence mechanism  | Notes                            |
 | ------------------- | --------------------------------- | ---------------------- | -------------------------------- |
-| Gateway config      | `/home/node/.openclaw/`           | Host volume mount      | Includes `openclaw.json`, tokens |
+| Gateway config      | `/home/node/.openclaw/`           | Host volume mount      | Includes `freeclaw.json`, tokens |
 | Model auth profiles | `/home/node/.openclaw/`           | Host volume mount      | OAuth tokens, API keys           |
 | Skill configs       | `/home/node/.openclaw/skills/`    | Host volume mount      | Skill-level state                |
 | Agent workspace     | `/home/node/.openclaw/workspace/` | Host volume mount      | Code and agent artifacts         |
@@ -424,7 +424,7 @@ All long-lived state must survive restarts, rebuilds, and reboots.
 
 ## Updates
 
-To update OpenClaw on the VM:
+To update FreeClaw on the VM:
 
 ```bash
 cd ~/openclaw
@@ -480,7 +480,7 @@ For automation or CI/CD pipelines, create a dedicated service account with minim
 
    ```bash
    gcloud iam service-accounts create openclaw-deploy \
-     --display-name="OpenClaw Deployment"
+     --display-name="FreeClaw Deployment"
    ```
 
 2. Grant Compute Instance Admin role (or narrower custom role):

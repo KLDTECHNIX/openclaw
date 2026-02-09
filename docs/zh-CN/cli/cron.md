@@ -33,11 +33,11 @@ x-i18n:
 更新投递设置而不更改消息：
 
 ```bash
-openclaw cron edit <job-id> --announce --channel telegram --to "123456789"
+freeclaw cron edit <job-id> --announce --channel telegram --to "123456789"
 ```
 
 为隔离的作业禁用投递：
 
 ```bash
-openclaw cron edit <job-id> --no-deliver
+freeclaw cron edit <job-id> --no-deliver
 ```

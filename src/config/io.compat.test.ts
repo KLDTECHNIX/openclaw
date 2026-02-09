@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { createConfigIO } from "./io.js";
 
 async function withTempHome(run: (home: string) => Promise<void>): Promise<void> {
-  const home = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-config-"));
+  const home = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-config-"));
   try {
     await run(home);
   } finally {
@@ -15,9 +15,9 @@ async function withTempHome(run: (home: string) => Promise<void>): Promise<void>
 
 async function writeConfig(
   home: string,
-  dirname: ".openclaw",
+  dirname: ".freeclaw",
   port: number,
-  filename: string = "openclaw.json",
+  filename: string = "freeclaw.json",
 ) {
   const dir = path.join(home, dirname);
   await fs.mkdir(dir, { recursive: true });
@@ -27,9 +27,9 @@ async function writeConfig(
 }
 
 describe("config io paths", () => {
-  it("uses ~/.openclaw/openclaw.json when config exists", async () => {
+  it("uses ~/.freeclaw/freeclaw.json when config exists", async () => {
     await withTempHome(async (home) => {
-      const configPath = await writeConfig(home, ".openclaw", 19001);
+      const configPath = await writeConfig(home, ".freeclaw", 19001);
       const io = createConfigIO({
         env: {} as NodeJS.ProcessEnv,
         homedir: () => home,
@@ -39,21 +39,21 @@ describe("config io paths", () => {
     });
   });
 
-  it("defaults to ~/.openclaw/openclaw.json when config is missing", async () => {
+  it("defaults to ~/.freeclaw/freeclaw.json when config is missing", async () => {
     await withTempHome(async (home) => {
       const io = createConfigIO({
         env: {} as NodeJS.ProcessEnv,
         homedir: () => home,
       });
-      expect(io.configPath).toBe(path.join(home, ".openclaw", "openclaw.json"));
+      expect(io.configPath).toBe(path.join(home, ".freeclaw", "freeclaw.json"));
     });
   });
 
-  it("honors explicit OPENCLAW_CONFIG_PATH override", async () => {
+  it("honors explicit FREECLAW_CONFIG_PATH override", async () => {
     await withTempHome(async (home) => {
-      const customPath = await writeConfig(home, ".openclaw", 20002, "custom.json");
+      const customPath = await writeConfig(home, ".freeclaw", 20002, "custom.json");
       const io = createConfigIO({
-        env: { OPENCLAW_CONFIG_PATH: customPath } as NodeJS.ProcessEnv,
+        env: { FREECLAW_CONFIG_PATH: customPath } as NodeJS.ProcessEnv,
         homedir: () => home,
       });
       expect(io.configPath).toBe(customPath);

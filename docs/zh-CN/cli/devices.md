@@ -24,8 +24,8 @@ x-i18n:
 列出待处理的配对请求和已配对的设备。
 
 ```
-openclaw devices list
-openclaw devices list --json
+freeclaw devices list
+freeclaw devices list --json
 ```
 
 ### `openclaw devices approve <requestId>`
@@ -33,7 +33,7 @@ openclaw devices list --json
 批准待处理的设备配对请求。
 
 ```
-openclaw devices approve <requestId>
+freeclaw devices approve <requestId>
 ```
 
 ### `openclaw devices reject <requestId>`
@@ -41,7 +41,7 @@ openclaw devices approve <requestId>
 拒绝待处理的设备配对请求。
 
 ```
-openclaw devices reject <requestId>
+freeclaw devices reject <requestId>
 ```
 
 ### `openclaw devices rotate --device <id> --role <role> [--scope <scope...>]`
@@ -49,7 +49,7 @@ openclaw devices reject <requestId>
 为特定角色轮换设备 token（可选更新 scope）。
 
 ```
-openclaw devices rotate --device <deviceId> --role operator --scope operator.read --scope operator.write
+freeclaw devices rotate --device <deviceId> --role operator --scope operator.read --scope operator.write
 ```
 
 ### `openclaw devices revoke --device <id> --role <role>`
@@ -57,7 +57,7 @@ openclaw devices rotate --device <deviceId> --role operator --scope operator.rea
 为特定角色撤销设备 token。
 
 ```
-openclaw devices revoke --device <deviceId> --role node
+freeclaw devices revoke --device <deviceId> --role node
 ```
 
 ## 通用选项

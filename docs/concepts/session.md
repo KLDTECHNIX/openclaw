@@ -30,7 +30,7 @@ Use `session.dmScope` to control how **direct messages** are grouped:
 **The fix:** Set `dmScope` to isolate sessions per user:
 
 ```json5
-// ~/.openclaw/openclaw.json
+// ~/.freeclaw/freeclaw.json
 {
   session: {
     // Secure DM mode: isolate DM context per channel + sender.
@@ -55,7 +55,7 @@ Notes:
 
 ## Gateway is the source of truth
 
-All session state is **owned by the gateway** (the “master” OpenClaw). UI clients (macOS app, WebChat, etc.) must query the gateway for session lists and token counts instead of reading local files.
+All session state is **owned by the gateway** (the “master” FreeClaw). UI clients (macOS app, WebChat, etc.) must query the gateway for session lists and token counts instead of reading local files.
 
 - In **remote mode**, the session store you care about lives on the remote gateway host, not your Mac.
 - Token counts shown in UIs come from the gateway’s store fields (`inputTokens`, `outputTokens`, `totalTokens`, `contextTokens`). Clients do not parse JSONL transcripts to “fix up” totals.
@@ -63,12 +63,12 @@ All session state is **owned by the gateway** (the “master” OpenClaw). UI cl
 ## Where state lives
 
 - On the **gateway host**:
-  - Store file: `~/.openclaw/agents/<agentId>/sessions/sessions.json` (per agent).
-- Transcripts: `~/.openclaw/agents/<agentId>/sessions/<SessionId>.jsonl` (Telegram topic sessions use `.../<SessionId>-topic-<threadId>.jsonl`).
+  - Store file: `~/.freeclaw/agents/<agentId>/sessions/sessions.json` (per agent).
+- Transcripts: `~/.freeclaw/agents/<agentId>/sessions/<SessionId>.jsonl` (Telegram topic sessions use `.../<SessionId>-topic-<threadId>.jsonl`).
 - The store is a map `sessionKey -> { sessionId, updatedAt, ... }`. Deleting entries is safe; they are recreated on demand.
 - Group entries may include `displayName`, `channel`, `subject`, `room`, and `space` to label sessions in UIs.
 - Session entries include `origin` metadata (label + routing hints) so UIs can explain where a session came from.
-- OpenClaw does **not** read legacy Pi/Tau session folders.
+- FreeClaw does **not** read legacy Pi/Tau session folders.
 
 ## Session pruning
 
@@ -77,7 +77,7 @@ This does **not** rewrite JSONL history. See [/concepts/session-pruning](/concep
 
 ## Pre-compaction memory flush
 
-When a session nears auto-compaction, OpenClaw can run a **silent memory flush**
+When a session nears auto-compaction, FreeClaw can run a **silent memory flush**
 turn that reminds the model to write durable notes to disk. This only runs when
 the workspace is writable. See [Memory](/concepts/memory) and
 [Compaction](/concepts/compaction).
@@ -105,10 +105,10 @@ the workspace is writable. See [Memory](/concepts/memory) and
 - Reset policy: sessions are reused until they expire, and expiry is evaluated on the next inbound message.
 - Daily reset: defaults to **4:00 AM local time on the gateway host**. A session is stale once its last update is earlier than the most recent daily reset time.
 - Idle reset (optional): `idleMinutes` adds a sliding idle window. When both daily and idle resets are configured, **whichever expires first** forces a new session.
-- Legacy idle-only: if you set `session.idleMinutes` without any `session.reset`/`resetByType` config, OpenClaw stays in idle-only mode for backward compatibility.
+- Legacy idle-only: if you set `session.idleMinutes` without any `session.reset`/`resetByType` config, FreeClaw stays in idle-only mode for backward compatibility.
 - Per-type overrides (optional): `resetByType` lets you override the policy for `dm`, `group`, and `thread` sessions (thread = Slack/Discord threads, Telegram topics, Matrix threads when provided by the connector).
 - Per-channel overrides (optional): `resetByChannel` overrides the reset policy for a channel (applies to all session types for that channel and takes precedence over `reset`/`resetByType`).
-- Reset triggers: exact `/new` or `/reset` (plus any extras in `resetTriggers`) start a fresh session id and pass the remainder of the message through. `/new <model>` accepts a model alias, `provider/model`, or provider name (fuzzy match) to set the new session model. If `/new` or `/reset` is sent alone, OpenClaw runs a short “hello” greeting turn to confirm the reset.
+- Reset triggers: exact `/new` or `/reset` (plus any extras in `resetTriggers`) start a fresh session id and pass the remainder of the message through. `/new <model>` accepts a model alias, `provider/model`, or provider name (fuzzy match) to set the new session model. If `/new` or `/reset` is sent alone, FreeClaw runs a short “hello” greeting turn to confirm the reset.
 - Manual reset: delete specific keys from the store or remove the JSONL transcript; the next message recreates them.
 - Isolated cron jobs always mint a fresh `sessionId` per run (no idle reuse).
 
@@ -140,7 +140,7 @@ Runtime override (owner only):
 ## Configuration (optional rename example)
 
 ```json5
-// ~/.openclaw/openclaw.json
+// ~/.freeclaw/freeclaw.json
 {
   session: {
     scope: "per-sender", // keep group keys separate
@@ -164,7 +164,7 @@ Runtime override (owner only):
       discord: { mode: "idle", idleMinutes: 10080 },
     },
     resetTriggers: ["/new", "/reset"],
-    store: "~/.openclaw/agents/{agentId}/sessions/sessions.json",
+    store: "~/.freeclaw/agents/{agentId}/sessions/sessions.json",
     mainKey: "main",
   },
 }

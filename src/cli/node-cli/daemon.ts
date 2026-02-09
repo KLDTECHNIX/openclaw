@@ -5,16 +5,10 @@ import {
   isNodeDaemonRuntime,
 } from "../../commands/node-daemon-runtime.js";
 import { resolveIsNixMode } from "../../config/paths.js";
-import {
-  resolveNodeLaunchAgentLabel,
-  resolveNodeSystemdServiceName,
-  resolveNodeWindowsTaskName,
-} from "../../daemon/constants.js";
-import { resolveGatewayLogPaths } from "../../daemon/launchd.js";
+import { resolveNodeRcdServiceName } from "../../daemon/constants.js";
+import { resolveGatewayLogPaths } from "../../daemon/rcd.js";
 import { resolveNodeService } from "../../daemon/node-service.js";
-import { renderSystemdUnavailableHints } from "../../daemon/systemd-hints.js";
-import { isSystemdUserServiceAvailable } from "../../daemon/systemd.js";
-import { isWSL } from "../../infra/wsl.js";
+import { isRcdServiceAvailable } from "../../daemon/rcd.js";
 import { loadNodeHostConfig } from "../../node-host/config.js";
 import { defaultRuntime } from "../../runtime.js";
 import { colorize, isRich, theme } from "../../terminal/theme.js";
@@ -47,39 +41,19 @@ type NodeDaemonStatusOptions = {
 };
 
 function renderNodeServiceStartHints(): string[] {
-  const base = [formatCliCommand("openclaw node install"), formatCliCommand("openclaw node start")];
-  switch (process.platform) {
-    case "darwin":
-      return [
-        ...base,
-        `launchctl bootstrap gui/$UID ~/Library/LaunchAgents/${resolveNodeLaunchAgentLabel()}.plist`,
-      ];
-    case "linux":
-      return [...base, `systemctl --user start ${resolveNodeSystemdServiceName()}.service`];
-    case "win32":
-      return [...base, `schtasks /Run /TN "${resolveNodeWindowsTaskName()}"`];
-    default:
-      return base;
-  }
+  const base = [formatCliCommand("freeclaw node install"), formatCliCommand("freeclaw node start")];
+  const serviceName = resolveNodeRcdServiceName();
+  return [...base, `service ${serviceName} start`];
 }
 
 function buildNodeRuntimeHints(env: NodeJS.ProcessEnv = process.env): string[] {
-  if (process.platform === "darwin") {
-    const logs = resolveGatewayLogPaths(env);
-    return [
-      `Launchd stdout (if installed): ${logs.stdoutPath}`,
-      `Launchd stderr (if installed): ${logs.stderrPath}`,
-    ];
-  }
-  if (process.platform === "linux") {
-    const unit = resolveNodeSystemdServiceName();
-    return [`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`];
-  }
-  if (process.platform === "win32") {
-    const task = resolveNodeWindowsTaskName();
-    return [`Logs: schtasks /Query /TN "${task}" /V /FO LIST`];
-  }
-  return [];
+  const logs = resolveGatewayLogPaths(env);
+  const serviceName = resolveNodeRcdServiceName();
+  return [
+    `rc.d stdout (if installed): ${logs.stdoutPath}`,
+    `rc.d stderr (if installed): ${logs.stderrPath}`,
+    `Service status: service ${serviceName} status`,
+  ];
 }
 
 function resolveNodeDefaults(
@@ -173,7 +147,7 @@ export async function runNodeDaemonInstall(opts: NodeDaemonInstallOptions) {
     });
     if (!json) {
       defaultRuntime.log(`Node service already ${service.loadedText}.`);
-      defaultRuntime.log(`Reinstall with: ${formatCliCommand("openclaw node install --force")}`);
+      defaultRuntime.log(`Reinstall with: ${formatCliCommand("freeclaw node install --force")}`);
     }
     return;
   }
@@ -321,13 +295,7 @@ export async function runNodeDaemonStart(opts: NodeDaemonLifecycleOptions = {}) 
     return;
   }
   if (!loaded) {
-    let hints = renderNodeServiceStartHints();
-    if (process.platform === "linux") {
-      const systemdAvailable = await isSystemdUserServiceAvailable().catch(() => false);
-      if (!systemdAvailable) {
-        hints = [...hints, ...renderSystemdUnavailableHints({ wsl: await isWSL() })];
-      }
-    }
+    const hints = renderNodeServiceStartHints();
     emit({
       ok: true,
       result: "not-loaded",
@@ -403,13 +371,7 @@ export async function runNodeDaemonRestart(opts: NodeDaemonLifecycleOptions = {}
     return;
   }
   if (!loaded) {
-    let hints = renderNodeServiceStartHints();
-    if (process.platform === "linux") {
-      const systemdAvailable = await isSystemdUserServiceAvailable().catch(() => false);
-      if (!systemdAvailable) {
-        hints = [...hints, ...renderSystemdUnavailableHints({ wsl: await isWSL() })];
-      }
-    }
+    const hints = renderNodeServiceStartHints();
     emit({
       ok: true,
       result: "not-loaded",
@@ -588,7 +550,7 @@ export async function runNodeDaemonStatus(opts: NodeDaemonStatusOptions = {}) {
   };
   const hintEnv = {
     ...baseEnv,
-    OPENCLAW_LOG_PREFIX: baseEnv.OPENCLAW_LOG_PREFIX ?? "node",
+    FREECLAW_LOG_PREFIX: baseEnv.FREECLAW_LOG_PREFIX ?? "node",
   } as NodeJS.ProcessEnv;
 
   if (runtime?.missingUnit) {

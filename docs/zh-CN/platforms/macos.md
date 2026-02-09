@@ -2,7 +2,7 @@
 read_when:
   - 实现 macOS 应用功能
   - 在 macOS 上更改 Gateway 网关生命周期或节点桥接
-summary: OpenClaw macOS 配套应用（菜单栏 + Gateway 网关代理）
+summary: FreeClaw macOS 配套应用（菜单栏 + Gateway 网关代理）
 title: macOS 应用
 x-i18n:
   generated_at: "2026-02-03T07:53:14Z"
@@ -13,9 +13,9 @@ x-i18n:
   workflow: 15
 ---
 
-# OpenClaw macOS 配套应用（菜单栏 + Gateway 网关代理）
+# FreeClaw macOS 配套应用（菜单栏 + Gateway 网关代理）
 
-macOS 应用是 OpenClaw 的**菜单栏配套应用**。它拥有权限，在本地管理/附加到 Gateway 网关（launchd 或手动），并作为节点向智能体暴露 macOS 功能。
+macOS 应用是 FreeClaw 的**菜单栏配套应用**。它拥有权限，在本地管理/附加到 Gateway 网关（launchd 或手动），并作为节点向智能体暴露 macOS 功能。
 
 ## 功能
 
@@ -36,7 +36,7 @@ macOS 应用是 OpenClaw 的**菜单栏配套应用**。它拥有权限，在本
 
 ## Launchd 控制
 
-应用管理一个标记为 `bot.molt.gateway` 的每用户 LaunchAgent（使用 `--profile`/`OPENCLAW_PROFILE` 时为 `bot.molt.<profile>`；旧版 `com.openclaw.*` 仍会卸载）。
+应用管理一个标记为 `bot.molt.gateway` 的每用户 LaunchAgent（使用 `--profile`/`FREECLAW_PROFILE` 时为 `bot.molt.<profile>`；旧版 `com.openclaw.*` 仍会卸载）。
 
 ```bash
 launchctl kickstart -k gui/$UID/bot.molt.gateway
@@ -77,7 +77,7 @@ Gateway -> Node Service (WS)
 `system.run` 由 macOS 应用中的 **Exec 审批**控制（设置 → Exec approvals）。安全 + 询问 + 允许列表本地存储在 Mac 上：
 
 ```
-~/.openclaw/exec-approvals.json
+~/.freeclaw/exec-approvals.json
 ```
 
 示例：
@@ -141,7 +141,7 @@ open 'openclaw://agent?message=Hello%20from%20deep%20link'
 ## 构建和开发工作流程（原生）
 
 - `cd apps/macos && swift build`
-- `swift run OpenClaw`（或 Xcode）
+- `swift run FreeClaw`（或 Xcode）
 - 打包应用：`scripts/package-mac-app.sh`
 
 ## 调试 Gateway 网关连接（macOS CLI）

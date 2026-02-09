@@ -16,7 +16,7 @@ x-i18n:
 
 # 会话管理与压缩（深入了解）
 
-本文档解释 OpenClaw 如何端到端管理会话：
+本文档解释 FreeClaw 如何端到端管理会话：
 
 - **会话路由**（入站消息如何映射到 `sessionKey`）
 - **会话存储**（`sessions.json`）及其跟踪的内容
@@ -64,8 +64,8 @@ OpenClaw 在两个层中持久化会话：
 
 在 Gateway 网关主机上，每个智能体：
 
-- 存储：`~/.openclaw/agents/<agentId>/sessions/sessions.json`
-- 记录：`~/.openclaw/agents/<agentId>/sessions/<sessionId>.jsonl`
+- 存储：`~/.freeclaw/agents/<agentId>/sessions/sessions.json`
+- 记录：`~/.freeclaw/agents/<agentId>/sessions/<sessionId>.jsonl`
   - Telegram 话题会话：`.../<sessionId>-topic-<threadId>.jsonl`
 
 OpenClaw 通过 `src/config/sessions.ts` 解析这些位置。
@@ -241,7 +241,7 @@ OpenClaw 支持用于后台任务的"静默"回合，用户不应该看到中间
 约定：
 
 - 助手以 `NO_REPLY` 开始其输出，表示"不要向用户发送回复"。
-- OpenClaw 在投递层剥离/抑制此内容。
+- FreeClaw 在投递层剥离/抑制此内容。
 
 从 `2026.1.10` 开始，当部分块以 `NO_REPLY` 开头时，OpenClaw 还会抑制**草稿/打字流式输出**，因此静默操作不会在回合中途泄漏部分输出。
 
@@ -272,7 +272,7 @@ OpenClaw 使用**预阈值刷新**方法：
 - 当会话工作空间是只读时（`workspaceAccess: "ro"` 或 `"none"`），刷新会被跳过。
 - 参见[记忆](/concepts/memory)了解工作空间文件布局和写入模式。
 
-Pi 还在扩展 API 中公开了 `session_before_compact` 钩子，但 OpenClaw 的刷新逻辑目前位于 Gateway 网关端。
+Pi 还在扩展 API 中公开了 `session_before_compact` 钩子，但 FreeClaw 的刷新逻辑目前位于 Gateway 网关端。
 
 ---
 

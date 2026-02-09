@@ -20,11 +20,11 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw config get browser.executablePath
-openclaw config set browser.executablePath "/usr/bin/google-chrome"
-openclaw config set agents.defaults.heartbeat.every "2h"
-openclaw config set agents.list[0].tools.exec.node "node-id-or-name"
-openclaw config unset tools.web.search.apiKey
+freeclaw config get browser.executablePath
+freeclaw config set browser.executablePath "/usr/bin/google-chrome"
+freeclaw config set agents.defaults.heartbeat.every "2h"
+freeclaw config set agents.list[0].tools.exec.node "node-id-or-name"
+freeclaw config unset tools.web.search.apiKey
 ```
 
 ## 路径
@@ -32,15 +32,15 @@ openclaw config unset tools.web.search.apiKey
 路径使用点号或括号表示法：
 
 ```bash
-openclaw config get agents.defaults.workspace
-openclaw config get agents.list[0].id
+freeclaw config get agents.defaults.workspace
+freeclaw config get agents.list[0].id
 ```
 
 使用智能体列表索引来定位特定智能体：
 
 ```bash
-openclaw config get agents.list
-openclaw config set agents.list[1].tools.exec.node "node-id-or-name"
+freeclaw config get agents.list
+freeclaw config set agents.list[1].tools.exec.node "node-id-or-name"
 ```
 
 ## 值
@@ -49,9 +49,9 @@ openclaw config set agents.list[1].tools.exec.node "node-id-or-name"
 使用 `--json` 强制要求 JSON5 解析。
 
 ```bash
-openclaw config set agents.defaults.heartbeat.every "0m"
-openclaw config set gateway.port 19001 --json
-openclaw config set channels.whatsapp.groups '["*"]' --json
+freeclaw config set agents.defaults.heartbeat.every "0m"
+freeclaw config set gateway.port 19001 --json
+freeclaw config set channels.whatsapp.groups '["*"]' --json
 ```
 
 编辑后请重启 Gateway 网关。

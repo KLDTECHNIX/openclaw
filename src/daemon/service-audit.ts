@@ -1,13 +1,10 @@
-import fs from "node:fs/promises";
 import path from "node:path";
-import { resolveLaunchAgentPlistPath } from "./launchd.js";
 import {
   isSystemNodePath,
   isVersionManagedNodePath,
   resolveSystemNodePath,
 } from "./runtime-paths.js";
 import { getMinimalServicePathPartsFromEnv } from "./service-env.js";
-import { resolveSystemdUserUnitPath } from "./systemd.js";
 
 export type GatewayServiceCommand = {
   programArguments: string[];
@@ -37,11 +34,6 @@ export const SERVICE_AUDIT_CODES = {
   gatewayRuntimeBun: "gateway-runtime-bun",
   gatewayRuntimeNodeVersionManager: "gateway-runtime-node-version-manager",
   gatewayRuntimeNodeSystemMissing: "gateway-runtime-node-system-missing",
-  launchdKeepAlive: "launchd-keep-alive",
-  launchdRunAtLoad: "launchd-run-at-load",
-  systemdAfterNetworkOnline: "systemd-after-network-online",
-  systemdRestartSec: "systemd-restart-sec",
-  systemdWantsNetworkOnline: "systemd-wants-network-online",
 } as const;
 
 export function needsNodeRuntimeMigration(issues: ServiceConfigIssue[]): boolean {
@@ -54,137 +46,6 @@ export function needsNodeRuntimeMigration(issues: ServiceConfigIssue[]): boolean
 
 function hasGatewaySubcommand(programArguments?: string[]): boolean {
   return Boolean(programArguments?.some((arg) => arg === "gateway"));
-}
-
-function parseSystemdUnit(content: string): {
-  after: Set<string>;
-  wants: Set<string>;
-  restartSec?: string;
-} {
-  const after = new Set<string>();
-  const wants = new Set<string>();
-  let restartSec: string | undefined;
-
-  for (const rawLine of content.split(/\r?\n/)) {
-    const line = rawLine.trim();
-    if (!line) {
-      continue;
-    }
-    if (line.startsWith("#") || line.startsWith(";")) {
-      continue;
-    }
-    if (line.startsWith("[")) {
-      continue;
-    }
-    const idx = line.indexOf("=");
-    if (idx <= 0) {
-      continue;
-    }
-    const key = line.slice(0, idx).trim();
-    const value = line.slice(idx + 1).trim();
-    if (!value) {
-      continue;
-    }
-    if (key === "After") {
-      for (const entry of value.split(/\s+/)) {
-        if (entry) {
-          after.add(entry);
-        }
-      }
-    } else if (key === "Wants") {
-      for (const entry of value.split(/\s+/)) {
-        if (entry) {
-          wants.add(entry);
-        }
-      }
-    } else if (key === "RestartSec") {
-      restartSec = value;
-    }
-  }
-
-  return { after, wants, restartSec };
-}
-
-function isRestartSecPreferred(value: string | undefined): boolean {
-  if (!value) {
-    return false;
-  }
-  const parsed = Number.parseFloat(value);
-  if (!Number.isFinite(parsed)) {
-    return false;
-  }
-  return Math.abs(parsed - 5) < 0.01;
-}
-
-async function auditSystemdUnit(
-  env: Record<string, string | undefined>,
-  issues: ServiceConfigIssue[],
-) {
-  const unitPath = resolveSystemdUserUnitPath(env);
-  let content = "";
-  try {
-    content = await fs.readFile(unitPath, "utf8");
-  } catch {
-    return;
-  }
-
-  const parsed = parseSystemdUnit(content);
-  if (!parsed.after.has("network-online.target")) {
-    issues.push({
-      code: SERVICE_AUDIT_CODES.systemdAfterNetworkOnline,
-      message: "Missing systemd After=network-online.target",
-      detail: unitPath,
-      level: "recommended",
-    });
-  }
-  if (!parsed.wants.has("network-online.target")) {
-    issues.push({
-      code: SERVICE_AUDIT_CODES.systemdWantsNetworkOnline,
-      message: "Missing systemd Wants=network-online.target",
-      detail: unitPath,
-      level: "recommended",
-    });
-  }
-  if (!isRestartSecPreferred(parsed.restartSec)) {
-    issues.push({
-      code: SERVICE_AUDIT_CODES.systemdRestartSec,
-      message: "RestartSec does not match the recommended 5s",
-      detail: unitPath,
-      level: "recommended",
-    });
-  }
-}
-
-async function auditLaunchdPlist(
-  env: Record<string, string | undefined>,
-  issues: ServiceConfigIssue[],
-) {
-  const plistPath = resolveLaunchAgentPlistPath(env);
-  let content = "";
-  try {
-    content = await fs.readFile(plistPath, "utf8");
-  } catch {
-    return;
-  }
-
-  const hasRunAtLoad = /<key>RunAtLoad<\/key>\s*<true\s*\/>/i.test(content);
-  const hasKeepAlive = /<key>KeepAlive<\/key>\s*<true\s*\/>/i.test(content);
-  if (!hasRunAtLoad) {
-    issues.push({
-      code: SERVICE_AUDIT_CODES.launchdRunAtLoad,
-      message: "LaunchAgent is missing RunAtLoad=true",
-      detail: plistPath,
-      level: "recommended",
-    });
-  }
-  if (!hasKeepAlive) {
-    issues.push({
-      code: SERVICE_AUDIT_CODES.launchdKeepAlive,
-      message: "LaunchAgent is missing KeepAlive=true",
-      detail: plistPath,
-      level: "recommended",
-    });
-  }
 }
 
 function auditGatewayCommand(programArguments: string[] | undefined, issues: ServiceConfigIssue[]) {
@@ -202,12 +63,12 @@ function auditGatewayCommand(programArguments: string[] | undefined, issues: Ser
 
 function isNodeRuntime(execPath: string): boolean {
   const base = path.basename(execPath).toLowerCase();
-  return base === "node" || base === "node.exe";
+  return base === "node";
 }
 
 function isBunRuntime(execPath: string): boolean {
   const base = path.basename(execPath).toLowerCase();
-  return base === "bun" || base === "bun.exe";
+  return base === "bun";
 }
 
 function getPathModule(platform: NodeJS.Platform) {
@@ -227,11 +88,8 @@ function auditGatewayServicePath(
   command: GatewayServiceCommand,
   issues: ServiceConfigIssue[],
   env: Record<string, string | undefined>,
-  platform: NodeJS.Platform,
 ) {
-  if (platform === "win32") {
-    return;
-  }
+  const platform = "freebsd" as NodeJS.Platform;
   const servicePath = command?.environment?.PATH;
   if (!servicePath) {
     issues.push({
@@ -295,8 +153,8 @@ async function auditGatewayRuntime(
   env: Record<string, string | undefined>,
   command: GatewayServiceCommand,
   issues: ServiceConfigIssue[],
-  platform: NodeJS.Platform,
 ) {
+  const platform = "freebsd" as NodeJS.Platform;
   const execPath = command?.programArguments?.[0];
   if (!execPath) {
     return;
@@ -340,20 +198,12 @@ async function auditGatewayRuntime(
 export async function auditGatewayServiceConfig(params: {
   env: Record<string, string | undefined>;
   command: GatewayServiceCommand;
-  platform?: NodeJS.Platform;
 }): Promise<ServiceConfigAudit> {
   const issues: ServiceConfigIssue[] = [];
-  const platform = params.platform ?? process.platform;
 
   auditGatewayCommand(params.command?.programArguments, issues);
-  auditGatewayServicePath(params.command, issues, params.env, platform);
-  await auditGatewayRuntime(params.env, params.command, issues, platform);
-
-  if (platform === "linux") {
-    await auditSystemdUnit(params.env, issues);
-  } else if (platform === "darwin") {
-    await auditLaunchdPlist(params.env, issues);
-  }
+  auditGatewayServicePath(params.command, issues, params.env);
+  await auditGatewayRuntime(params.env, params.command, issues);
 
   return { ok: issues.length === 0, issues };
 }

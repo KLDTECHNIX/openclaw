@@ -3,7 +3,7 @@ read_when:
   - 学习如何配置 OpenClaw
   - 寻找配置示例
   - 首次设置 OpenClaw
-summary: 符合模式的常见 OpenClaw 设置配置示例
+summary: 符合模式的常见 FreeClaw 设置配置示例
 title: 配置示例
 x-i18n:
   generated_at: "2026-02-03T07:48:39Z"
@@ -24,12 +24,12 @@ x-i18n:
 
 ```json5
 {
-  agent: { workspace: "~/.openclaw/workspace" },
+  agent: { workspace: "~/.freeclaw/workspace" },
   channels: { whatsapp: { allowFrom: ["+15555550123"] } },
 }
 ```
 
-保存到 `~/.openclaw/openclaw.json`，你就可以从该号码私信机器人了。
+保存到 `~/.freeclaw/freeclaw.json`，你就可以从该号码私信机器人了。
 
 ### 推荐的入门配置
 
@@ -41,7 +41,7 @@ x-i18n:
     emoji: "🦞",
   },
   agent: {
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
     model: { primary: "anthropic/claude-sonnet-4-5" },
   },
   channels: {
@@ -166,7 +166,7 @@ x-i18n:
       discord: { mode: "idle", idleMinutes: 10080 },
     },
     resetTriggers: ["/new", "/reset"],
-    store: "~/.openclaw/agents/default/sessions/sessions.json",
+    store: "~/.freeclaw/agents/default/sessions/sessions.json",
     typingIntervalSeconds: 5,
     sendPolicy: {
       default: "allow",
@@ -229,7 +229,7 @@ x-i18n:
   // 智能体运行时
   agents: {
     defaults: {
-      workspace: "~/.openclaw/workspace",
+      workspace: "~/.freeclaw/workspace",
       userTimezone: "America/Chicago",
       model: {
         primary: "anthropic/claude-sonnet-4-5",
@@ -282,7 +282,7 @@ x-i18n:
       sandbox: {
         mode: "non-main",
         perSession: true,
-        workspaceRoot: "~/.openclaw/sandboxes",
+        workspaceRoot: "~/.freeclaw/sandboxes",
         docker: {
           image: "openclaw-sandbox:bookworm-slim",
           workdir: "/workspace",
@@ -349,7 +349,7 @@ x-i18n:
   // Cron 作业
   cron: {
     enabled: true,
-    store: "~/.openclaw/cron/cron.json",
+    store: "~/.freeclaw/cron/cron.json",
     maxConcurrentRuns: 2,
   },
 
@@ -359,7 +359,7 @@ x-i18n:
     path: "/hooks",
     token: "shared-secret",
     presets: ["gmail"],
-    transformsDir: "~/.openclaw/hooks",
+    transformsDir: "~/.freeclaw/hooks",
     mappings: [
       {
         id: "gmail-hook",
@@ -436,7 +436,7 @@ x-i18n:
 
 ```json5
 {
-  agent: { workspace: "~/.openclaw/workspace" },
+  agent: { workspace: "~/.freeclaw/workspace" },
   channels: {
     whatsapp: { allowFrom: ["+15555550123"] },
     telegram: {
@@ -474,7 +474,7 @@ x-i18n:
     },
   },
   agent: {
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
     model: {
       primary: "anthropic/claude-sonnet-4-5",
       fallbacks: ["anthropic/claude-opus-4-5"],
@@ -513,7 +513,7 @@ x-i18n:
     },
   },
   agent: {
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
     model: {
       primary: "anthropic/claude-opus-4-5",
       fallbacks: ["minimax/MiniMax-M2.1"],
@@ -552,7 +552,7 @@ x-i18n:
 ```json5
 {
   agent: {
-    workspace: "~/.openclaw/workspace",
+    workspace: "~/.freeclaw/workspace",
     model: { primary: "lmstudio/minimax-m2.1-gs32" },
   },
   models: {

@@ -1,7 +1,7 @@
 ---
 summary: "Gateway runtime on macOS (external launchd service)"
 read_when:
-  - Packaging OpenClaw.app
+  - Packaging FreeClaw.app
   - Debugging the macOS gateway launchd service
   - Installing the gateway CLI for macOS
 title: "Gateway on macOS"
@@ -19,7 +19,7 @@ running (or attaches to an existing local Gateway if one is already running).
 You need Node 22+ on the Mac, then install `openclaw` globally:
 
 ```bash
-npm install -g openclaw@<version>
+npm install -g freeclaw@<version>
 ```
 
 The macOS app’s **Install CLI** button runs the same flow via npm/pnpm (bun not recommended for Gateway runtime).
@@ -59,15 +59,15 @@ incompatible, update the global CLI to match the app version.
 ## Smoke check
 
 ```bash
-openclaw --version
+freeclaw --version
 
-OPENCLAW_SKIP_CHANNELS=1 \
-OPENCLAW_SKIP_CANVAS_HOST=1 \
-openclaw gateway --port 18999 --bind loopback
+FREECLAW_SKIP_CHANNELS=1 \
+FREECLAW_SKIP_CANVAS_HOST=1 \
+freeclaw gateway --port 18999 --bind loopback
 ```
 
 Then:
 
 ```bash
-openclaw gateway call health --url ws://127.0.0.1:18999 --timeout 3000
+freeclaw gateway call health --url ws://127.0.0.1:18999 --timeout 3000
 ```

@@ -26,8 +26,8 @@ Uses the Gateway auth configuration. Send a bearer token:
 
 Notes:
 
-- When `gateway.auth.mode="token"`, use `gateway.auth.token` (or `OPENCLAW_GATEWAY_TOKEN`).
-- When `gateway.auth.mode="password"`, use `gateway.auth.password` (or `OPENCLAW_GATEWAY_PASSWORD`).
+- When `gateway.auth.mode="token"`, use `gateway.auth.token` (or `FREECLAW_GATEWAY_TOKEN`).
+- When `gateway.auth.mode="password"`, use `gateway.auth.password` (or `FREECLAW_GATEWAY_PASSWORD`).
 
 ## Choosing an agent
 
@@ -36,7 +36,7 @@ No custom headers required: encode the agent id in the OpenResponses `model` fie
 - `model: "openclaw:<agentId>"` (example: `"openclaw:main"`, `"openclaw:beta"`)
 - `model: "agent:<agentId>"` (alias)
 
-Or target a specific OpenClaw agent by header:
+Or target a specific FreeClaw agent by header:
 
 - `x-openclaw-agent-id: <agentId>` (default: `main`)
 

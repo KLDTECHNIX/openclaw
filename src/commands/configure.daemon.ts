@@ -11,7 +11,7 @@ import {
   type GatewayDaemonRuntime,
 } from "./daemon-runtime.js";
 import { guardCancel } from "./onboard-helpers.js";
-import { ensureSystemdUserLingerInteractive } from "./systemd-linger.js";
+
 
 export async function maybeInstallDaemon(params: {
   runtime: RuntimeEnv;
@@ -121,16 +121,5 @@ export async function maybeInstallDaemon(params: {
     shouldCheckLinger = true;
   }
 
-  if (shouldCheckLinger) {
-    await ensureSystemdUserLingerInteractive({
-      runtime: params.runtime,
-      prompter: {
-        confirm: async (p) => guardCancel(await confirm(p), params.runtime),
-        note,
-      },
-      reason:
-        "Linux installs use a systemd user service. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.",
-      requireConfirm: true,
-    });
-  }
+  // FreeBSD rc.d services persist across sessions natively — no linger step needed.
 }

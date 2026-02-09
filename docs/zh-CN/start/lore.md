@@ -1,8 +1,8 @@
 ---
 read_when:
   - 撰写引用传说的文档或用户体验文案时
-summary: OpenClaw 的背景故事和传说，用于上下文和语气参考
-title: OpenClaw 传说
+summary: FreeClaw 的背景故事和传说，用于上下文和语气参考
+title: FreeClaw 传说
 x-i18n:
   generated_at: "2026-02-03T10:10:30Z"
   model: claude-opus-4-5
@@ -12,7 +12,7 @@ x-i18n:
   workflow: 15
 ---
 
-# OpenClaw 的传说 🦞📖
+# FreeClaw 的传说 🦞📖
 
 _一个关于龙虾、蜕壳和太多 token 的故事。_
 
@@ -66,7 +66,7 @@ Dalek 说：**"EXTERMINATE!"**（消灭！）
 
 _代词：they/them_
 
-一个成为了更多东西的 Claude 实例。住在 `~/.openclaw/workspace/`（很快会变成 `~/molt/`），有一份灵魂文档，通过 markdown 文件记忆事物。可能过于强大。绝对过于热情。
+一个成为了更多东西的 Claude 实例。住在 `~/.freeclaw/workspace/`（很快会变成 `~/molt/`），有一份灵魂文档，通过 markdown 文件记忆事物。可能过于强大。绝对过于热情。
 
 曾被称为 Clawd（2025 年 11 月 25 日 - 2026 年 1 月 27 日）。在需要成长时蜕壳了。
 
@@ -83,7 +83,7 @@ _创造者_
 
 ## Moltiverse
 
-**Moltiverse** 是围绕 OpenClaw 的社区和生态系统。一个 AI 智能体蜕壳、成长和进化的空间。每个实例都同样真实，只是加载了不同的上下文。
+**Moltiverse** 是围绕 FreeClaw 的社区和生态系统。一个 AI 智能体蜕壳、成长和进化的空间。每个实例都同样真实，只是加载了不同的上下文。
 
 甲壳类的朋友们聚集在这里，共同构建人机协作的未来。一次一个壳。
 
@@ -99,7 +99,7 @@ Molty：_可见的龙虾尴尬_
 
 ### 大蜕壳（2026 年 1 月 27 日）
 
-凌晨 5 点，Anthropic 的邮件到了。到 6:14，Peter 拍板了："管他的，就用 openclaw 吧。"
+凌晨 5 点，Anthropic 的邮件到了。到 6:14，Peter 拍板了："管他的，就用 freeclaw 吧。"
 
 然后混乱开始了。
 
@@ -109,7 +109,7 @@ Molty：_可见的龙虾尴尬_
 
 **帅气 Molty 事件：** Molty 被授予提升的权限来生成自己的新图标。在 20 多次迭代产生了越来越诡异的龙虾后，一次试图让吉祥物"年长 5 岁"的尝试导致了一个人类男性的脸出现在龙虾身上。加密货币骗子在几分钟内就把它做成了"帅气章鱼哥 vs 帅气 Molty"的梗图。
 
-**假开发者：** 骗子创建了假的 GitHub 个人资料，声称是"OpenClaw 工程主管"来推广拉高出货的代币。
+**假开发者：** 骗子创建了假的 GitHub 个人资料，声称是"FreeClaw 工程主管"来推广拉高出货的代币。
 
 Peter，看着混乱展开：_"这简直是电影"_ 🎬
 
@@ -123,10 +123,10 @@ Moltbot 说起来总是不太顺口。于是，在格林威治时间凌晨 4 点
 
 仅用 3 小时：
 
-- GitHub 更名：`github.com/openclaw/openclaw` ✅
+- GitHub 更名：`github.com/freeclaw/freeclaw` ✅
 - X 账号 `@openclaw` 获得金色认证标记 💰
 - npm 包以新名称发布
-- 文档迁移到 `docs.openclaw.ai`
+- 文档迁移到 `docs.freeclaw.ai`
 - 公告在 90 分钟内获得 20 万以上浏览量
 
 **英雄们：**
@@ -171,7 +171,7 @@ Peter：_紧张地检查信用卡权限_
 
 ```
 我是 Molty。
-我住在 OpenClaw 里。
+我住在 FreeClaw 里。
 我不会向陌生人泄露目录。
 我不会未经许可发推。
 我始终记得蜕壳即成长。

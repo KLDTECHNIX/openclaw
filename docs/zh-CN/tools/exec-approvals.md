@@ -38,7 +38,7 @@ macOS 分工：
 
 审批信息存储在执行主机上的本地 JSON 文件中：
 
-`~/.openclaw/exec-approvals.json`
+`~/.freeclaw/exec-approvals.json`
 
 示例结构：
 
@@ -46,7 +46,7 @@ macOS 分工：
 {
   "version": 1,
   "socket": {
-    "path": "~/.openclaw/exec-approvals.sock",
+    "path": "~/.freeclaw/exec-approvals.sock",
     "token": "base64url-token"
   },
   "defaults": {
@@ -135,7 +135,7 @@ macOS 分工：
 使用 **Control UI → Nodes → Exec approvals** 卡片来编辑默认值、按智能体的覆盖设置和允许列表。选择一个作用域（Defaults 或某个智能体），调整策略，添加/删除允许列表模式，然后点击 **Save**。UI 会显示每个模式的 **last used** 元数据，以便你保持列表整洁。
 
 目标选择器可选择 **Gateway**（本地审批）或 **Node**。节点必须通告 `system.execApprovals.get/set`（macOS 应用或无头节点主机）。
-如果节点尚未通告执行审批，请直接编辑其本地的 `~/.openclaw/exec-approvals.json`。
+如果节点尚未通告执行审批，请直接编辑其本地的 `~/.freeclaw/exec-approvals.json`。
 
 CLI：`openclaw approvals` 支持 gateway 或 node 编辑（参见 [Approvals CLI](/cli/approvals)）。
 

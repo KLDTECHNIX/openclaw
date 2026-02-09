@@ -10,12 +10,12 @@ import { setMSTeamsRuntime } from "./runtime.js";
 const runtimeStub = {
   state: {
     resolveStateDir: (env: NodeJS.ProcessEnv = process.env, homedir?: () => string) => {
-      const override = env.OPENCLAW_STATE_DIR?.trim() || env.OPENCLAW_STATE_DIR?.trim();
+      const override = env.FREECLAW_STATE_DIR?.trim() || env.FREECLAW_STATE_DIR?.trim();
       if (override) {
         return override;
       }
       const resolvedHome = homedir ? homedir() : os.homedir();
-      return path.join(resolvedHome, ".openclaw");
+      return path.join(resolvedHome, ".freeclaw");
     },
   },
 } as unknown as PluginRuntime;
@@ -30,7 +30,7 @@ describe("msteams conversation store (fs)", () => {
 
     const env: NodeJS.ProcessEnv = {
       ...process.env,
-      OPENCLAW_STATE_DIR: stateDir,
+      FREECLAW_STATE_DIR: stateDir,
     };
 
     const store = createMSTeamsConversationStoreFs({ env, ttlMs: 1_000 });

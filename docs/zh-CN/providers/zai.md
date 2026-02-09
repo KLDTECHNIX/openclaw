@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 你想在 OpenClaw 中使用 Z.AI / GLM 模型
+  - 你想在 FreeClaw 中使用 Z.AI / GLM 模型
   - 你需要简单的 ZAI_API_KEY 配置
-summary: 在 OpenClaw 中使用智谱 AI（GLM 模型）
+summary: 在 FreeClaw 中使用智谱 AI（GLM 模型）
 title: Z.AI
 x-i18n:
   generated_at: "2026-02-01T21:36:13Z"
@@ -20,9 +20,9 @@ Z.AI 是 **GLM** 模型的 API 平台。它为 GLM 提供 REST API，并使用 A
 ## CLI 设置
 
 ```bash
-openclaw onboard --auth-choice zai-api-key
+freeclaw onboard --auth-choice zai-api-key
 # 或非交互式
-openclaw onboard --zai-api-key "$ZAI_API_KEY"
+freeclaw onboard --zai-api-key "$ZAI_API_KEY"
 ```
 
 ## 配置片段

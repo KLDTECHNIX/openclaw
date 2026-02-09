@@ -1,19 +1,19 @@
 ---
-summary: "OpenClaw on Oracle Cloud (Always Free ARM)"
+summary: "FreeClaw on Oracle Cloud (Always Free ARM)"
 read_when:
-  - Setting up OpenClaw on Oracle Cloud
+  - Setting up FreeClaw on Oracle Cloud
   - Looking for low-cost VPS hosting for OpenClaw
-  - Want 24/7 OpenClaw on a small server
+  - Want 24/7 FreeClaw on a small server
 title: "Oracle Cloud"
 ---
 
-# OpenClaw on Oracle Cloud (OCI)
+# FreeClaw on Oracle Cloud (OCI)
 
 ## Goal
 
-Run a persistent OpenClaw Gateway on Oracle Cloud's **Always Free** ARM tier.
+Run a persistent FreeClaw Gateway on Oracle Cloud's **Always Free** ARM tier.
 
-Oracle’s free tier can be a great fit for OpenClaw (especially if you already have an OCI account), but it comes with tradeoffs:
+Oracle’s free tier can be a great fit for FreeClaw (especially if you already have an OCI account), but it comes with tradeoffs:
 
 - ARM architecture (most things work, but some binaries may be x86-only)
 - Capacity and signup can be finicky
@@ -70,7 +70,7 @@ sudo apt install -y build-essential
 
 ```bash
 # Set hostname
-sudo hostnamectl set-hostname openclaw
+sudo hostnamectl set-hostname freeclaw
 
 # Set password for ubuntu user
 sudo passwd ubuntu
@@ -99,7 +99,7 @@ tailscale status
 ## 5) Install OpenClaw
 
 ```bash
-curl -fsSL https://openclaw.ai/install.sh | bash
+curl -fsSL https://freeclaw.ai/install.sh | bash
 source ~/.bashrc
 ```
 
@@ -113,15 +113,15 @@ Use token auth as the default. It’s predictable and avoids needing any “inse
 
 ```bash
 # Keep the Gateway private on the VM
-openclaw config set gateway.bind loopback
+freeclaw config set gateway.bind loopback
 
 # Require auth for the Gateway + Control UI
-openclaw config set gateway.auth.mode token
-openclaw doctor --generate-gateway-token
+freeclaw config set gateway.auth.mode token
+freeclaw doctor --generate-gateway-token
 
 # Expose over Tailscale Serve (HTTPS + tailnet access)
-openclaw config set gateway.tailscale.mode serve
-openclaw config set gateway.trustedProxies '["127.0.0.1"]'
+freeclaw config set gateway.tailscale.mode serve
+freeclaw config set gateway.trustedProxies '["127.0.0.1"]'
 
 systemctl --user restart openclaw-gateway
 ```
@@ -130,7 +130,7 @@ systemctl --user restart openclaw-gateway
 
 ```bash
 # Check version
-openclaw --version
+freeclaw --version
 
 # Check daemon status
 systemctl --user status openclaw-gateway
@@ -193,7 +193,7 @@ This setup often removes the _need_ for extra host-based firewall rules purely t
 
 ### Still Recommended
 
-- **Credential permissions:** `chmod 700 ~/.openclaw`
+- **Credential permissions:** `chmod 700 ~/.freeclaw`
 - **Security audit:** `openclaw security audit`
 - **System updates:** `sudo apt update && sudo apt upgrade` regularly
 - **Monitor Tailscale:** Review devices in [Tailscale admin console](https://login.tailscale.com/admin)
@@ -249,8 +249,8 @@ sudo tailscale up --ssh --hostname=openclaw --reset
 ### Gateway won't start
 
 ```bash
-openclaw gateway status
-openclaw doctor --non-interactive
+freeclaw gateway status
+freeclaw doctor --non-interactive
 journalctl --user -u openclaw-gateway -n 50
 ```
 
@@ -283,13 +283,13 @@ Most npm packages work fine. For binaries, look for `linux-arm64` or `aarch64` r
 
 All state lives in:
 
-- `~/.openclaw/` — config, credentials, session data
-- `~/.openclaw/workspace/` — workspace (SOUL.md, memory, artifacts)
+- `~/.freeclaw/` — config, credentials, session data
+- `~/.freeclaw/workspace/` — workspace (SOUL.md, memory, artifacts)
 
 Back up periodically:
 
 ```bash
-tar -czvf openclaw-backup.tar.gz ~/.openclaw ~/.openclaw/workspace
+tar -czvf openclaw-backup.tar.gz ~/.freeclaw ~/.freeclaw/workspace
 ```
 
 ---

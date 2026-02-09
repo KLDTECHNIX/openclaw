@@ -20,7 +20,7 @@ describe("createCacheTrace", () => {
         diagnostics: {
           cacheTrace: {
             enabled: true,
-            filePath: "~/.openclaw/logs/cache-trace.jsonl",
+            filePath: "~/.freeclaw/logs/cache-trace.jsonl",
           },
         },
       },
@@ -32,7 +32,7 @@ describe("createCacheTrace", () => {
     });
 
     expect(trace).not.toBeNull();
-    expect(trace?.filePath).toBe(resolveUserPath("~/.openclaw/logs/cache-trace.jsonl"));
+    expect(trace?.filePath).toBe(resolveUserPath("~/.freeclaw/logs/cache-trace.jsonl"));
 
     trace?.recordStage("session:loaded", {
       messages: [],
@@ -79,7 +79,7 @@ describe("createCacheTrace", () => {
         },
       },
       env: {
-        OPENCLAW_CACHE_TRACE: "0",
+        FREECLAW_CACHE_TRACE: "0",
       },
       writer: {
         filePath: "memory",

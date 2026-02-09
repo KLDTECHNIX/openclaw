@@ -9,7 +9,7 @@ title: "Messages"
 
 # Messages
 
-This page ties together how OpenClaw handles inbound messages, sessions, queueing,
+This page ties together how FreeClaw handles inbound messages, sessions, queueing,
 streaming, and reasoning visibility.
 
 ## Message flow (high level)
@@ -32,7 +32,7 @@ See [Configuration](/gateway/configuration) for full schema.
 
 ## Inbound dedupe
 
-Channels can redeliver the same message after reconnects. OpenClaw keeps a
+Channels can redeliver the same message after reconnects. FreeClaw keeps a
 short-lived cache keyed by channel/account/peer/session/message id so duplicate
 deliveries do not trigger another agent run.
 

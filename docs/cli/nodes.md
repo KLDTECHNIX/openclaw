@@ -23,14 +23,14 @@ Common options:
 ## Common commands
 
 ```bash
-openclaw nodes list
-openclaw nodes list --connected
-openclaw nodes list --last-connected 24h
-openclaw nodes pending
-openclaw nodes approve <requestId>
-openclaw nodes status
-openclaw nodes status --connected
-openclaw nodes status --last-connected 24h
+freeclaw nodes list
+freeclaw nodes list --connected
+freeclaw nodes list --last-connected 24h
+freeclaw nodes pending
+freeclaw nodes approve <requestId>
+freeclaw nodes status
+freeclaw nodes status --connected
+freeclaw nodes status --last-connected 24h
 ```
 
 `nodes list` prints pending/paired tables. Paired rows include the most recent connect age (Last Connect).
@@ -40,10 +40,10 @@ filter to nodes that connected within a duration (e.g. `24h`, `7d`).
 ## Invoke / run
 
 ```bash
-openclaw nodes invoke --node <id|name|ip> --command <command> --params <json>
-openclaw nodes run --node <id|name|ip> <command...>
-openclaw nodes run --raw "git status"
-openclaw nodes run --agent main --node <id|name|ip> --raw "git status"
+freeclaw nodes invoke --node <id|name|ip> --command <command> --params <json>
+freeclaw nodes run --node <id|name|ip> <command...>
+freeclaw nodes run --raw "git status"
+freeclaw nodes run --agent main --node <id|name|ip> --raw "git status"
 ```
 
 Invoke flags:

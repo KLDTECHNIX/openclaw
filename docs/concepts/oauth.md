@@ -1,7 +1,7 @@
 ---
-summary: "OAuth in OpenClaw: token exchange, storage, and multi-account patterns"
+summary: "OAuth in FreeClaw: token exchange, storage, and multi-account patterns"
 read_when:
-  - You want to understand OpenClaw OAuth end-to-end
+  - You want to understand FreeClaw OAuth end-to-end
   - You hit token invalidation / logout issues
   - You want setup-token or OAuth auth flows
   - You want multiple accounts or profile routing
@@ -20,7 +20,7 @@ OpenClaw also supports **provider plugins** that ship their own OAuth or API‑k
 flows. Run them via:
 
 ```bash
-openclaw models auth login --provider <id>
+freeclaw models auth login --provider <id>
 ```
 
 ## The token sink (why it exists)
@@ -29,9 +29,9 @@ OAuth providers commonly mint a **new refresh token** during login/refresh flows
 
 Practical symptom:
 
-- you log in via OpenClaw _and_ via Claude Code / Codex CLI → one of them randomly gets “logged out” later
+- you log in via FreeClaw _and_ via Claude Code / Codex CLI → one of them randomly gets “logged out” later
 
-To reduce that, OpenClaw treats `auth-profiles.json` as a **token sink**:
+To reduce that, FreeClaw treats `auth-profiles.json` as a **token sink**:
 
 - the runtime reads credentials from **one place**
 - we can keep multiple profiles and route them deterministically
@@ -40,33 +40,33 @@ To reduce that, OpenClaw treats `auth-profiles.json` as a **token sink**:
 
 Secrets are stored **per-agent**:
 
-- Auth profiles (OAuth + API keys): `~/.openclaw/agents/<agentId>/agent/auth-profiles.json`
-- Runtime cache (managed automatically; don’t edit): `~/.openclaw/agents/<agentId>/agent/auth.json`
+- Auth profiles (OAuth + API keys): `~/.freeclaw/agents/<agentId>/agent/auth-profiles.json`
+- Runtime cache (managed automatically; don’t edit): `~/.freeclaw/agents/<agentId>/agent/auth.json`
 
 Legacy import-only file (still supported, but not the main store):
 
-- `~/.openclaw/credentials/oauth.json` (imported into `auth-profiles.json` on first use)
+- `~/.freeclaw/credentials/oauth.json` (imported into `auth-profiles.json` on first use)
 
-All of the above also respect `$OPENCLAW_STATE_DIR` (state dir override). Full reference: [/gateway/configuration](/gateway/configuration#auth-storage-oauth--api-keys)
+All of the above also respect `$FREECLAW_STATE_DIR` (state dir override). Full reference: [/gateway/configuration](/gateway/configuration#auth-storage-oauth--api-keys)
 
 ## Anthropic setup-token (subscription auth)
 
-Run `claude setup-token` on any machine, then paste it into OpenClaw:
+Run `claude setup-token` on any machine, then paste it into FreeClaw:
 
 ```bash
-openclaw models auth setup-token --provider anthropic
+freeclaw models auth setup-token --provider anthropic
 ```
 
 If you generated the token elsewhere, paste it manually:
 
 ```bash
-openclaw models auth paste-token --provider anthropic
+freeclaw models auth paste-token --provider anthropic
 ```
 
 Verify:
 
 ```bash
-openclaw models status
+freeclaw models status
 ```
 
 ## OAuth exchange (how login works)
@@ -116,8 +116,8 @@ Two patterns:
 If you want “personal” and “work” to never interact, use isolated agents (separate sessions + credentials + workspace):
 
 ```bash
-openclaw agents add work
-openclaw agents add personal
+freeclaw agents add work
+freeclaw agents add personal
 ```
 
 Then configure auth per-agent (wizard) and route chats to the right agent.

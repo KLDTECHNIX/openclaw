@@ -84,17 +84,17 @@ describe("sandbox skill mirroring", () => {
   });
 
   const runContext = async (workspaceAccess: "none" | "ro") => {
-    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-state-"));
+    const stateDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-state-"));
     const bundledDir = path.join(stateDir, "bundled-skills");
     await fs.mkdir(bundledDir, { recursive: true });
 
-    process.env.OPENCLAW_STATE_DIR = stateDir;
-    process.env.OPENCLAW_BUNDLED_SKILLS_DIR = bundledDir;
+    process.env.FREECLAW_STATE_DIR = stateDir;
+    process.env.FREECLAW_BUNDLED_SKILLS_DIR = bundledDir;
     vi.resetModules();
 
     const { resolveSandboxContext } = await import("./sandbox.js");
 
-    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-workspace-"));
+    const workspaceDir = await fs.mkdtemp(path.join(os.tmpdir(), "freeclaw-workspace-"));
     await writeSkill({
       dir: path.join(workspaceDir, "skills", "demo-skill"),
       name: "demo-skill",

@@ -1,9 +1,5 @@
-import {
-  resolveGatewayLaunchAgentLabel,
-  resolveGatewaySystemdServiceName,
-  resolveGatewayWindowsTaskName,
-} from "../../daemon/constants.js";
-import { resolveGatewayLogPaths } from "../../daemon/launchd.js";
+import { resolveGatewayRcdServiceName } from "../../daemon/constants.js";
+import { resolveGatewayLogPaths } from "../../daemon/rcd.js";
 import { getResolvedLoggerSettings } from "../../logging.js";
 import { formatCliCommand } from "../command-format.js";
 
@@ -65,11 +61,11 @@ export function pickProbeHostForBind(
 }
 
 const SAFE_DAEMON_ENV_KEYS = [
-  "OPENCLAW_PROFILE",
-  "OPENCLAW_STATE_DIR",
-  "OPENCLAW_CONFIG_PATH",
-  "OPENCLAW_GATEWAY_PORT",
-  "OPENCLAW_NIX_MODE",
+  "FREECLAW_PROFILE",
+  "FREECLAW_STATE_DIR",
+  "FREECLAW_CONFIG_PATH",
+  "FREECLAW_GATEWAY_PORT",
+  "FREECLAW_NIX_MODE",
 ];
 
 export function filterDaemonEnv(env: Record<string, string> | undefined): Record<string, string> {
@@ -165,7 +161,7 @@ export function renderRuntimeHints(
     }
   })();
   if (runtime.missingUnit) {
-    hints.push(`Service not installed. Run: ${formatCliCommand("openclaw gateway install", env)}`);
+    hints.push(`Service not installed. Run: ${formatCliCommand("freeclaw gateway install", env)}`);
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
@@ -175,41 +171,21 @@ export function renderRuntimeHints(
     if (fileLog) {
       hints.push(`File logs: ${fileLog}`);
     }
-    if (process.platform === "darwin") {
-      const logs = resolveGatewayLogPaths(env);
-      hints.push(`Launchd stdout (if installed): ${logs.stdoutPath}`);
-      hints.push(`Launchd stderr (if installed): ${logs.stderrPath}`);
-    } else if (process.platform === "linux") {
-      const unit = resolveGatewaySystemdServiceName(env.OPENCLAW_PROFILE);
-      hints.push(`Logs: journalctl --user -u ${unit}.service -n 200 --no-pager`);
-    } else if (process.platform === "win32") {
-      const task = resolveGatewayWindowsTaskName(env.OPENCLAW_PROFILE);
-      hints.push(`Logs: schtasks /Query /TN "${task}" /V /FO LIST`);
-    }
+    const serviceName = resolveGatewayRcdServiceName(env.FREECLAW_PROFILE);
+    const logs = resolveGatewayLogPaths(env);
+    hints.push(`rc.d stdout (if installed): ${logs.stdoutPath}`);
+    hints.push(`rc.d stderr (if installed): ${logs.stderrPath}`);
+    hints.push(`Logs: service ${serviceName} status`);
   }
   return hints;
 }
 
 export function renderGatewayServiceStartHints(env: NodeJS.ProcessEnv = process.env): string[] {
   const base = [
-    formatCliCommand("openclaw gateway install", env),
-    formatCliCommand("openclaw gateway", env),
+    formatCliCommand("freeclaw gateway install", env),
+    formatCliCommand("freeclaw gateway", env),
   ];
-  const profile = env.OPENCLAW_PROFILE;
-  switch (process.platform) {
-    case "darwin": {
-      const label = resolveGatewayLaunchAgentLabel(profile);
-      return [...base, `launchctl bootstrap gui/$UID ~/Library/LaunchAgents/${label}.plist`];
-    }
-    case "linux": {
-      const unit = resolveGatewaySystemdServiceName(profile);
-      return [...base, `systemctl --user start ${unit}.service`];
-    }
-    case "win32": {
-      const task = resolveGatewayWindowsTaskName(profile);
-      return [...base, `schtasks /Run /TN "${task}"`];
-    }
-    default:
-      return base;
-  }
+  const profile = env.FREECLAW_PROFILE;
+  const serviceName = resolveGatewayRcdServiceName(profile);
+  return [...base, `service ${serviceName} start`];
 }

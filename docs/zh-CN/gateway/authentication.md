@@ -28,13 +28,13 @@ OpenClaw 支持模型提供商的 OAuth 和 API 密钥。对于 Anthropic 账户
 
 ```bash
 export ANTHROPIC_API_KEY="..."
-openclaw models status
+freeclaw models status
 ```
 
-3. 如果 Gateway 网关在 systemd/launchd 下运行，最好将密钥放在 `~/.openclaw/.env` 中以便守护进程可以读取：
+3. 如果 Gateway 网关在 systemd/launchd 下运行，最好将密钥放在 `~/.freeclaw/.env` 中以便守护进程可以读取：
 
 ```bash
-cat >> ~/.openclaw/.env <<'EOF'
+cat >> ~/.freeclaw/.env <<'EOF'
 ANTHROPIC_API_KEY=...
 EOF
 ```
@@ -42,13 +42,13 @@ EOF
 然后重启守护进程（或重启你的 Gateway 网关进程）并重新检查：
 
 ```bash
-openclaw models status
-openclaw doctor
+freeclaw models status
+freeclaw doctor
 ```
 
 如果你不想自己管理环境变量，新手引导向导可以为守护进程使用存储 API 密钥：`openclaw onboard`。
 
-参阅[帮助](/help)了解环境变量继承的详情（`env.shellEnv`、`~/.openclaw/.env`、systemd/launchd）。
+参阅[帮助](/help)了解环境变量继承的详情（`env.shellEnv`、`~/.freeclaw/.env`、systemd/launchd）。
 
 ## Anthropic：setup-token（订阅认证）
 
@@ -61,13 +61,13 @@ claude setup-token
 然后将其粘贴到 OpenClaw：
 
 ```bash
-openclaw models auth setup-token --provider anthropic
+freeclaw models auth setup-token --provider anthropic
 ```
 
 如果令牌是在另一台机器上创建的，手动粘贴：
 
 ```bash
-openclaw models auth paste-token --provider anthropic
+freeclaw models auth paste-token --provider anthropic
 ```
 
 如果你看到类似这样的 Anthropic 错误：
@@ -81,14 +81,14 @@ This credential is only authorized for use with Claude Code and cannot be used f
 手动令牌输入（任何提供商；写入 `auth-profiles.json` + 更新配置）：
 
 ```bash
-openclaw models auth paste-token --provider anthropic
-openclaw models auth paste-token --provider openrouter
+freeclaw models auth paste-token --provider anthropic
+freeclaw models auth paste-token --provider openrouter
 ```
 
 自动化友好检查（过期/缺失时退出 `1`，即将过期时退出 `2`）：
 
 ```bash
-openclaw models status --check
+freeclaw models status --check
 ```
 
 可选的运维脚本（systemd/Termux）在此处记录：[/automation/auth-monitoring](/automation/auth-monitoring)
@@ -98,8 +98,8 @@ openclaw models status --check
 ## 检查模型认证状态
 
 ```bash
-openclaw models status
-openclaw doctor
+freeclaw models status
+freeclaw doctor
 ```
 
 ## 控制使用哪个凭证
@@ -115,9 +115,9 @@ openclaw doctor
 为智能体设置显式的认证配置文件顺序覆盖（存储在该智能体的 `auth-profiles.json` 中）：
 
 ```bash
-openclaw models auth order get --provider anthropic
-openclaw models auth order set --provider anthropic anthropic:default
-openclaw models auth order clear --provider anthropic
+freeclaw models auth order get --provider anthropic
+freeclaw models auth order set --provider anthropic anthropic:default
+freeclaw models auth order clear --provider anthropic
 ```
 
 使用 `--agent <id>` 指定特定智能体；省略它则使用配置的默认智能体。
@@ -129,7 +129,7 @@ openclaw models auth order clear --provider anthropic
 如果 Anthropic 令牌配置文件缺失，在 **Gateway 网关主机**上运行 `claude setup-token`，然后重新检查：
 
 ```bash
-openclaw models status
+freeclaw models status
 ```
 
 ### 令牌即将过期/已过期

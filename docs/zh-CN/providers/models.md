@@ -2,7 +2,7 @@
 read_when:
   - 你想选择一个模型提供商
   - 你想要 LLM 认证 + 模型选择的快速设置示例
-summary: OpenClaw 支持的模型提供商（LLM）
+summary: FreeClaw 支持的模型提供商（LLM）
 title: 模型提供商快速入门
 x-i18n:
   generated_at: "2026-02-03T07:53:35Z"

@@ -14,7 +14,7 @@ import {
   forceFreePortAndWait,
   listPortListeners,
   type PortProcess,
-  parseLsofOutput,
+  parseSockstatOutput,
 } from "./ports.js";
 
 describe("gateway --force helpers", () => {
@@ -29,39 +29,57 @@ describe("gateway --force helpers", () => {
     process.kill = originalKill;
   });
 
-  it("parses lsof output into pid/command pairs", () => {
-    const sample = ["p123", "cnode", "p456", "cpython", ""].join("\n");
-    const parsed = parseLsofOutput(sample);
+  it("parses sockstat output into pid/command pairs", () => {
+    const sample = [
+      "USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS",
+      "root     node       123   3  tcp4   *:18789               *:*",
+      "www      python     456   4  tcp6   :::18789              :::*",
+    ].join("\n");
+    const parsed = parseSockstatOutput(sample);
     expect(parsed).toEqual<PortProcess[]>([
       { pid: 123, command: "node" },
       { pid: 456, command: "python" },
     ]);
   });
 
-  it("returns empty list when lsof finds nothing", () => {
+  it("skips header and blank lines in sockstat output", () => {
+    const sample = [
+      "USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS",
+      "",
+      "root     node       789   3  tcp4   *:18789               *:*",
+      "",
+    ].join("\n");
+    const parsed = parseSockstatOutput(sample);
+    expect(parsed).toEqual<PortProcess[]>([{ pid: 789, command: "node" }]);
+  });
+
+  it("returns empty list when sockstat finds nothing", () => {
     (execFileSync as unknown as vi.Mock).mockImplementation(() => {
       const err = new Error("no matches");
       // @ts-expect-error partial
-      err.status = 1; // lsof uses exit 1 for no matches
+      err.status = 1; // sockstat exit 1 for no matches
       throw err;
     });
     expect(listPortListeners(18789)).toEqual([]);
   });
 
-  it("throws when lsof missing", () => {
+  it("throws when sockstat is missing", () => {
     (execFileSync as unknown as vi.Mock).mockImplementation(() => {
       const err = new Error("not found");
       // @ts-expect-error partial
       err.code = "ENOENT";
       throw err;
     });
-    expect(() => listPortListeners(18789)).toThrow(/lsof not found/);
+    expect(() => listPortListeners(18789)).toThrow(/sockstat not found/);
   });
 
   it("kills each listener and returns metadata", () => {
-    (execFileSync as unknown as vi.Mock).mockReturnValue(
-      ["p42", "cnode", "p99", "cssh", ""].join("\n"),
-    );
+    const sockstatOutput = [
+      "USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS",
+      "root     node       42    3  tcp4   *:18789               *:*",
+      "www      ssh        99    4  tcp4   *:18789               *:*",
+    ].join("\n");
+    (execFileSync as unknown as vi.Mock).mockReturnValue(sockstatOutput);
     const killMock = vi.fn();
     // @ts-expect-error override for test
     process.kill = killMock;
@@ -81,16 +99,20 @@ describe("gateway --force helpers", () => {
   it("retries until the port is free", async () => {
     vi.useFakeTimers();
     let call = 0;
+    const sockstatWithListener = [
+      "USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS",
+      "root     node       42    3  tcp4   *:18789               *:*",
+    ].join("\n");
     (execFileSync as unknown as vi.Mock).mockImplementation(() => {
       call += 1;
       // 1st call: initial listeners to kill; 2nd call: still listed; 3rd call: gone.
-      if (call === 1) {
-        return ["p42", "cnode", ""].join("\n");
+      if (call <= 2) {
+        return sockstatWithListener;
       }
-      if (call === 2) {
-        return ["p42", "cnode", ""].join("\n");
-      }
-      return "";
+      const err = new Error("no matches");
+      // @ts-expect-error partial
+      err.status = 1;
+      throw err;
     });
 
     const killMock = vi.fn();
@@ -117,13 +139,20 @@ describe("gateway --force helpers", () => {
   it("escalates to SIGKILL if SIGTERM doesn't free the port", async () => {
     vi.useFakeTimers();
     let call = 0;
+    const sockstatWithListener = [
+      "USER     COMMAND    PID   FD PROTO  LOCAL ADDRESS         FOREIGN ADDRESS",
+      "root     node       42    3  tcp4   *:18789               *:*",
+    ].join("\n");
     (execFileSync as unknown as vi.Mock).mockImplementation(() => {
       call += 1;
-      // 1st call: initial kill list; then keep showing until after SIGKILL.
+      // Keep showing the listener until after SIGKILL, then clear.
       if (call <= 6) {
-        return ["p42", "cnode", ""].join("\n");
+        return sockstatWithListener;
       }
-      return "";
+      const err = new Error("no matches");
+      // @ts-expect-error partial
+      err.status = 1;
+      throw err;
     });
 
     const killMock = vi.fn();

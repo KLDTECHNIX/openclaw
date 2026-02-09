@@ -1,5 +1,4 @@
 import { createHash } from "node:crypto";
-import fsSync from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { resolveConfigPath, resolveGatewayLockDir, resolveStateDir } from "../config/paths.js";
@@ -27,7 +26,6 @@ export type GatewayLockOptions = {
   pollIntervalMs?: number;
   staleMs?: number;
   allowInTests?: boolean;
-  platform?: NodeJS.Platform;
 };
 
 export class GatewayLockError extends Error {
@@ -54,19 +52,12 @@ function isAlive(pid: number): boolean {
   }
 }
 
-function normalizeProcArg(arg: string): string {
+function normalizeArg(arg: string): string {
   return arg.replaceAll("\\", "/").toLowerCase();
 }
 
-function parseProcCmdline(raw: string): string[] {
-  return raw
-    .split("\0")
-    .map((entry) => entry.trim())
-    .filter(Boolean);
-}
-
 function isGatewayArgv(args: string[]): boolean {
-  const normalized = args.map(normalizeProcArg);
+  const normalized = args.map(normalizeArg);
   if (!normalized.includes("gateway")) {
     return false;
   }
@@ -74,7 +65,7 @@ function isGatewayArgv(args: string[]): boolean {
   const entryCandidates = [
     "dist/index.js",
     "dist/entry.js",
-    "openclaw.mjs",
+    "freeclaw.mjs",
     "scripts/run-node.mjs",
     "src/index.ts",
   ];
@@ -83,29 +74,58 @@ function isGatewayArgv(args: string[]): boolean {
   }
 
   const exe = normalized[0] ?? "";
-  return exe.endsWith("/openclaw") || exe === "openclaw";
+  return exe.endsWith("/freeclaw") || exe === "freeclaw";
 }
 
-function readLinuxCmdline(pid: number): string[] | null {
+/**
+ * Read process command line via procstat(1) — FreeBSD native.
+ * `procstat -c <pid>` outputs: PID COMM ARGS...
+ */
+function readFreeBSDCmdline(pid: number): string[] | null {
   try {
-    const raw = fsSync.readFileSync(`/proc/${pid}/cmdline`, "utf8");
-    return parseProcCmdline(raw);
+    const { spawnSync } = require("node:child_process") as typeof import("node:child_process");
+    const result = spawnSync("procstat", ["-c", String(pid)], {
+      encoding: "utf8",
+      timeout: 2000,
+    });
+    if (result.status !== 0 || !result.stdout) {
+      return null;
+    }
+    // procstat -c output: header line, then "PID COMM ARGS..."
+    const lines = result.stdout.trim().split("\n");
+    const dataLine = lines.find((l) => l.trim().startsWith(String(pid)));
+    if (!dataLine) {
+      return null;
+    }
+    // Split on whitespace; first field is PID, rest is command + args
+    const parts = dataLine.trim().split(/\s+/);
+    return parts.slice(1).filter(Boolean);
   } catch {
     return null;
   }
 }
 
-function readLinuxStartTime(pid: number): number | null {
+/**
+ * Read process start time via procstat(1) — FreeBSD native.
+ * `procstat -b <pid>` shows basic info including start time.
+ * We use `ps -o lstart= -p <pid>` as it's more reliable for start time comparison.
+ */
+function readFreeBSDStartTime(pid: number): number | null {
   try {
-    const raw = fsSync.readFileSync(`/proc/${pid}/stat`, "utf8").trim();
-    const closeParen = raw.lastIndexOf(")");
-    if (closeParen < 0) {
+    const { spawnSync } = require("node:child_process") as typeof import("node:child_process");
+    const result = spawnSync("ps", ["-o", "lstart=", "-p", String(pid)], {
+      encoding: "utf8",
+      timeout: 2000,
+    });
+    if (result.status !== 0 || !result.stdout) {
       return null;
     }
-    const rest = raw.slice(closeParen + 1).trim();
-    const fields = rest.split(/\s+/);
-    const startTime = Number.parseInt(fields[19] ?? "", 10);
-    return Number.isFinite(startTime) ? startTime : null;
+    const lstart = result.stdout.trim();
+    if (!lstart) {
+      return null;
+    }
+    const ts = Date.parse(lstart);
+    return Number.isFinite(ts) ? ts : null;
   } catch {
     return null;
   }
@@ -114,25 +134,24 @@ function readLinuxStartTime(pid: number): number | null {
 function resolveGatewayOwnerStatus(
   pid: number,
   payload: LockPayload | null,
-  platform: NodeJS.Platform,
 ): LockOwnerStatus {
   if (!isAlive(pid)) {
     return "dead";
   }
-  if (platform !== "linux") {
-    return "alive";
-  }
 
+  // Use start time to detect PID reuse
   const payloadStartTime = payload?.startTime;
   if (Number.isFinite(payloadStartTime)) {
-    const currentStartTime = readLinuxStartTime(pid);
+    const currentStartTime = readFreeBSDStartTime(pid);
     if (currentStartTime == null) {
       return "unknown";
     }
-    return currentStartTime === payloadStartTime ? "alive" : "dead";
+    // Allow 2 second tolerance for start time comparison
+    return Math.abs(currentStartTime - payloadStartTime!) < 2000 ? "alive" : "dead";
   }
 
-  const args = readLinuxCmdline(pid);
+  // Fall back to checking command line via procstat
+  const args = readFreeBSDCmdline(pid);
   if (!args) {
     return "unknown";
   }
@@ -179,7 +198,7 @@ export async function acquireGatewayLock(
   const env = opts.env ?? process.env;
   const allowInTests = opts.allowInTests === true;
   if (
-    env.OPENCLAW_ALLOW_MULTI_GATEWAY === "1" ||
+    env.FREECLAW_ALLOW_MULTI_GATEWAY === "1" ||
     (!allowInTests && (env.VITEST || env.NODE_ENV === "test"))
   ) {
     return null;
@@ -188,7 +207,6 @@ export async function acquireGatewayLock(
   const timeoutMs = opts.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   const pollIntervalMs = opts.pollIntervalMs ?? DEFAULT_POLL_INTERVAL_MS;
   const staleMs = opts.staleMs ?? DEFAULT_STALE_MS;
-  const platform = opts.platform ?? process.platform;
   const { lockPath, configPath } = resolveGatewayLockPath(env);
   await fs.mkdir(path.dirname(lockPath), { recursive: true });
 
@@ -198,7 +216,7 @@ export async function acquireGatewayLock(
   while (Date.now() - startedAt < timeoutMs) {
     try {
       const handle = await fs.open(lockPath, "wx");
-      const startTime = platform === "linux" ? readLinuxStartTime(process.pid) : null;
+      const startTime = readFreeBSDStartTime(process.pid);
       const payload: LockPayload = {
         pid: process.pid,
         createdAt: new Date().toISOString(),
@@ -225,7 +243,7 @@ export async function acquireGatewayLock(
       lastPayload = await readLockPayload(lockPath);
       const ownerPid = lastPayload?.pid;
       const ownerStatus = ownerPid
-        ? resolveGatewayOwnerStatus(ownerPid, lastPayload, platform)
+        ? resolveGatewayOwnerStatus(ownerPid, lastPayload)
         : "unknown";
       if (ownerStatus === "dead" && ownerPid) {
         await fs.rm(lockPath, { force: true });

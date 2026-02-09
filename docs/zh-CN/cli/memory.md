@@ -26,15 +26,15 @@ x-i18n:
 ## 示例
 
 ```bash
-openclaw memory status
-openclaw memory status --deep
-openclaw memory status --deep --index
-openclaw memory status --deep --index --verbose
-openclaw memory index
-openclaw memory index --verbose
-openclaw memory search "release checklist"
-openclaw memory status --agent main
-openclaw memory index --agent main --verbose
+freeclaw memory status
+freeclaw memory status --deep
+freeclaw memory status --deep --index
+freeclaw memory status --deep --index --verbose
+freeclaw memory index
+freeclaw memory index --verbose
+freeclaw memory search "release checklist"
+freeclaw memory status --agent main
+freeclaw memory index --agent main --verbose
 ```
 
 ## 选项

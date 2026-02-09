@@ -3,7 +3,7 @@ summary: "Pairing overview: approve who can DM you + which nodes can join"
 read_when:
   - Setting up DM access control
   - Pairing a new iOS/Android node
-  - Reviewing OpenClaw security posture
+  - Reviewing FreeClaw security posture
 title: "Pairing"
 ---
 
@@ -32,15 +32,15 @@ Pairing codes:
 ### Approve a sender
 
 ```bash
-openclaw pairing list telegram
-openclaw pairing approve telegram <CODE>
+freeclaw pairing list telegram
+freeclaw pairing approve telegram <CODE>
 ```
 
 Supported channels: `telegram`, `whatsapp`, `signal`, `imessage`, `discord`, `slack`.
 
 ### Where the state lives
 
-Stored under `~/.openclaw/credentials/`:
+Stored under `~/.freeclaw/credentials/`:
 
 - Pending requests: `<channel>-pairing.json`
 - Approved allowlist store: `<channel>-allowFrom.json`
@@ -55,14 +55,14 @@ creates a device pairing request that must be approved.
 ### Approve a node device
 
 ```bash
-openclaw devices list
-openclaw devices approve <requestId>
-openclaw devices reject <requestId>
+freeclaw devices list
+freeclaw devices approve <requestId>
+freeclaw devices reject <requestId>
 ```
 
 ### Node pairing state storage
 
-Stored under `~/.openclaw/devices/`:
+Stored under `~/.freeclaw/devices/`:
 
 - `pending.json` (short-lived; pending requests expire)
 - `paired.json` (paired devices + tokens)

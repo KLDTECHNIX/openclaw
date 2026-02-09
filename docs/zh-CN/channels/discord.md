@@ -20,7 +20,7 @@ x-i18n:
 
 1. 创建 Discord 机器人并复制机器人令牌。
 2. 在 Discord 应用设置中启用 **Message Content Intent**（如果你计划使用允许列表或名称查找，还需启用 **Server Members Intent**）。
-3. 为 OpenClaw 设置令牌：
+3. 为 FreeClaw 设置令牌：
    - 环境变量：`DISCORD_BOT_TOKEN=...`
    - 或配置：`channels.discord.token: "..."`。
    - 如果两者都设置，配置优先（环境变量回退仅适用于默认账户）。
@@ -43,7 +43,7 @@ x-i18n:
 
 ## 目标
 
-- 通过 Discord 私信或服务器频道与 OpenClaw 对话。
+- 通过 Discord 私信或服务器频道与 FreeClaw 对话。
 - 直接聊天会合并到智能体的主会话（默认 `agent:main:main`）；服务器频道保持隔离为 `agent:<agentId>:discord:channel:<channelId>`（显示名称使用 `discord:<guildSlug>#<channelSlug>`）。
 - 群组私信默认被忽略；通过 `channels.discord.dm.groupEnabled` 启用，并可选择通过 `channels.discord.dm.groupChannels` 进行限制。
 - 保持路由确定性：回复始终返回到消息来源的渠道。
@@ -89,7 +89,7 @@ x-i18n:
 
 ## 如何创建自己的机器人
 
-这是在服务器（guild）频道（如 `#help`）中运行 OpenClaw 的"Discord 开发者门户"设置。
+这是在服务器（guild）频道（如 `#help`）中运行 FreeClaw 的"Discord 开发者门户"设置。
 
 ### 1）创建 Discord 应用 + 机器人用户
 
@@ -98,7 +98,7 @@ x-i18n:
    - **Bot** → **Add Bot**
    - 复制 **Bot Token**（这是你放入 `DISCORD_BOT_TOKEN` 的内容）
 
-### 2）启用 OpenClaw 需要的网关意图
+### 2）启用 FreeClaw 需要的网关意图
 
 Discord 会阻止"特权意图"，除非你明确启用它们。
 
@@ -440,7 +440,7 @@ Discord 到处使用数字 ID；OpenClaw 配置优先使用 ID。
 
 原生命令注意事项：
 
-- 注册的命令镜像 OpenClaw 的聊天命令。
+- 注册的命令镜像 FreeClaw 的聊天命令。
 - 原生命令遵循与私信/服务器消息相同的允许列表（`channels.discord.dm.allowFrom`、`channels.discord.guilds`、每频道规则）。
 - 斜杠命令可能在 Discord UI 中对未在允许列表中的用户仍然可见；OpenClaw 在执行时强制执行允许列表并回复"未授权"。
 

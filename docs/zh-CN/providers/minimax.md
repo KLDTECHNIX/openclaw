@@ -1,8 +1,8 @@
 ---
 read_when:
-  - 你想在 OpenClaw 中使用 MiniMax 模型
+  - 你想在 FreeClaw 中使用 MiniMax 模型
   - 你需要 MiniMax 设置指南
-summary: 在 OpenClaw 中使用 MiniMax M2.1
+summary: 在 FreeClaw 中使用 MiniMax M2.1
 title: MiniMax
 x-i18n:
   generated_at: "2026-02-03T10:08:52Z"
@@ -45,9 +45,9 @@ MiniMax 强调 M2.1 的以下改进：
 启用内置 OAuth 插件并进行认证：
 
 ```bash
-openclaw plugins enable minimax-portal-auth  # 如果已加载则跳过
-openclaw gateway restart  # 如果 Gateway 网关已在运行则重启
-openclaw onboard --auth-choice minimax-portal
+freeclaw plugins enable minimax-portal-auth  # 如果已加载则跳过
+freeclaw gateway restart  # 如果 Gateway 网关已在运行则重启
+freeclaw onboard --auth-choice minimax-portal
 ```
 
 系统会提示你选择端点：
@@ -55,7 +55,7 @@ openclaw onboard --auth-choice minimax-portal
 - **Global** - 国际用户（`api.minimax.io`）
 - **CN** - 中国用户（`api.minimaxi.com`）
 
-详情参见 [MiniMax OAuth 插件 README](https://github.com/openclaw/openclaw/tree/main/extensions/minimax-portal-auth)。
+详情参见 [MiniMax OAuth 插件 README](https://github.com/freeclaw/freeclaw/tree/main/extensions/minimax-portal-auth)。
 
 ### MiniMax M2.1（API 密钥）
 
@@ -122,7 +122,7 @@ openclaw onboard --auth-choice minimax-portal
 **适用于：** 使用 LM Studio 进行本地推理。
 我们在强大硬件（例如台式机/服务器）上使用 LM Studio 的本地服务器运行 MiniMax M2.1 时看到了出色的效果。
 
-通过 `openclaw.json` 手动配置：
+通过 `freeclaw.json` 手动配置：
 
 ```json5
 {
@@ -202,5 +202,5 @@ openclaw onboard --auth-choice minimax-portal
 然后重新检查：
 
 ```bash
-openclaw models list
+freeclaw models list
 ```

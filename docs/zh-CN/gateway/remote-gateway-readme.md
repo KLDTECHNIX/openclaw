@@ -1,6 +1,6 @@
 ---
 read_when: Connecting the macOS app to a remote gateway over SSH
-summary: OpenClaw.app 连接远程 Gateway 网关的 SSH 隧道设置
+summary: FreeClaw.app 连接远程 Gateway 网关的 SSH 隧道设置
 title: 远程 Gateway 网关设置
 x-i18n:
   generated_at: "2026-02-03T07:48:37Z"
@@ -11,7 +11,7 @@ x-i18n:
   workflow: 15
 ---
 
-# 使用远程 Gateway 网关运行 OpenClaw.app
+# 使用远程 Gateway 网关运行 FreeClaw.app
 
 OpenClaw.app 使用 SSH 隧道连接到远程 Gateway 网关。本指南向你展示如何设置。
 
@@ -21,7 +21,7 @@ OpenClaw.app 使用 SSH 隧道连接到远程 Gateway 网关。本指南向你�
 ┌─────────────────────────────────────────────────────────────┐
 │                        Client Machine                          │
 │                                                              │
-│  OpenClaw.app ──► ws://127.0.0.1:18789 (local port)           │
+│  FreeClaw.app ──► ws://127.0.0.1:18789 (local port)           │
 │                     │                                        │
 │                     ▼                                        │
 │  SSH Tunnel ────────────────────────────────────────────────│
@@ -64,7 +64,7 @@ ssh-copy-id -i ~/.ssh/id_rsa <REMOTE_USER>@<REMOTE_IP>
 ### 步骤 3：设置 Gateway 网关令牌
 
 ```bash
-launchctl setenv OPENCLAW_GATEWAY_TOKEN "<your-token>"
+launchctl setenv FREECLAW_GATEWAY_TOKEN "<your-token>"
 ```
 
 ### 步骤 4：启动 SSH 隧道
@@ -73,10 +73,10 @@ launchctl setenv OPENCLAW_GATEWAY_TOKEN "<your-token>"
 ssh -N remote-gateway &
 ```
 
-### 步骤 5：重启 OpenClaw.app
+### 步骤 5：重启 FreeClaw.app
 
 ```bash
-# Quit OpenClaw.app (⌘Q), then reopen:
+# Quit FreeClaw.app (⌘Q), then reopen:
 open /path/to/OpenClaw.app
 ```
 

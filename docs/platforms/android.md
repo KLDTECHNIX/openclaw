@@ -39,7 +39,7 @@ Android connects directly to the Gateway WebSocket (default `ws://<host>:18789`)
 ### 1) Start the Gateway
 
 ```bash
-openclaw gateway --port 18789 --verbose
+freeclaw gateway --port 18789 --verbose
 ```
 
 Confirm in logs you see something like:
@@ -48,7 +48,7 @@ Confirm in logs you see something like:
 
 For tailnet-only setups (recommended for Vienna ⇄ London), bind the gateway to the tailnet IP:
 
-- Set `gateway.bind: "tailnet"` in `~/.openclaw/openclaw.json` on the gateway host.
+- Set `gateway.bind: "tailnet"` in `~/.freeclaw/freeclaw.json` on the gateway host.
 - Restart the Gateway / macOS menubar app.
 
 ### 2) Verify discovery (optional)
@@ -89,8 +89,8 @@ After the first successful pairing, Android auto-reconnects on launch:
 On the gateway machine:
 
 ```bash
-openclaw nodes pending
-openclaw nodes approve <requestId>
+freeclaw nodes pending
+freeclaw nodes approve <requestId>
 ```
 
 Pairing details: [Gateway pairing](/gateway/pairing).
@@ -100,13 +100,13 @@ Pairing details: [Gateway pairing](/gateway/pairing).
 - Via nodes status:
 
   ```bash
-  openclaw nodes status
+  freeclaw nodes status
   ```
 
 - Via Gateway:
 
   ```bash
-  openclaw gateway call node.list --params "{}"
+  freeclaw gateway call node.list --params "{}"
   ```
 
 ### 6) Chat + history
@@ -125,12 +125,12 @@ If you want the node to show real HTML/CSS/JS that the agent can edit on disk, p
 
 Note: nodes use the standalone canvas host on `canvasHost.port` (default `18793`).
 
-1. Create `~/.openclaw/workspace/canvas/index.html` on the gateway host.
+1. Create `~/.freeclaw/workspace/canvas/index.html` on the gateway host.
 
 2. Navigate the node to it (LAN):
 
 ```bash
-openclaw nodes invoke --node "<Android Node>" --command canvas.navigate --params '{"url":"http://<gateway-hostname>.local:18793/__openclaw__/canvas/"}'
+freeclaw nodes invoke --node "<Android Node>" --command canvas.navigate --params '{"url":"http://<gateway-hostname>.local:18793/__openclaw__/canvas/"}'
 ```
 
 Tailnet (optional): if both devices are on Tailscale, use a MagicDNS name or tailnet IP instead of `.local`, e.g. `http://<gateway-magicdns>:18793/__openclaw__/canvas/`.

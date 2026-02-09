@@ -1,6 +1,6 @@
 ---
 read_when:
-  - 为 OpenClaw 设置 Zalo Personal
+  - 为 FreeClaw 设置 Zalo Personal
   - 调试 Zalo Personal 登录或消息流程
 summary: 通过 zca-cli（QR 登录）支持 Zalo 个人账户、功能和配置
 title: Zalo Personal
@@ -71,9 +71,9 @@ Gateway 网关机器必须在 `PATH` 中有可用的 `zca` 二进制文件。
 使用目录 CLI 发现联系人/群组及其 ID：
 
 ```bash
-openclaw directory self --channel zalouser
-openclaw directory peers list --channel zalouser --query "name"
-openclaw directory groups list --channel zalouser --query "work"
+freeclaw directory self --channel zalouser
+freeclaw directory peers list --channel zalouser --query "name"
+freeclaw directory groups list --channel zalouser --query "work"
 ```
 
 ## 限制
@@ -144,4 +144,4 @@ openclaw directory groups list --channel zalouser --query "work"
 **登录不保持：**
 
 - `openclaw channels status --probe`
-- 重新登录：`openclaw channels logout --channel zalouser && openclaw channels login --channel zalouser`
+- 重新登录：`openclaw channels logout --channel zalouser && freeclaw channels login --channel zalouser`

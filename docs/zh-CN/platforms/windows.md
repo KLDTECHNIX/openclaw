@@ -15,7 +15,7 @@ x-i18n:
 
 # Windows (WSL2)
 
-Windows 上的 OpenClaw 推荐**通过 WSL2**（推荐 Ubuntu）。CLI + Gateway 网关在 Linux 内运行，这保持了运行时的一致性并使工具兼容性大大提高（Node/Bun/pnpm、Linux 二进制文件、Skills）。原生 Windows 可能更棘手。WSL2 给你完整的 Linux 体验——一条命令安装：`wsl --install`。
+Windows 上的 FreeClaw 推荐**通过 WSL2**（推荐 Ubuntu）。CLI + Gateway 网关在 Linux 内运行，这保持了运行时的一致性并使工具兼容性大大提高（Node/Bun/pnpm、Linux 二进制文件、Skills）。原生 Windows 可能更棘手。WSL2 给你完整的 Linux 体验——一条命令安装：`wsl --install`。
 
 原生 Windows 配套应用已在计划中。
 
@@ -35,19 +35,19 @@ Windows 上的 OpenClaw 推荐**通过 WSL2**（推荐 Ubuntu）。CLI + Gateway
 在 WSL2 内：
 
 ```
-openclaw onboard --install-daemon
+freeclaw onboard --install-daemon
 ```
 
 或：
 
 ```
-openclaw gateway install
+freeclaw gateway install
 ```
 
 或：
 
 ```
-openclaw configure
+freeclaw configure
 ```
 
 出现提示时选择 **Gateway service**。
@@ -55,7 +55,7 @@ openclaw configure
 修复/迁移：
 
 ```
-openclaw doctor
+freeclaw doctor
 ```
 
 ## 高级：通过 LAN 暴露 WSL 服务（portproxy）
@@ -141,12 +141,12 @@ systemctl --user status
 在 WSL 内按照 Linux 入门指南流程：
 
 ```bash
-git clone https://github.com/openclaw/openclaw.git
-cd openclaw
+git clone https://github.com/freeclaw/freeclaw.git
+cd freeclaw
 pnpm install
 pnpm ui:build # auto-installs UI deps on first run
 pnpm build
-openclaw onboard
+freeclaw onboard
 ```
 
 完整指南：[入门指南](/start/getting-started)

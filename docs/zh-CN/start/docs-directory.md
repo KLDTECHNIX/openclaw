@@ -1,7 +1,7 @@
 ---
 read_when:
   - 你想快速访问关键文档页面
-summary: 精选的常用 OpenClaw 文档链接。
+summary: 精选的常用 FreeClaw 文档链接。
 title: 文档目录
 x-i18n:
   generated_at: "2026-02-04T17:53:20Z"

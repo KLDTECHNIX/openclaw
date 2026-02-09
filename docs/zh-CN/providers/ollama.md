@@ -31,14 +31,14 @@ ollama pull qwen2.5-coder:32b
 ollama pull deepseek-r1:32b
 ```
 
-3. 为 OpenClaw 启用 Ollama（任意值即可；Ollama 不需要真实密钥）：
+3. 为 FreeClaw 启用 Ollama（任意值即可；Ollama 不需要真实密钥）：
 
 ```bash
 # 设置环境变量
 export OLLAMA_API_KEY="ollama-local"
 
 # 或在配置文件中设置
-openclaw config set models.providers.ollama.apiKey "ollama-local"
+freeclaw config set models.providers.ollama.apiKey "ollama-local"
 ```
 
 4. 使用 Ollama 模型：
@@ -70,7 +70,7 @@ openclaw config set models.providers.ollama.apiKey "ollama-local"
 
 ```bash
 ollama list
-openclaw models list
+freeclaw models list
 ```
 
 要添加新模型，只需通过 Ollama 拉取：

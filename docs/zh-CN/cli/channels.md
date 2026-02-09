@@ -25,19 +25,19 @@ x-i18n:
 ## 常用命令
 
 ```bash
-openclaw channels list
-openclaw channels status
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels logs --channel all
+freeclaw channels list
+freeclaw channels status
+freeclaw channels capabilities
+freeclaw channels capabilities --channel discord --target channel:123
+freeclaw channels resolve --channel slack "#general" "@jane"
+freeclaw channels logs --channel all
 ```
 
 ## 添加/删除账户
 
 ```bash
-openclaw channels add --channel telegram --token <bot-token>
-openclaw channels remove --channel telegram --delete
+freeclaw channels add --channel telegram --token <bot-token>
+freeclaw channels remove --channel telegram --delete
 ```
 
 提示：`openclaw channels add --help` 显示每个渠道的标志（token、app token、signal-cli 路径等）。
@@ -45,8 +45,8 @@ openclaw channels remove --channel telegram --delete
 ## 登录/登出（交互式）
 
 ```bash
-openclaw channels login --channel whatsapp
-openclaw channels logout --channel whatsapp
+freeclaw channels login --channel whatsapp
+freeclaw channels logout --channel whatsapp
 ```
 
 ## 故障排除
@@ -60,8 +60,8 @@ openclaw channels logout --channel whatsapp
 获取提供商能力提示（可用的 intents/scopes）以及静态功能支持：
 
 ```bash
-openclaw channels capabilities
-openclaw channels capabilities --channel discord --target channel:123
+freeclaw channels capabilities
+freeclaw channels capabilities --channel discord --target channel:123
 ```
 
 说明：
@@ -75,9 +75,9 @@ openclaw channels capabilities --channel discord --target channel:123
 使用提供商目录将渠道/用户名称解析为 ID：
 
 ```bash
-openclaw channels resolve --channel slack "#general" "@jane"
-openclaw channels resolve --channel discord "My Server/#support" "@someone"
-openclaw channels resolve --channel matrix "Project Room"
+freeclaw channels resolve --channel slack "#general" "@jane"
+freeclaw channels resolve --channel discord "My Server/#support" "@someone"
+freeclaw channels resolve --channel matrix "Project Room"
 ```
 
 说明：

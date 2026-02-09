@@ -31,13 +31,13 @@ Microsoft Teams 作为插件提供，不包含在核心安装中。
 通过 CLI 安装（npm 注册表）：
 
 ```bash
-openclaw plugins install @openclaw/msteams
+freeclaw plugins install @openclaw/msteams
 ```
 
 本地检出（从 git 仓库运行时）：
 
 ```bash
-openclaw plugins install ./extensions/msteams
+freeclaw plugins install ./extensions/msteams
 ```
 
 如果你在配置/新手引导过程中选择 Teams 并检测到 git 检出，
@@ -73,7 +73,7 @@ OpenClaw 将自动提供本地安装路径。
 
 ## 目标
 
-- 通过 Teams 私信、群聊或频道与 OpenClaw 交流。
+- 通过 Teams 私信、群聊或频道与 FreeClaw 交流。
 - 保持路由确定性：回复始终返回到消息到达的渠道。
 - 默认使用安全的渠道行为（除非另有配置，否则需要提及）。
 
@@ -150,12 +150,12 @@ OpenClaw 将自动提供本地安装路径。
 2. 创建一个 **Azure Bot**（App ID + 密钥 + 租户 ID）。
 3. 构建一个引用机器人并包含以下 RSC 权限的 **Teams 应用包**。
 4. 将 Teams 应用上传/安装到团队中（或用于私信的个人范围）。
-5. 在 `~/.openclaw/openclaw.json`（或环境变量）中配置 `msteams` 并启动 Gateway 网关。
+5. 在 `~/.freeclaw/freeclaw.json`（或环境变量）中配置 `msteams` 并启动 Gateway 网关。
 6. Gateway 网关默认在 `/api/messages` 上监听 Bot Framework webhook 流量。
 
 ## Azure Bot 设置（前提条件）
 
-在配置 OpenClaw 之前，你需要创建一个 Azure Bot 资源。
+在配置 FreeClaw 之前，你需要创建一个 Azure Bot 资源。
 
 ### 步骤 1：创建 Azure Bot
 
@@ -323,14 +323,14 @@ tailscale funnel 3978
   "manifestVersion": "1.23",
   "version": "1.0.0",
   "id": "00000000-0000-0000-0000-000000000000",
-  "name": { "short": "OpenClaw" },
+  "name": { "short": "FreeClaw" },
   "developer": {
     "name": "Your Org",
     "websiteUrl": "https://example.com",
     "privacyUrl": "https://example.com/privacy",
     "termsOfUseUrl": "https://example.com/terms"
   },
-  "description": { "short": "OpenClaw in Teams", "full": "OpenClaw in Teams" },
+  "description": { "short": "FreeClaw in Teams", "full": "FreeClaw in Teams" },
   "icons": { "outline": "outline.png", "color": "color.png" },
   "accentColor": "#5B6DEF",
   "bots": [
@@ -603,7 +603,7 @@ Authorization 头仅附加到 `channels.msteams.mediaAuthAllowHosts` 中的主�
 OpenClaw 将 Teams 投票作为 Adaptive Cards 发送（没有原生 Teams 投票 API）。
 
 - CLI：`openclaw message poll --channel msteams --target conversation:<id> ...`
-- 投票由 Gateway 网关记录在 `~/.openclaw/msteams-polls.json` 中。
+- 投票由 Gateway 网关记录在 `~/.freeclaw/msteams-polls.json` 中。
 - Gateway 网关必须保持在线才能记录投票。
 - 投票尚不自动发布结果摘要（如需要请检查存储文件）。
 
@@ -631,7 +631,7 @@ OpenClaw 将 Teams 投票作为 Adaptive Cards 发送（没有原生 Teams 投�
 **CLI：**
 
 ```bash
-openclaw message send --channel msteams \
+freeclaw message send --channel msteams \
   --target "conversation:19:abc...@thread.tacv2" \
   --card '{"type":"AdaptiveCard","version":"1.5","body":[{"type":"TextBlock","text":"Hello!"}]}'
 ```
@@ -653,16 +653,16 @@ MSTeams 目标使用前缀来区分用户和会话：
 
 ```bash
 # 按 ID 发送给用户
-openclaw message send --channel msteams --target "user:40a1a0ed-..." --message "Hello"
+freeclaw message send --channel msteams --target "user:40a1a0ed-..." --message "Hello"
 
 # 按显示名称发送给用户（触发 Graph API 查找）
-openclaw message send --channel msteams --target "user:John Smith" --message "Hello"
+freeclaw message send --channel msteams --target "user:John Smith" --message "Hello"
 
 # 发送到群聊或频道
-openclaw message send --channel msteams --target "conversation:19:abc...@thread.tacv2" --message "Hello"
+freeclaw message send --channel msteams --target "conversation:19:abc...@thread.tacv2" --message "Hello"
 
 # 向会话发送 Adaptive Card
-openclaw message send --channel msteams --target "conversation:19:abc...@thread.tacv2" \
+freeclaw message send --channel msteams --target "conversation:19:abc...@thread.tacv2" \
   --card '{"type":"AdaptiveCard","version":"1.5","body":[{"type":"TextBlock","text":"Hello"}]}'
 ```
 

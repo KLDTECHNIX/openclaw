@@ -2,7 +2,7 @@
 read_when:
   - 你想使用 Synthetic 作为模型提供商
   - 你需要配置 Synthetic API 密钥或 base URL
-summary: 在 OpenClaw 中使用 Synthetic 的 Anthropic 兼容 API
+summary: 在 FreeClaw 中使用 Synthetic 的 Anthropic 兼容 API
 title: Synthetic
 x-i18n:
   generated_at: "2026-02-01T21:35:34Z"
@@ -23,7 +23,7 @@ Synthetic 提供兼容 Anthropic 的端点。OpenClaw 将其注册为 `synthetic
 2. 运行新手引导：
 
 ```bash
-openclaw onboard --auth-choice synthetic-api-key
+freeclaw onboard --auth-choice synthetic-api-key
 ```
 
 默认模型设置为：
